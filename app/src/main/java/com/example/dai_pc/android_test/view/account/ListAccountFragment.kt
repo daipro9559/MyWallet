@@ -3,13 +3,10 @@ package com.example.dai_pc.android_test.view.account
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
-import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentListAccountBinding
 import com.example.dai_pc.android_test.repository.WalletRepository
-import timber.log.Timber
 import javax.inject.Inject
 
 class ListAccountFragment : BaseFragment<FragmentListAccountBinding>() {
@@ -37,7 +34,7 @@ class ListAccountFragment : BaseFragment<FragmentListAccountBinding>() {
         initView()
         walletRepository.accountsLiveData.observe(this, Observer {
             it.let {
-               var adapter = viewDataBinding.recycleView.adapter as AccountAdapter
+               var adapter = viewDataBinding.recycleView.adapter as AccountRecycleViewAdapter
                 adapter.swapListItem(it!!)
             }
         })
@@ -51,7 +48,7 @@ class ListAccountFragment : BaseFragment<FragmentListAccountBinding>() {
     }
 
     fun initView(){
-        var accountAdapter  = AccountAdapter()
+        var accountAdapter  = AccountRecycleViewAdapter()
        viewDataBinding.recycleView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         viewDataBinding.recycleView.adapter = accountAdapter
     }

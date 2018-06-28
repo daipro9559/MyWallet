@@ -52,6 +52,7 @@ dependencies {
     implementation deps.lifecycle.java8
     implementation deps.retrofit.runtime
     implementation deps.retrofit.gson
+    implementation deps.retrofit.adapter
     implementation deps.okhttp_logging_interceptor
     implementation deps.okhttpVersion
     implementation deps.glide.runtime

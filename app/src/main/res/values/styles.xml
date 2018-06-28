@@ -31,4 +31,9 @@
         <item name="color">@android:color/white</item>
     </style>
 
+    <style name="TextAppStyle" parent="TextAppearance.AppCompat.Inverse">
+        <item name="android:textSize">@dimen/text_size_app</item>
+        <item name="android:textColor">@color/text_color_app</item>
+    </style>
+
 </resources>

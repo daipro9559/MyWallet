@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
-abstract class BaseAdapter<I, V : ViewDataBinding> : RecyclerView.Adapter<ItemViewHolder<V>>() {
+abstract class BaseRecycleViewAdapter<I, V : ViewDataBinding> : RecyclerView.Adapter<ItemViewHolder<V>>() {
     var items: List<I> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<V> {
         return ItemViewHolder(DataBindingUtil.inflate<V>(LayoutInflater.from(parent.context), getlayoutId(), parent, false))

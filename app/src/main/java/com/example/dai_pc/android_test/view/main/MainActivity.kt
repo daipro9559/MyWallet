@@ -16,6 +16,7 @@ import android.support.design.widget.NavigationView
 import android.view.Gravity
 import com.example.dai_pc.android_test.view.account.ListAccountFragment
 import com.example.dai_pc.android_test.view.home.HomeFragment
+import com.example.dai_pc.android_test.view.network.NetworkFragment
 
 
 class MainActivity:BaseActivity<ActivityMainBinding>(){
@@ -61,6 +62,10 @@ class MainActivity:BaseActivity<ActivityMainBinding>(){
             }
             R.id.home ->{
                 replaceFragment(HomeFragment.newInstance())
+
+            }
+            R.id.select_network ->{
+                replaceFragment(NetworkFragment.newInstance())
 
             }
         }
