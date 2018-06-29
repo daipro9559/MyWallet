@@ -39,6 +39,11 @@ abstract class BaseActivity<V : ViewDataBinding> :AppCompatActivity(),HasSupport
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        mLifecycleRegistry.markState(Lifecycle.State.RESUMED)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         mLifecycleRegistry.markState(Lifecycle.State.DESTROYED)

@@ -38,3 +38,4 @@ data class Transaction(
         @Expose
         var id : String
 )
+

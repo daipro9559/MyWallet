@@ -1,7 +1,12 @@
 package com.example.dai_pc.android_test.service
 
+import io.reactivex.Single
 import org.ethereum.geth.Accounts
 import org.ethereum.geth.KeyStore
+import org.web3j.crypto.ECKeyPair
+import org.web3j.crypto.Keys
+import org.web3j.crypto.Wallet
+import org.web3j.crypto.WalletFile
 import javax.inject.Inject
 
 class AccountServiceImp @Inject constructor(val keyStore: KeyStore ) :AccountService{
@@ -12,10 +17,10 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore ) :AccountSer
         return keyStore.accounts
     }
 
-    override fun createAccount(password: String) {
-      var account =   keyStore.newAccount(password)
-
-        var addresses = account.address.hex.toLowerCase()
+    // return
+    override fun generateAccount(password: String, privateKey:String): Single<WalletFile>{
+        return Single.fromCallable {val key =  Keys.createEcKeyPair()
+            return@fromCallable Wallet.createStandard(password,key)}
 
     }
 }

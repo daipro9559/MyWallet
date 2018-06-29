@@ -59,6 +59,7 @@ class MainActivity:BaseActivity<ActivityMainBinding>(){
         when(item.itemId){
             R.id.choose_address->{
                 replaceFragment(ListAccountFragment.newInstance())
+
             }
             R.id.home ->{
                 replaceFragment(HomeFragment.newInstance())
@@ -73,7 +74,7 @@ class MainActivity:BaseActivity<ActivityMainBinding>(){
         return true
     }
 
-    fun replaceFragment(fragment: Fragment){
+    fun <F : Fragment>replaceFragment(fragment : F){
         supportFragmentManager.beginTransaction().replace(R.id.view_container,fragment,"").commit()
     }
 }

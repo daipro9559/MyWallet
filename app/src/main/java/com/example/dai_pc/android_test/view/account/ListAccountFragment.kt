@@ -3,6 +3,7 @@ package com.example.dai_pc.android_test.view.account
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentListAccountBinding
@@ -33,10 +34,9 @@ class ListAccountFragment : BaseFragment<FragmentListAccountBinding>() {
         super.onActivityCreated(savedInstanceState)
         initView()
         walletRepository.accountsLiveData.observe(this, Observer {
-            it.let {
-               var adapter = viewDataBinding.recycleView.adapter as AccountRecycleViewAdapter
-                adapter.swapListItem(it!!)
-            }
+            var adapter = viewDataBinding.recycleView.adapter as AccountRecycleViewAdapter
+            adapter.swapListItem(it!!)
+
         })
         walletRepository.getAllAccount()
         viewDataBinding.buttonAddAccount.setOnClickListener { addAccount() }
@@ -44,12 +44,17 @@ class ListAccountFragment : BaseFragment<FragmentListAccountBinding>() {
     }
 
     fun addAccount() {
-        walletRepository.createAccount()
+        viewDataBinding.buttonAddAccount.text = "loading"
+        walletRepository.createAccountFromPassword("daipro1995123")
+        walletRepository.addressCreated.observe(this, Observer {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            viewDataBinding.buttonAddAccount.text = "Create completed"
+        })
     }
 
-    fun initView(){
-        var accountAdapter  = AccountRecycleViewAdapter()
-       viewDataBinding.recycleView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+    fun initView() {
+        var accountAdapter = AccountRecycleViewAdapter()
+        viewDataBinding.recycleView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         viewDataBinding.recycleView.adapter = accountAdapter
     }
 }
