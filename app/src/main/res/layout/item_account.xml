@@ -12,6 +12,7 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:padding="5dp"
+        android:textIsSelectable="true"
         tools:text="0x35f08674472fdD5169B74f5Ad66064607F4Ab6cb"
         android:id="@+id/txt_address"
         android:textSize="16sp"

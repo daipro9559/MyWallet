@@ -48,4 +48,12 @@ object Constant {
                     "https://ropsten.infura.io/llyrtzQ3YhkdESt2Fzrk",
                     "https://ropsten.trustwalletapp.com/",
                     "https://ropsten.etherscan.io", 3, false))
+
+    interface ErrorCode {
+        companion object {
+
+            val UNKNOWN = 1
+            val CANT_GET_STORE_PASSWORD = 2
+        }
+    }
 }

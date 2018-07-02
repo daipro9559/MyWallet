@@ -9,7 +9,9 @@ import org.ethereum.geth.EthereumClient
 import org.ethereum.geth.Geth
 import org.ethereum.geth.KeyStore
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class WalletRepository
 @Inject
 constructor(

@@ -14,11 +14,10 @@ import android.arch.lifecycle.LifecycleRegistry
 
 
 
-abstract class BaseFragment<V:ViewDataBinding> :Fragment(),LifecycleOwner{
+abstract class BaseFragment<V:ViewDataBinding> :Fragment(){
 
     protected lateinit var viewDataBinding:V
 
-    private val mLifecycleRegistry: LifecycleRegistry = LifecycleRegistry(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,23 +33,21 @@ abstract class BaseFragment<V:ViewDataBinding> :Fragment(),LifecycleOwner{
     abstract fun getlayoutId():Int
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mLifecycleRegistry.markState(Lifecycle.State.CREATED)
+
 
     }
 
     override fun onStart() {
         super.onStart()
-        mLifecycleRegistry.markState(Lifecycle.State.STARTED)
+
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mLifecycleRegistry.markState(Lifecycle.State.DESTROYED)
+
 
     }
 
-    override fun getLifecycle(): Lifecycle {
-        return mLifecycleRegistry
-    }
+
 }

@@ -1,10 +1,12 @@
 package com.example.dai_pc.android_test.repository
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import com.example.dai_pc.android_test.entity.Transaction
-import com.example.dai_pc.android_test.entity.TransactionResponse
 import com.example.dai_pc.android_test.entity.TransactionSendedObject
+import com.example.dai_pc.android_test.service.AccountService
 import com.example.dai_pc.android_test.service.EtherScanApi
+import com.example.dai_pc.android_test.ultil.ServiceException
 import com.google.gson.Gson
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -13,9 +15,9 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import org.ethereum.geth.BigInt
 import org.web3j.protocol.Web3jFactory
-import org.web3j.protocol.core.DefaultBlockParameter
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.http.HttpService
+import org.web3j.utils.Numeric
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,19 +29,21 @@ import javax.inject.Singleton
 class TransactionRepository
 @Inject
 constructor(private val networkRepository: NetworkRepository,
-            private val okHttpClient: OkHttpClient
+            private val okHttpClient: OkHttpClient,
+            private val accountService: AccountService
 ) {
     private lateinit var etherScanApi: EtherScanApi
 
     init {
         buidApiService(networkRepository.networkProviderSelected.backendUrl)
     }
-    fun changeNetwork(id:Int) {
+
+    fun changeNetwork(id: Int) {
         networkRepository.changeNetworkSelect(id)
         buidApiService(networkRepository.networkProviderSelected.backendUrl)
     }
 
-    fun buidApiService(urlBase:String) {
+    fun buidApiService(urlBase: String) {
         etherScanApi = Retrofit.Builder()
                 .baseUrl(urlBase)
                 .client(okHttpClient)
@@ -49,13 +53,15 @@ constructor(private val networkRepository: NetworkRepository,
                 .create(EtherScanApi::class.java)
     }
 
-    fun fetchTransaction(address:String):Flowable<List<Transaction>>{
-       return etherScanApi.fetchTransactions(address).map { t -> t.docs }
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribeOn(Schedulers.io())
+    fun fetchTransaction(address: String): Flowable<List<Transaction>> {
+        return etherScanApi.fetchTransactions(address).map { t -> t.docs }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
     }
 
-    fun sendTransaction(transactionSendedObject: TransactionSendedObject):LiveData<String> {
+    fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<String> {
+        val pass  = "daipro1995123"
+        val liveData = MutableLiveData<String>()
         val value = BigInt(0)
         value.setString(transactionSendedObject.amount.toString(), 10)
 
@@ -67,10 +73,40 @@ constructor(private val networkRepository: NetworkRepository,
 
 
         var web3j = Web3jFactory.build(HttpService(networkRepository.networkProviderSelected.rpcServerUrl))
-        var nonce  = Single.create<BigInteger> {
-         web3j.ethGetTransactionCount(transactionSendedObject.from, DefaultBlockParameterName.LATEST).send()
-                 .transactionCount
+        val singleData =  Single.fromCallable {
+            web3j.ethGetTransactionCount(transactionSendedObject.from, DefaultBlockParameterName.LATEST).send()
+                    .transactionCount
+        }.flatMap { t ->
+            accountService.signTransaction(transactionSendedObject.from!!,
+                    pass,
+                    transactionSendedObject.to!!,
+                    transactionSendedObject.amount!!,
+                    transactionSendedObject.gasPrice!!,
+                    transactionSendedObject.gasLimit!!,
+                    t.toLong(),
+                    data,
+                    networkRepository.networkProviderSelected.ChanId.toLong())
+        }.flatMap { singleMessage ->
+            Single.fromCallable {
+                val hextString = Numeric.toHexString(singleMessage)
+                val raw = web3j.ethSendRawTransaction(hextString).send()
+                if (raw.hasError()){
+                    raw.error.message
+                }else {
+                    raw.transactionHash
+
+                }
+            }
         }
-        nonce.flatMap { t -> {  t.apply {  } }
+        singleData.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    liveData.value = it
+                },{
+
+                })
+        return liveData
     }
 }
+
+

@@ -11,12 +11,14 @@ import android.R.id.toggle
 import android.view.MenuItem
 import android.R.id.toggle
 import android.R.id.toggle
+import android.content.Intent
 import android.content.res.Configuration
 import android.support.design.widget.NavigationView
 import android.view.Gravity
 import com.example.dai_pc.android_test.view.account.ListAccountFragment
 import com.example.dai_pc.android_test.view.home.HomeFragment
 import com.example.dai_pc.android_test.view.network.NetworkFragment
+import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 
 
 class MainActivity:BaseActivity<ActivityMainBinding>(){
@@ -36,6 +38,10 @@ class MainActivity:BaseActivity<ActivityMainBinding>(){
         viewDataBinding.drawLayout.addDrawerListener(actionBarDrawerToggle)
         viewDataBinding.navigation.setNavigationItemSelectedListener {
             selectItemMenu(it)
+        }
+        viewDataBinding.createTransaction.setOnClickListener {
+
+            startActivity(Intent(this,CreateTransactionActivity::class.java))
         }
     }
 
@@ -75,6 +81,6 @@ class MainActivity:BaseActivity<ActivityMainBinding>(){
     }
 
     fun <F : Fragment>replaceFragment(fragment : F){
-        supportFragmentManager.beginTransaction().replace(R.id.view_container,fragment,"").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.view_container,fragment).disallowAddToBackStack().commit()
     }
 }

@@ -24,6 +24,9 @@
         <activity android:name=".view.main.MainActivity">
 
         </activity>
+        <activity android:name=".view.transaction.CreateTransactionActivity">
+
+        </activity>
     </application>
 
 </manifest>

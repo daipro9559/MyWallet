@@ -50,7 +50,7 @@ versions.paging = "1.0.0"
 versions.work = "1.0.0-alpha02"
 versions.navigation = "1.0.0-alpha01"
 versions.web3j = "3.0.1-android"
-versions.geth = "1.8.11"
+versions.geth = "1.7.0"
 versions.okhttpVersion = "3.9.0"
 def deps = [:]
 

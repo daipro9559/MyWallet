@@ -1,5 +1,6 @@
 package com.example.dai_pc.android_test.di
 
+import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.example.dai_pc.android_test.base.MyViewModelFactory
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionViewModel
@@ -13,11 +14,11 @@ import dagger.multibindings.IntoMap
  */
 @Module
 abstract class ViewModelModule{
-
+    @Binds
     @IntoMap
     @ViewModelKey(CreateTransactionViewModel::class)
-    abstract fun CreateTransactionViewModel():CreateTransactionViewModel
+    abstract fun createTransactionViewModel(createTransactionViewModel: CreateTransactionViewModel): ViewModel
 
     @Binds
-    abstract fun viewModelBase (myViewModelFactory: MyViewModelFactory):ViewModelProvider.Factory;
+    abstract fun viewModelFactory (myViewModelFactory: MyViewModelFactory): ViewModelProvider.Factory
 }

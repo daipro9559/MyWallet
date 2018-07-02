@@ -5,6 +5,9 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import com.android.example.github.util.LiveDataCallAdapterFactory
 import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.service.AccountService
+import com.example.dai_pc.android_test.service.AccountServiceImp
+import dagger.Binds
 //import com.example.dai_pc.android_test.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -44,8 +47,14 @@ class AppModule {
     fun okHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor())
-                .connectTimeout(10000,TimeUnit.MILLISECONDS)
+                .connectTimeout(10000, TimeUnit.MILLISECONDS)
                 .build()
+    }
+
+    @Singleton
+    @Provides
+    fun serviceAccount(accountServiceImp: AccountServiceImp): AccountService{
+        return accountServiceImp
     }
 
 //    @Singleton

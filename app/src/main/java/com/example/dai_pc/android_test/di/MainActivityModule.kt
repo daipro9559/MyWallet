@@ -20,6 +20,5 @@ abstract class MainActivityModule {
     @ContributesAndroidInjector
     abstract fun fragmentNetwork(): NetworkFragment
 
-    @Binds
-    abstract fun createServiceAccount(accountService: AccountServiceImp): AccountService
+
 }

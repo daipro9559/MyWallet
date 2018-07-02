@@ -2,4 +2,5 @@
     <string name="app_name">My Wallet</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="api_key_ether">QVK4XE2W1H2VM9RXU22FMDYWHJUA5X5FKA</string>
 </resources>
