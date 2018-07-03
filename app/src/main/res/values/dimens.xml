@@ -12,4 +12,6 @@
 	<dimen name="min_height_header_navi">150dp</dimen>
     <dimen name="text_size_app">16sp</dimen>
     <dimen name="item_margin_left">6dp</dimen>
+    <dimen name="size_icon_splash">100dp</dimen>
+    <dimen name="item_recycle_view_padding">7dp</dimen>
 </resources>

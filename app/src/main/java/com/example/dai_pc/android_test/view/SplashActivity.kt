@@ -25,10 +25,8 @@ import com.example.dai_pc.android_test.view.main.MainActivity
 /**
  * Created by dai_pc on 6/15/2018.
  */
-class SplashActivity : AppCompatActivity(), HasSupportFragmentInjector, LifecycleOwner {
+class SplashActivity : AppCompatActivity(), HasSupportFragmentInjector {
     lateinit var viewBinding: ActivitySplashBinding
-    private val lifecycleRegistry = LifecycleRegistry(this)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -41,9 +39,6 @@ class SplashActivity : AppCompatActivity(), HasSupportFragmentInjector, Lifecycl
         // hide the navigation bar.
         val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         decorView.systemUiVisibility = uiOptions
-        lifecycleRegistry.markState(Lifecycle.State.CREATED)
-        viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
-        viewBinding.txtWelcome.startAnimation(AnimationUtils.loadAnimation(this,R.anim.title_fade))
         var handler = Handler()
         handler.postDelayed({
             val intent = Intent(applicationContext,
@@ -51,7 +46,7 @@ class SplashActivity : AppCompatActivity(), HasSupportFragmentInjector, Lifecycl
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
             finish()
-        },3000)
+        },2000)
 
     }
 
@@ -59,7 +54,6 @@ class SplashActivity : AppCompatActivity(), HasSupportFragmentInjector, Lifecycl
 
     override fun onDestroy() {
         super.onDestroy()
-        lifecycleRegistry.markState(Lifecycle.State.DESTROYED)
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {

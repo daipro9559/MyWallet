@@ -11,7 +11,7 @@ import javax.inject.Inject
 class CreateTransactionViewModel
 @Inject
 constructor(val transactionRepository: TransactionRepository)
-    : ViewModel(){
+    : BaseViewModel(){
 
     // string of message response
     fun createTransaction(transactionSendedObject: TransactionSendedObject):LiveData<String>?{

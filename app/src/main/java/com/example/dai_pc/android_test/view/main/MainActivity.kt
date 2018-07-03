@@ -6,17 +6,12 @@ import android.support.v7.app.ActionBarDrawerToggle
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityMainBinding
-import dagger.android.AndroidInjector
-import android.R.id.toggle
 import android.view.MenuItem
-import android.R.id.toggle
-import android.R.id.toggle
 import android.content.Intent
 import android.content.res.Configuration
-import android.support.design.widget.NavigationView
 import android.view.Gravity
 import com.example.dai_pc.android_test.view.account.ListAccountFragment
-import com.example.dai_pc.android_test.view.home.HomeFragment
+import com.example.dai_pc.android_test.view.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.network.NetworkFragment
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 
@@ -68,7 +63,7 @@ class MainActivity:BaseActivity<ActivityMainBinding>(){
 
             }
             R.id.home ->{
-                replaceFragment(HomeFragment.newInstance())
+                replaceFragment(ListTransactionFragment.newInstance())
 
             }
             R.id.select_network ->{

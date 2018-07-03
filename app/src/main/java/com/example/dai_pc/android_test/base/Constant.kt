@@ -15,13 +15,10 @@ object Constant {
 
     //network
     val ETHEREUM_NETWORK_NAME = "Ethereum"
-    val CLASSIC_NETWORK_NAME = "Ethereum Classic"
-    val POA_NETWORK_NAME = "POA Network"
     val KOVAN_NETWORK_NAME = "Kovan (Test)"
     val ROPSTEN_NETWORK_NAME = "Ropsten (Test)"
+    val RINKEBY_NETWORK_NAME = "Rinkeby (Test)"
     val ETH_SYMBOL = "ETH"
-    val POA_SYMBOL = "POA"
-    val ETC_SYMBOL = "ETC"
 
 
     //key preference
@@ -29,25 +26,22 @@ object Constant {
 
 
     // Network init
-    val NETWORKS = arrayOf<NetworkProvider>(NetworkProvider(1, ETHEREUM_NETWORK_NAME, ETH_SYMBOL,
+    val NETWORKS = arrayOf(NetworkProvider(1, ETHEREUM_NETWORK_NAME, ETH_SYMBOL,
             "https://mainnet.infura.io/llyrtzQ3YhkdESt2Fzrk",
             "https://api.trustwalletapp.com/",
-            "https://etherscan.io/", 1, true),
-            NetworkProvider(2, CLASSIC_NETWORK_NAME, ETC_SYMBOL,
-                    "https://mewapi.epool.io/",
-                    "https://classic.trustwalletapp.com",
-                    "https://gastracker.io", 61, true),
-            NetworkProvider(3, POA_NETWORK_NAME, POA_SYMBOL,
-                    "https://core.poa.network",
-                    "https://poa.trustwalletapp.com", "poa", 99, false),
-            NetworkProvider(4, KOVAN_NETWORK_NAME, ETH_SYMBOL,
+            "https://etherscan.io/", 1, true,"https://api.etherscan.io/"),
+            NetworkProvider(2, KOVAN_NETWORK_NAME, ETH_SYMBOL,
                     "https://kovan.infura.io/llyrtzQ3YhkdESt2Fzrk",
                     "https://kovan.trustwalletapp.com/",
-                    "https://kovan.etherscan.io", 42, false),
-            NetworkProvider(5, ROPSTEN_NETWORK_NAME, ETH_SYMBOL,
+                    "https://kovan.etherscan.io", 42, false,"https://api-kovan.etherscan.io/"),
+            NetworkProvider(3, RINKEBY_NETWORK_NAME, ETH_SYMBOL,
+                    "https://rinkeby.infura.io/llyrtzQ3YhkdESt2Fzrk",
+                    "https://rinkeby.trustwalletapp.com/",
+                    "https://rinkeby.etherscan.io", 4, false,"https://api-kovan.etherscan.io/"),
+            NetworkProvider(4, ROPSTEN_NETWORK_NAME, ETH_SYMBOL,
                     "https://ropsten.infura.io/llyrtzQ3YhkdESt2Fzrk",
                     "https://ropsten.trustwalletapp.com/",
-                    "https://ropsten.etherscan.io", 3, false))
+                    "https://ropsten.etherscan.io", 3, false,"https://api-ropsten.etherscan.io/"))
 
     interface ErrorCode {
         companion object {
@@ -56,4 +50,15 @@ object Constant {
             val CANT_GET_STORE_PASSWORD = 2
         }
     }
+
+    // query api
+    const val MODULE = "module"
+    const val ACTION = "action"
+    const val API_KEY = "apikey"
+    const val ADDRESS = "address"
+    const val START_BLOCK = "startblock"
+    const val END_BLOCK = "endblock"
+    const val SORT = "sort"
+    const val API_KEY_ETHEREUM = "QVK4XE2W1H2VM9RXU22FMDYWHJUA5X5FKA"
+
 }

@@ -18,6 +18,7 @@ abstract class BaseRecycleViewAdapter<I, V : ViewDataBinding> : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ItemViewHolder<V>, position: Int) {
         bindData(items[position], holder)
+        holder.v.executePendingBindings()
     }
 
     abstract fun bindData(i: I, holder: ItemViewHolder<V>)

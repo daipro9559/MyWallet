@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+
+        <variable
+            name="transaction"
+            type="com.example.dai_pc.android_test.entity.Transaction" />
+        <variable
+            name="addressMain"
+            type="String"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/view_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/item_recycle_view_padding">
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txt_in_out"
+            android:textSize="13sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/bg_txt_out"
+            android:padding="@dimen/item_recycle_view_padding"
+            android:textColor="@android:color/white"
+            style="@style/TextAppStyle"
+            tools:text="OUT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txt_from_to"
+            tools:text="To"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tsxt_address"
+            android:singleLine="true"
+            tools:text="0x81b7e08f65bdf5648606c89998a9cc8164397647"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/txt_in_out"
+            app:layout_constraintLeft_toRightOf="@id/txt_from_to"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/ether"
+            app:layout_constraintTop_toBottomOf="@id/txt_from_to"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="ETH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/value"
+            app:layout_constraintTop_toBottomOf="@id/ether"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@{transaction.value}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

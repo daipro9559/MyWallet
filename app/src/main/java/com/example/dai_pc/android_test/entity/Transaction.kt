@@ -6,34 +6,32 @@ import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.Expose
 data class Transaction(
 
-//        @Expose
-//        var operations:String?,
         @Expose
-        var contract :String?,
+        var blockNumber :Long?,
         @Expose
-        var _id:String?,
+        var timeStamp:String?,
         @Expose
-        var blockNumber:Long,
-        @Expose
-        var timeStamp : String,
-        @Expose
-        var nonce : Long,
+        var hash:String,
         @Expose
         var from : String,
         @Expose
-        var to :String,
+        var to : String,
         @Expose
-        var value :String,
+        var value : String,
         @Expose
-        var gas : String,
+        var contractAddress :String,
         @Expose
-        var gasPrice: String,
+        var input :String,
+        @Expose
+        var type : String,
+        @Expose
+        var gas: Long,
         @Expose
         var gasUsed : String,
         @Expose
-        var input: String,
+        var traceId: String,
         @Expose
-        var error: String,
+        var errorCode: String,
 
         @Expose
         var id : String

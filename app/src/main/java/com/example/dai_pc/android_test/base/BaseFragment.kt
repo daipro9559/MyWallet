@@ -11,13 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.AndroidSupportInjection
 import android.arch.lifecycle.LifecycleRegistry
-
+import android.arch.lifecycle.ViewModelProvider
+import javax.inject.Inject
 
 
 abstract class BaseFragment<V:ViewDataBinding> :Fragment(){
 
     protected lateinit var viewDataBinding:V
-
+    @Inject
+    lateinit var viewModelFactory : ViewModelProvider.Factory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

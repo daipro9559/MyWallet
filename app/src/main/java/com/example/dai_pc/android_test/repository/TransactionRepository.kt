@@ -2,10 +2,13 @@ package com.example.dai_pc.android_test.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.entity.NetworkState
 import com.example.dai_pc.android_test.entity.Transaction
 import com.example.dai_pc.android_test.entity.TransactionSendedObject
 import com.example.dai_pc.android_test.service.AccountService
 import com.example.dai_pc.android_test.service.EtherScanApi
+import com.example.dai_pc.android_test.ultil.Callback
 import com.example.dai_pc.android_test.ultil.ServiceException
 import com.google.gson.Gson
 import io.reactivex.Flowable
@@ -21,7 +24,11 @@ import org.web3j.utils.Numeric
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 import java.math.BigInteger
+import java.net.SocketException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,7 +39,10 @@ constructor(private val networkRepository: NetworkRepository,
             private val okHttpClient: OkHttpClient,
             private val accountService: AccountService
 ) {
-    private lateinit var etherScanApi: EtherScanApi
+    lateinit var etherScanApi: EtherScanApi
+     var callback: Callback<NetworkState> = ((NetworkState)->Unit)
+    val listTransaction = MutableLiveData<List<Transaction>>()
+
 
     init {
         buidApiService(networkRepository.networkProviderSelected.backendUrl)
@@ -45,7 +55,7 @@ constructor(private val networkRepository: NetworkRepository,
 
     fun buidApiService(urlBase: String) {
         etherScanApi = Retrofit.Builder()
-                .baseUrl(urlBase)
+                .baseUrl("https://api.etherscan.io/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(Gson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -53,14 +63,26 @@ constructor(private val networkRepository: NetworkRepository,
                 .create(EtherScanApi::class.java)
     }
 
-    fun fetchTransaction(address: String): Flowable<List<Transaction>> {
-        return etherScanApi.fetchTransactions(address).map { t -> t.docs }
-                .observeOn(AndroidSchedulers.mainThread())
+    fun fetchTransaction(address: String, startBlock: Int, endBlock: Int) {
+        etherScanApi.fetchTransaction("account", "txlist", address, startBlock, endBlock,"desc", Constant.API_KEY_ETHEREUM)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    callback(NetworkState.SUCCESS)
+                    listTransaction.value = it.result
+                }, {
+                    when (it) {
+                        is UnknownHostException -> callback(NetworkState.BAD_URL)
+                        is SocketTimeoutException -> callback(NetworkState.TIME_OUT)
+                        is IOException -> callback(NetworkState.NO_CONENCTION)
+                        else -> callback(NetworkState.UNKNOWN)
+
+                    }
+                })
     }
 
     fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<String> {
-        val pass  = "daipro1995123"
+        val pass = "daipro1995123"
         val liveData = MutableLiveData<String>()
         val value = BigInt(0)
         value.setString(transactionSendedObject.amount.toString(), 10)
@@ -73,7 +95,7 @@ constructor(private val networkRepository: NetworkRepository,
 
 
         var web3j = Web3jFactory.build(HttpService(networkRepository.networkProviderSelected.rpcServerUrl))
-        val singleData =  Single.fromCallable {
+        val singleData = Single.fromCallable {
             web3j.ethGetTransactionCount(transactionSendedObject.from, DefaultBlockParameterName.LATEST).send()
                     .transactionCount
         }.flatMap { t ->
@@ -90,9 +112,9 @@ constructor(private val networkRepository: NetworkRepository,
             Single.fromCallable {
                 val hextString = Numeric.toHexString(singleMessage)
                 val raw = web3j.ethSendRawTransaction(hextString).send()
-                if (raw.hasError()){
+                if (raw.hasError()) {
                     raw.error.message
-                }else {
+                } else {
                     raw.transactionHash
 
                 }
@@ -102,7 +124,7 @@ constructor(private val networkRepository: NetworkRepository,
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     liveData.value = it
-                },{
+                }, {
 
                 })
         return liveData

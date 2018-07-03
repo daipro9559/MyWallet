@@ -4,13 +4,9 @@ import com.google.gson.annotations.Expose
 
 data class TransactionResponse(
         @Expose
-        var docs: List<Transaction>,
+        var result: List<Transaction>,
         @Expose
-        var total : Int,
+        var status : String,
         @Expose
-        var limit : Int,
-        @Expose
-        var page:Int,
-        @Expose
-        var pages:Int
+        var message : String
 )

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white"/>
+    <item android:gravity="center"
+      android:width="@dimen/size_icon_splash"
+      android:height="@dimen/size_icon_splash"
+        >
+        <bitmap android:src="@drawable/ethereum" />
+    </item>
+</layer-list>

@@ -32,7 +32,7 @@ abstract class BaseActivity<V : ViewDataBinding> :AppCompatActivity(),HasSupport
 
     }
 
-    override fun onStart() {
+    override fun onStart() {0
         super.onStart()
 
     }

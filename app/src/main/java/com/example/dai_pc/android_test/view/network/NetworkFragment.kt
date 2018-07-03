@@ -7,11 +7,8 @@ import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.FragmentListNetworkBinding
 import com.example.dai_pc.android_test.entity.NetworkProvider
-import com.example.dai_pc.android_test.entity.TransactionResponse
 import com.example.dai_pc.android_test.repository.TransactionRepository
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
-import com.example.dai_pc.android_test.view.home.HomeFragment
-import timber.log.Timber
 import javax.inject.Inject
 
 class NetworkFragment : BaseFragment<FragmentListNetworkBinding>() {
