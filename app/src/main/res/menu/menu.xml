@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group android:checkableBehavior="single">
-        <item android:id="@+id/home"
-            android:title="home"/>
-        <item android:id="@+id/choose_address"
-            android:title="Select Address"
+        <item android:id="@+id/transaction"
+            android:checked="true"
+            android:title="transaction"
+            app:showAsAction="ifRoom"/>
+        <item android:id="@+id/account"
+            android:title="account"
+            app:showAsAction="ifRoom"
             />
-        <item android:id="@+id/select_network"
-            android:title="Network"/>
-        <item
-            android:id="@+id/setting"
-            android:title="Setting">
-        </item>
-        <item
-            android:id="@+id/about"
-            android:title="About">
-        </item>
-
-    </group>
 </menu>

@@ -1,5 +1,10 @@
 package com.example.dai_pc.android_test.service
 
+import android.content.Context
+import android.os.Build
+import com.example.dai_pc.android_test.ultil.KS
+import com.example.dai_pc.android_test.ultil.PasswordManager
+import io.reactivex.Completable
 import io.reactivex.Single
 import org.ethereum.geth.*
 import org.web3j.crypto.Keys
@@ -8,7 +13,34 @@ import org.web3j.crypto.WalletFile
 import java.math.BigInteger
 import javax.inject.Inject
 
-class AccountServiceImp @Inject constructor(val keyStore: KeyStore ) :AccountService{
+class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountService {
+
+    override fun savePassword(context: Context,address: String, password: String):Completable {
+        return Completable.fromCallable{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                KS.put(context, address,password)
+            } else {
+                try {
+                    PasswordManager.setPassword(address, password,context)
+                }
+                catch (e:Exception){
+
+                }
+            }
+        }
+    }
+
+    override fun getPassword(context: Context, address: String): Single<String> {
+        return Single.fromCallable {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                String(KS.get(context, address)!!)
+            } else {
+                PasswordManager.getPassword(address, context)
+            }
+        }
+    }
+
+
     override fun signTransaction(addressFrom: String, password: String, addressTo: String, amount: BigInteger, gasPrice: BigInteger, gasLimit: BigInteger, nonce: Long, data: ByteArray?, chainId: Long): Single<ByteArray>? {
         return Single.fromCallable {
             val value = BigInt(0)
@@ -20,14 +52,15 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore ) :AccountSer
             val gasLimitBI = BigInt(0)
             gasLimitBI.setString(gasLimit.toString(), 10)
 
-            val tx = Transaction(nonce, Address(addressTo),value,gasLimitBI,gasPriceBI,data)
+            val tx = Transaction(nonce, Address(addressTo), value, gasLimitBI, gasPriceBI, data)
 
             val chainId = BigInt(chainId)
             val account = findAccount(addressFrom)
-            keyStore.unlock(account,password)
-            val signed  = keyStore.signTx(account,tx,chainId)
+            keyStore.unlock(account, password)
+            val signed = keyStore.signTx(account, tx, chainId)
             keyStore.lock(account!!.address)
-            signed.encodeRLP() }
+            signed.encodeRLP()
+        }
 
 
     }
@@ -38,15 +71,17 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore ) :AccountSer
     }
 
     // return
-    override fun generateAccount(password: String, privateKey:String?): Single<WalletFile>{
-        return Single.fromCallable {val key =  Keys.createEcKeyPair()
-            return@fromCallable Wallet.createStandard(password,key)}
+    override fun generateAccount(password: String, privateKey: String?): Single<WalletFile> {
+        return Single.fromCallable {
+            val key = Keys.createEcKeyPair()
+            return@fromCallable Wallet.createStandard(password, key)
+        }
 
     }
 
-    private fun findAccount(address:String):Account?{
-        val accounts  = getAllAccount()
-        for (i in 0 until accounts.size()){
+    private fun findAccount(address: String): Account? {
+        val accounts = getAllAccount()
+        for (i in 0 until accounts.size()) {
             if (accounts.get(i).address.hex.equals(address, ignoreCase = true)) {
                 return accounts.get(i)
             }

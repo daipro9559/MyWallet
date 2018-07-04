@@ -35,36 +35,15 @@ import javax.inject.Singleton
 @Singleton
 class TransactionRepository
 @Inject
-constructor(private val networkRepository: NetworkRepository,
-            private val okHttpClient: OkHttpClient,
-            private val accountService: AccountService
+constructor(
+        private val networkRepository: NetworkRepository,
+        private val serviceProvider: ServiceProvider,
+        private val accountService: AccountService
 ) {
-    lateinit var etherScanApi: EtherScanApi
-     var callback: Callback<NetworkState> = ((NetworkState)->Unit)
     val listTransaction = MutableLiveData<List<Transaction>>()
 
-
-    init {
-        buidApiService(networkRepository.networkProviderSelected.backendUrl)
-    }
-
-    fun changeNetwork(id: Int) {
-        networkRepository.changeNetworkSelect(id)
-        buidApiService(networkRepository.networkProviderSelected.backendUrl)
-    }
-
-    fun buidApiService(urlBase: String) {
-        etherScanApi = Retrofit.Builder()
-                .baseUrl("https://api.etherscan.io/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(Gson()))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-                .create(EtherScanApi::class.java)
-    }
-
-    fun fetchTransaction(address: String, startBlock: Int, endBlock: Int) {
-        etherScanApi.fetchTransaction("account", "txlist", address, startBlock, endBlock,"desc", Constant.API_KEY_ETHEREUM)
+    fun fetchTransaction(address: String, startBlock: Int, endBlock: Int, callback: (NetworkState) -> Unit) {
+        serviceProvider.etherScanApi.fetchTransaction("account", "txlist", address, startBlock, endBlock, "desc", Constant.API_KEY_ETHEREUM)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -129,6 +108,8 @@ constructor(private val networkRepository: NetworkRepository,
                 })
         return liveData
     }
+
+
 }
 
 

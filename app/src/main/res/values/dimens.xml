@@ -14,4 +14,9 @@
     <dimen name="item_margin_left">6dp</dimen>
     <dimen name="size_icon_splash">100dp</dimen>
     <dimen name="item_recycle_view_padding">7dp</dimen>
+
+    <dimen name="_19sp">19sp</dimen>
+
+    <dimen name="_5dp">5dp</dimen>
+    <dimen name="_10dp">10dp</dimen>
 </resources>

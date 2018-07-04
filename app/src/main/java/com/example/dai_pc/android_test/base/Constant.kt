@@ -61,4 +61,10 @@ object Constant {
     const val SORT = "sort"
     const val API_KEY_ETHEREUM = "QVK4XE2W1H2VM9RXU22FMDYWHJUA5X5FKA"
 
+    //title tab item
+    const val TRANSACTIONS="Transactions"
+    const val MY_ADDRESS ="My address"
+    const val MY_TOKEN = "My Token"
+
+
 }

@@ -52,11 +52,8 @@ class ListTransactionFragment :BaseFragment<FragmentHomeBinding>(){
                 viewDataBinding.recycleView.adapter = adapter
                 return@Observer
             }
-            adapter = TransactionAdapter()
-            adapter.swapListItem(it!!)
-            viewDataBinding.recycleView.adapter = adapter
         })
-        listTransactionViewModel.getAllTransaction("0x81b7E08F65Bdf5648606c89998A9CC8164397647",0,99999999)
+        listTransactionViewModel.getAllTransaction("0x6480600bad47cB4D2d1E827592e199886Fd5fb3a",0,99999999)
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -64,6 +61,10 @@ class ListTransactionFragment :BaseFragment<FragmentHomeBinding>(){
 
     private fun  initView(){
         viewDataBinding.recycleView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        val adapter = TransactionAdapter()
+        adapter.addressMain = "0x6480600bad47cB4D2d1E827592e199886Fd5fb3a"
+        viewDataBinding.recycleView.adapter = adapter
+
 
     }
 }

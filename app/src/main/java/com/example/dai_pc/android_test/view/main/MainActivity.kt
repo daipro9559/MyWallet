@@ -1,5 +1,8 @@
 package com.example.dai_pc.android_test.view.main
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
@@ -9,73 +12,62 @@ import com.example.dai_pc.android_test.databinding.ActivityMainBinding
 import android.view.MenuItem
 import android.content.Intent
 import android.content.res.Configuration
+import android.support.design.widget.TabLayout
 import android.view.Gravity
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.view.account.ListAccountFragment
 import com.example.dai_pc.android_test.view.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.network.NetworkFragment
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
+import java.math.BigDecimal
 
 
-class MainActivity:BaseActivity<ActivityMainBinding>(){
-
-   lateinit var actionBarDrawerToggle:ActionBarDrawerToggle
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
 
+    private lateinit var mainViewModel: MainViewModel
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        actionBarDrawerToggle = ActionBarDrawerToggle(this,viewDataBinding.drawLayout,R.string.drawer_open,R.string.drawer_close)
         setSupportActionBar(viewDataBinding.toolBar)
         viewDataBinding.toolBar.title = "My Wallet"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBarDrawerToggle.isDrawerIndicatorEnabled = true
-        viewDataBinding.drawLayout.addDrawerListener(actionBarDrawerToggle)
-        viewDataBinding.navigation.setNavigationItemSelectedListener {
-            selectItemMenu(it)
-        }
-        viewDataBinding.createTransaction.setOnClickListener {
-
-            startActivity(Intent(this,CreateTransactionActivity::class.java))
-        }
+        initView()
+        mainViewModel = ViewModelProviders.of(this,viewModelFactory)[MainViewModel::class.java]
+        mainViewModel.fetchBalance("0x312B416Af3159592bCae852278b17ced92f2d7dD")
+        mainViewModel.balanceLiveData.observe(this, Observer {
+            val data = BigDecimal(it,18)
+            viewDataBinding.ether.text  = data.toFloat().toString()
+        })
     }
 
-   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return actionBarDrawerToggle != null && actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
+    private fun initView() {
+        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
+        viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
+        viewPagerAdapter.addFragment(ListAccountFragment.newInstance())
+        viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
+        viewDataBinding.contentMain.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
+        viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
+        setupTablayout()
+    }
+    private fun setupTablayout(){
+        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
+        viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        if (actionBarDrawerToggle != null)
-           actionBarDrawerToggle.syncState()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        if (actionBarDrawerToggle != null)
-            actionBarDrawerToggle.onConfigurationChanged(newConfig)
-    }
-
-    fun selectItemMenu(item:MenuItem):Boolean{
-        when(item.itemId){
-            R.id.choose_address->{
-                replaceFragment(ListAccountFragment.newInstance())
-
-            }
-            R.id.home ->{
-                replaceFragment(ListTransactionFragment.newInstance())
-
-            }
-            R.id.select_network ->{
-                replaceFragment(NetworkFragment.newInstance())
-
-            }
-        }
-        viewDataBinding.drawLayout.closeDrawer(Gravity.START)
-        return true
-    }
-
-    fun <F : Fragment>replaceFragment(fragment : F){
-        supportFragmentManager.beginTransaction().replace(R.id.view_container,fragment).disallowAddToBackStack().commit()
     }
 }

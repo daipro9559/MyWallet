@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.Expose
+import java.math.BigInteger
+
 data class Transaction(
 
         @Expose
@@ -17,7 +19,7 @@ data class Transaction(
         @Expose
         var to : String,
         @Expose
-        var value : String,
+        var value : BigInteger,
         @Expose
         var contractAddress :String,
         @Expose
@@ -36,4 +38,3 @@ data class Transaction(
         @Expose
         var id : String
 )
-

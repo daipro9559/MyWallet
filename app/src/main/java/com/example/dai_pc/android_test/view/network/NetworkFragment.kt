@@ -43,7 +43,7 @@ class NetworkFragment : BaseFragment<FragmentListNetworkBinding>() {
 
     val onlick :(NetworkProvider)->Unit ={
         preferenceHelper.putInt(Constant.KEY_NETWORK_ID,it.id)
-        transactionRepository.changeNetwork(it.id)
+
     }
 
 }

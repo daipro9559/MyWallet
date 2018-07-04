@@ -15,7 +15,8 @@ constructor(private val transactionRepository: TransactionRepository) :BaseViewM
     get() = transactionRepository.listTransaction
 
     fun getAllTransaction(address:String,startBlock : Int,endBlock :Int){
-        transactionRepository.fetchTransaction(address,startBlock,endBlock)
+        transactionRepository.fetchTransaction(address,startBlock,endBlock){
+        }
     }
 
 }

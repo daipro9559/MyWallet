@@ -16,6 +16,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/view_root"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/item_recycle_view_padding">
@@ -28,7 +30,6 @@
             android:padding="@dimen/item_recycle_view_padding"
             android:textColor="@android:color/white"
             style="@style/TextAppStyle"
-            tools:text="OUT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <android.support.v7.widget.AppCompatTextView
@@ -39,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tsxt_address"
+            android:id="@+id/txt_address"
             android:singleLine="true"
             tools:text="0x81b7e08f65bdf5648606c89998a9cc8164397647"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +63,6 @@
             app:layout_constraintTop_toBottomOf="@id/ether"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="@{transaction.value}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.constraint.ConstraintLayout>

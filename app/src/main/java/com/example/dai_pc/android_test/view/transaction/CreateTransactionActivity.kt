@@ -23,17 +23,17 @@ class CreateTransactionActivity :BaseActivity<ActivityCreateTransactionBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(CreateTransactionViewModel::class.java)
-        var transactionSendedObject = TransactionSendedObject.Builder()
-                .setFrom("0x3b694a36935f96638118b7b17c0afb92850ed985")
-                .setTo("0xB36001A1d3054A1966897Aa5d869D9180ed090A1")
-                .setAmount(BalanceUltil.baseToSubunit("0", 18))// 18 is Ether_decimals
-                .setGasPrice(BigInteger.valueOf(1000000000L))
-                .setGasLimit(BigInteger.valueOf(21000L))
-                .build()
-
-        createTransactionViewModel.createTransaction(transactionSendedObject)?.observe(this, Observer {
-            Toast.makeText(this,it,Toast.LENGTH_LONG).show()
-        })
+//        var transactionSendedObject = TransactionSendedObject.Builder()
+//                .setFrom("0x3b694a36935f96638118b7b17c0afb92850ed985")
+//                .setTo("0xB36001A1d3054A1966897Aa5d869D9180ed090A1")
+//                .setAmount(BalanceUltil.baseToSubunit("0", 18))// 18 is Ether_decimals
+//                .setGasPrice(BigInteger.valueOf(1000000000L))
+//                .setGasLimit(BigInteger.valueOf(21000L))
+//                .build()
+//
+//        createTransactionViewModel.createTransaction(transactionSendedObject)?.observe(this, Observer {
+//            Toast.makeText(this,it,Toast.LENGTH_LONG).show()
+//        })
     }
 
 }
