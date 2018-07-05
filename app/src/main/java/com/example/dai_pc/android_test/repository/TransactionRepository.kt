@@ -49,7 +49,7 @@ constructor(
                 .subscribe({
                     callback(NetworkState.SUCCESS)
                     listTransaction.value = it.result
-                }, {
+                }) {
                     when (it) {
                         is UnknownHostException -> callback(NetworkState.BAD_URL)
                         is SocketTimeoutException -> callback(NetworkState.TIME_OUT)
@@ -57,7 +57,7 @@ constructor(
                         else -> callback(NetworkState.UNKNOWN)
 
                     }
-                })
+                }
     }
 
     fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<String> {

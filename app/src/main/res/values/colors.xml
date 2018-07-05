@@ -10,4 +10,5 @@
     <color name="white">#ffffff</color>
     <color name="tab_title_un_select">#ababab</color>
     <color name="tab_title_select">@android:color/white</color>
+    <color name="text_color_hint">#969696</color>
 </resources>

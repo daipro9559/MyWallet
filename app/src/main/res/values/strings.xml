@@ -3,4 +3,12 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="api_key_ether">QVK4XE2W1H2VM9RXU22FMDYWHJUA5X5FKA</string>
+
+    <!---->
+    <string name="address_receive">Address receive</string>
+    <string name="next">Next</string>
+    <string name="no_camera_permission">need allow access camera</string>
+    <string name="scan_instructions">Center a QR code inside the frame.</string>
+    <string name="Send">Send</string>
+
 </resources>
