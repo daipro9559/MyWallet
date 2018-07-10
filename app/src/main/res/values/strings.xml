@@ -10,5 +10,12 @@
     <string name="no_camera_permission">need allow access camera</string>
     <string name="scan_instructions">Center a QR code inside the frame.</string>
     <string name="Send">Send</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
 
+    <!--setting title-->
+    <string name="wallet">Select wallet</string>
+    <string name="network">Change Network</string>
+    <string name="contact"></string>
+    <string name="about">About us</string>
 </resources>
+

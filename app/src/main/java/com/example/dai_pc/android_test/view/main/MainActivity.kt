@@ -1,24 +1,17 @@
 package com.example.dai_pc.android_test.view.main
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBarDrawerToggle
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityMainBinding
 import android.view.MenuItem
-import android.content.Intent
 import android.content.res.Configuration
-import android.support.design.widget.TabLayout
-import android.view.Gravity
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.view.account.ListAccountFragment
-import com.example.dai_pc.android_test.view.transactions.ListTransactionFragment
-import com.example.dai_pc.android_test.view.network.NetworkFragment
-import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
+import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
+import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import java.math.BigDecimal
 
 
@@ -48,7 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun initView() {
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
-        viewPagerAdapter.addFragment(ListAccountFragment.newInstance())
+        viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
         viewDataBinding.contentMain.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter

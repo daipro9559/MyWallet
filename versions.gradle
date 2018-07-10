@@ -61,7 +61,6 @@ support.design = "com.android.support:design:$versions.support"
 support.v4 = "com.android.support:support-v4:$versions.support"
 support.core_utils = "com.android.support:support-core-utils:$versions.support"
 support.preference = "com.android.support:preference-v7:$versions.support"
-
 deps.support = support
 
 def room = [:]
@@ -88,9 +87,7 @@ retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 retrofit.mock = "com.squareup.retrofit2:retrofit-mock:$versions.retrofit"
 retrofit.adapter = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
 deps.retrofit = retrofit
-
 deps.okhttpVersion = "com.squareup.okhttp3:okhttp:$versions.okhttpVersion"
-
 deps.okhttp_logging_interceptor = "com.squareup.okhttp3:logging-interceptor:${versions.okhttp_logging_interceptor}"
 
 def dagger = [:]
@@ -148,6 +145,8 @@ deps.googlevision = "com.google.android.gms:play-services-vision:11.8.0"
 deps.QRGen = "com.github.kenglxn.QRGen:android:2.5.0"
 deps.zxing = "com.google.zxing:core:3.3.3"
 deps.expandLayout = "net.cachapa.expandablelayout:expandablelayout:2.9.2"
+deps.genToCode =  "com.journeyapps:zxing-android-embedded:3.2.0@aar"
+deps.coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
 ext.deps = deps
 
 def build_versions = [:]

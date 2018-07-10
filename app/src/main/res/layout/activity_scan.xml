@@ -12,12 +12,9 @@
     <com.example.dai_pc.android_test.customview.ReticleView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/textView"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp" />
+      />
 
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="match_parent"

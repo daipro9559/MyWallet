@@ -72,6 +72,8 @@ dependencies {
     implementation deps.googlevision
     implementation deps.QRGen
     implementation deps.zxing
+    implementation deps.genToCode
+    implementation deps.coroutine
 
 
 

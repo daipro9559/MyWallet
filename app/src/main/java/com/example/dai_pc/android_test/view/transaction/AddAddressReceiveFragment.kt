@@ -40,8 +40,11 @@ class AddAddressReceiveFragment : BaseFragment<FragmentAddAddressReceiveBinding>
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode ==SCAN_REQUEST_CODE){
-            val scanResult = data!!.getStringExtra(SCAN_RESULT)
-            txt_address.setText(scanResult)
+            data?.let {
+                val scanResult = it.getStringExtra(SCAN_RESULT)
+                txt_address.setText(scanResult)
+            }
+
         }
     }
 }

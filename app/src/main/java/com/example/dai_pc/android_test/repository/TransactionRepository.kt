@@ -3,9 +3,7 @@ package com.example.dai_pc.android_test.repository
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.dai_pc.android_test.base.Constant
-import com.example.dai_pc.android_test.entity.NetworkState
-import com.example.dai_pc.android_test.entity.Transaction
-import com.example.dai_pc.android_test.entity.TransactionSendedObject
+import com.example.dai_pc.android_test.entity.*
 import com.example.dai_pc.android_test.service.AccountService
 import com.example.dai_pc.android_test.service.EtherScanApi
 import com.example.dai_pc.android_test.ultil.Callback
@@ -40,15 +38,16 @@ constructor(
         private val serviceProvider: ServiceProvider,
         private val accountService: AccountService
 ) {
-    val listTransaction = MutableLiveData<List<Transaction>>()
+    val listTransaction = MutableLiveData<Resource<List<Transaction>>>()
 
-    fun fetchTransaction(address: String, startBlock: Int, endBlock: Int, callback: (NetworkState) -> Unit) {
+    fun fetchTransaction(address: String, startBlock: Int, endBlock: Int, callback: (NetworkState) -> Unit) :LiveData<Resource<List<Transaction>>>{
+        listTransaction.value =  loading()
         serviceProvider.etherScanApi.fetchTransaction("account", "txlist", address, startBlock, endBlock, "desc", Constant.API_KEY_ETHEREUM)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     callback(NetworkState.SUCCESS)
-                    listTransaction.value = it.result
+                    listTransaction.value = success(it.result)
                 }) {
                     when (it) {
                         is UnknownHostException -> callback(NetworkState.BAD_URL)
@@ -58,6 +57,7 @@ constructor(
 
                     }
                 }
+        return listTransaction
     }
 
     fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<String> {
