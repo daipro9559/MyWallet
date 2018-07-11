@@ -2,12 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <item android:id="@+id/transaction"
+        <item android:id="@+id/setting"
             android:checked="true"
-            android:title="transaction"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/setting"
             app:showAsAction="ifRoom"/>
-        <item android:id="@+id/account"
-            android:title="account"
-            app:showAsAction="ifRoom"
-            />
+
 </menu>

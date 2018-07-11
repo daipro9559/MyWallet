@@ -28,4 +28,11 @@ constructor(context: Context){
     }
     fun getInt(key:String,default:Int) = sharedPreferences.getInt(key,default)
 
+    fun putString(key:String, value:String){
+        with(sharedPreferences.edit()){
+            putString(key,value)
+            commit()
+        }
+    }
+    fun getString(key: String) = sharedPreferences.getString(key,null)
 }

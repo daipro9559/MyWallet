@@ -17,5 +17,11 @@
     <string name="network">Change Network</string>
     <string name="contact"></string>
     <string name="about">About us</string>
+    <string name="setting">Setting</string>
+
+
+    <!--key setting preference -->\
+    <string name="wallet_key">wallet_key</string>
+    <string name="network_key">network_key</string>
 </resources>
 

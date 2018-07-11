@@ -20,4 +20,5 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector
     abstract fun fragmentMyAddress(): MyAddressFragment
+
 }

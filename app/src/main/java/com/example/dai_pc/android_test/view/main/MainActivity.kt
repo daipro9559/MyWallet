@@ -2,16 +2,19 @@ package com.example.dai_pc.android_test.view.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityMainBinding
 import android.view.MenuItem
 import android.content.res.Configuration
+import android.view.Menu
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.view.account.ListAccountFragment
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
+import com.example.dai_pc.android_test.view.setting.SettingActivity
 import java.math.BigDecimal
 
 
@@ -42,6 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
+        viewPagerAdapter.addFragment(ListAccountFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
         viewDataBinding.contentMain.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
@@ -50,9 +54,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun setupTablayout(){
         viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
         viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
+        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId){
+            R.id.setting -> {
+                startActivity(Intent(this,SettingActivity::class.java))
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -63,4 +73,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu,menu)
+        return true
+    }
+
+
 }

@@ -34,30 +34,17 @@ abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity(), HasSuppo
 
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return dispatchingFragment
     }
 
     abstract fun getLayoutId(): Int
-    fun startActivity(destinationActivity: Class<out AppCompatActivity>) {
+
+    fun startActivity(destinationActivity: Class<Any>) {
         startActivity(Intent(this, destinationActivity))
     }
 
-    fun startActivityAndFinish(destinationActivity: Class<out AppCompatActivity>) {
+    fun startActivityAndFinish(destinationActivity: Class<Any>) {
         startActivity(destinationActivity)
         finish()
     }

@@ -3,7 +3,9 @@ package com.example.dai_pc.android_test.repository
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.example.dai_pc.android_test.AppExecutors
+import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.service.AccountService
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import org.ethereum.geth.Account
 import org.ethereum.geth.EthereumClient
 import org.ethereum.geth.Geth
@@ -15,6 +17,7 @@ import javax.inject.Singleton
 class WalletRepository
 @Inject
 constructor(
+        val preferenceHelper: PreferenceHelper,
         val keyStore: KeyStore,
             val context: Context,
             val appExecutors: AppExecutors,
@@ -41,4 +44,6 @@ constructor(
                     }
 
     }
+
+    fun getAccountSetting() = preferenceHelper.getString(context.getString(R.string.wallet_key))
 }

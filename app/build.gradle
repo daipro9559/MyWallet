@@ -41,11 +41,12 @@ dependencies {
 
     //
     implementation deps.support.app_compat
-    implementation deps.support.v4
+    implementation deps.support.app_v4
     implementation deps.support.recyclerview
     implementation deps.support.cardview
     implementation deps.support.design
     implementation deps.support.preference
+    implementation deps.support.preference_v14
     implementation deps.navigation.fragment_ktx
     implementation deps.room.runtime
     implementation deps.lifecycle.runtime
@@ -82,4 +83,7 @@ dependencies {
     kapt deps.room.compiler
     kapt deps.lifecycle.compiler
 
+}
+repositories {
+    mavenCentral()
 }

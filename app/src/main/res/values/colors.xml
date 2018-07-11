@@ -4,6 +4,7 @@
     <color name="colorPrimary">#788b91</color>
     <color name="colorPrimaryDark">#788b91</color>
     <color name="colorAccent">#469467</color>
+    <color name="colorAccentActivitySetting">#788b91</color>
     <color name="text_color_app">#3d3d3d</color>
     <color name="bg_txt_out">#ff5e5e</color>
     <color name="bg_txt_in">#488f42</color>
@@ -11,4 +12,5 @@
     <color name="tab_title_un_select">#ababab</color>
     <color name="tab_title_select">@android:color/white</color>
     <color name="text_color_hint">#969696</color>
+    <color name="color_icon_setting">#797878</color>
 </resources>
