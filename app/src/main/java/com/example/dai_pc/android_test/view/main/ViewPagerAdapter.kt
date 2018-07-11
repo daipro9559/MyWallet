@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-class ViewPagerAdapter(val fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+class ViewPagerAdapter( fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     private val list :ArrayList<Fragment> = ArrayList()
 
