@@ -22,7 +22,7 @@ abstract class ActivityModule{
     @ContributesAndroidInjector(modules = arrayOf(MainActivityModule::class))
     abstract fun mainActivity():MainActivity
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [CreateTransactionActivityModule::class])
     abstract fun createTransactionActivity():CreateTransactionActivity
 
 

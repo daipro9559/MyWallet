@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-allopen'
 android {
     compileSdkVersion 26
@@ -34,7 +34,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -42,9 +41,11 @@ dependencies {
 
     //
     implementation deps.support.app_compat
+    implementation deps.support.v4
     implementation deps.support.recyclerview
     implementation deps.support.cardview
     implementation deps.support.design
+    implementation deps.support.preference
     implementation deps.navigation.fragment_ktx
     implementation deps.room.runtime
     implementation deps.lifecycle.runtime
@@ -68,6 +69,11 @@ dependencies {
     implementation deps.geth
     implementation deps.rxjava2
     implementation deps.rx_android
+    implementation deps.googlevision
+    implementation deps.QRGen
+    implementation deps.zxing
+    implementation deps.genToCode
+    implementation deps.coroutine
 
 
 
@@ -75,4 +81,5 @@ dependencies {
     kapt deps.dagger.compiler
     kapt deps.room.compiler
     kapt deps.lifecycle.compiler
+
 }

@@ -1,10 +1,6 @@
-package com.example.dai_pc.android_test.view.transactions
+package com.example.dai_pc.android_test.view.main.transactions
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import com.example.dai_pc.android_test.base.BaseViewModel
-import com.example.dai_pc.android_test.entity.NetworkState
-import com.example.dai_pc.android_test.entity.Transaction
 import com.example.dai_pc.android_test.repository.TransactionRepository
 import javax.inject.Inject
 
@@ -15,7 +11,7 @@ constructor(private val transactionRepository: TransactionRepository) :BaseViewM
     get() = transactionRepository.listTransaction
 
     fun getAllTransaction(address:String,startBlock : Int,endBlock :Int){
-        transactionRepository.fetchTransaction(address,startBlock,endBlock){
+         transactionRepository.fetchTransaction(address,startBlock,endBlock){
         }
     }
 

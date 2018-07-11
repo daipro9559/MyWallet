@@ -12,7 +12,10 @@ import android.view.ViewGroup
 import dagger.android.support.AndroidSupportInjection
 import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.ViewModelProvider
+import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 
 abstract class BaseFragment<V:ViewDataBinding> :Fragment(){
@@ -47,8 +50,11 @@ abstract class BaseFragment<V:ViewDataBinding> :Fragment(){
 
     override fun onDestroyView() {
         super.onDestroyView()
+    }
 
 
+    fun startActivity(destinationActivity:Class<out AppCompatActivity>){
+        startActivity(Intent(activity,destinationActivity))
     }
 
 
