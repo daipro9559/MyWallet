@@ -53,7 +53,7 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         networkPreferences.entries = entries
         networkPreferences.entryValues = entryvalues
         networkPreferences.summary = networkRepository.networkProviderSelected.name
-
+        networkPreferences.onPreferenceClickListener = onpPreferenceClick()
     }
 
     fun initDataWallet(){
@@ -79,4 +79,8 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         }
     }
 
+    fun onpPreferenceClick(preferences: SharedPreferences) : Boolean{
+
+        return true
+    }
 }
