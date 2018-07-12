@@ -19,12 +19,12 @@ constructor(val okHttpClient: OkHttpClient,
             private val networkRepository: NetworkRepository)
 {
     init {
-        buidApiService(networkRepository.networkProviderSelected.backendUrl)
+        buidApiService(networkRepository.networkProviderSelected.baseUrl)
     }
     lateinit var etherScanApi: EtherScanApi
     fun buidApiService(urlBase: String) {
         etherScanApi = Retrofit.Builder()
-                .baseUrl("https://api.etherscan.io/")
+                .baseUrl(urlBase)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(Gson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -33,6 +33,6 @@ constructor(val okHttpClient: OkHttpClient,
     }
     fun changeNetwork(id: Int) {
         networkRepository.changeNetworkSelect(id)
-        buidApiService(networkRepository.networkProviderSelected.backendUrl)
+        buidApiService(networkRepository.networkProviderSelected.baseUrl)
     }
 }

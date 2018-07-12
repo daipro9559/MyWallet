@@ -19,11 +19,12 @@ class WalletRepository
 constructor(
         val preferenceHelper: PreferenceHelper,
         val keyStore: KeyStore,
-            val context: Context,
-            val appExecutors: AppExecutors,
-            val accountService: AccountService) {
+        val context: Context,
+        val appExecutors: AppExecutors,
+        val accountService: AccountService) {
     val accountsLiveData = MutableLiveData<List<Account>>()
     val addressCreated = MutableLiveData<String>()
+    val accountSelected = MutableLiveData<String>()
     fun getAllAccount() {
         var accounts = accountService.getAllAccount()
         var list = ArrayList<Account>()
@@ -33,17 +34,23 @@ constructor(
         accountsLiveData.value = list
     }
 
-    fun createAccountFromPassword(pass: String) {
-                    appExecutors.diskIO().execute {
-                        val account = keyStore.newAccount(pass)
-                        appExecutors.mainThread().execute {
-                            addressCreated.value = account.address.hex.toString()
-                           var ethereumClient : EthereumClient
+    init {
+        getAccountSetting()
+    }
 
-                        }
-                    }
+    fun createAccountFromPassword(pass: String) {
+        appExecutors.diskIO().execute {
+            val account = keyStore.newAccount(pass)
+            appExecutors.mainThread().execute {
+                addressCreated.value = account.address.hex.toString()
+                var ethereumClient: EthereumClient
+
+            }
+        }
 
     }
 
-    fun getAccountSetting() = preferenceHelper.getString(context.getString(R.string.wallet_key))
+    fun getAccountSetting() {
+        accountSelected.value = preferenceHelper.getString(context.getString(R.string.wallet_key))
+    }
 }

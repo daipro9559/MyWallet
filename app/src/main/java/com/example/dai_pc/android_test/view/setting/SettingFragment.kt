@@ -14,11 +14,13 @@ import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import dagger.android.support.AndroidSupportInjection
 import jnr.ffi.provider.converters.CharSequenceParameterConverter
 import kotlinx.android.synthetic.main.activity_main.view.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPreferenceChangeListener{
     @Inject lateinit var networkRepository: NetworkRepository
     @Inject lateinit var walletRepository: WalletRepository
+    @Inject lateinit var preferenceHelper: PreferenceHelper
     companion object {
         fun newsInstance() : SettingFragment{
             val bundle = Bundle()
@@ -43,6 +45,14 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         val entries = arrayOfNulls<CharSequence>(listNetWork.size)
         val entryvalues = arrayOfNulls<CharSequence>(listNetWork.size)
         val  networkPreferences = findPreference(context!!.getString(R.string.network_key)) as ListPreference
+        networkPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+            Timber.i(newValue.toString())
+            networkRepository.changeNetworkSelect(newValue.toString().toInt())
+            preferenceHelper.putInt(context!!.getString(R.string.network_key),newValue.toString().toInt())
+            initDataNetwork()
+            true
+        }
+
 
         for (i in 0 until listNetWork.size){
             entries[i] = listNetWork[i].name
@@ -59,24 +69,35 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
     fun initDataWallet(){
         walletRepository.getAllAccount()
         val  walletPreferences= findPreference(context!!.getString(R.string.wallet_key)) as ListPreference
-        val entries = arrayOfNulls<CharSequence>(walletRepository.accountsLiveData!!.value!!.size)
-        for (i in 0 until walletRepository.accountsLiveData!!.value!!.size ){
-            entries[i] = walletRepository.accountsLiveData!!.value!![i].address.hex.toString()
+        val entries = arrayOfNulls<CharSequence>(walletRepository.accountsLiveData.value!!.size)
+        for (i in 0 until walletRepository.accountsLiveData.value!!.size ){
+            entries[i] = walletRepository.accountsLiveData.value!![i].address.hex.toString()
         }
         walletPreferences.setDefaultValue(walletRepository.getAccountSetting())
-        walletPreferences.value = walletRepository.getAccountSetting()
+        walletPreferences.value = walletRepository.accountSelected.value
         walletPreferences.entries = entries
         walletPreferences.entryValues = entries
-        walletPreferences.summary = walletRepository.getAccountSetting()
+        walletPreferences.summary = walletRepository.accountSelected.value
+        walletPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener{_,newValue ->
+            preferenceHelper.putString(context!!.getString(R.string.wallet_key),newValue.toString())
+            walletRepository.getAccountSetting()
+            initDataWallet()
+            true
+        }
 
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         when(p1){
             context!!.getString(R.string.network_key) ->{
-                networkRepository.changeNetworkSelect(p0!!.getInt(p1,1))
+            // need reload wallet content
+            }
+            context!!.getString(R.string.wallet_key) ->{
+                // need reload wallet content
             }
         }
     }
+
+
 
 }
