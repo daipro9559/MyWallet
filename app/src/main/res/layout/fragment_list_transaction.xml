@@ -32,17 +32,15 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.FloatingActionButton
+            style="@style/FloatButton.Style"
             android:id="@+id/floatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:scaleType="center"
             android:src="@drawable/ic_sent_mail"
-            app:backgroundTintMode="screen"
-            app:fabSize="normal"
+            app:backgroundTintMode="src_over"
             app:layout_anchor="@+id/constrainLayout"
             app:layout_anchorGravity="right|bottom"
-            app:useCompatPadding="true"/>
+           />
         <include
             android:id="@+id/layoutLoading"
             layout="@layout/loading_layout"

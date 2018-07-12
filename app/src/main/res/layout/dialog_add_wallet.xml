@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+    </data>
+    <android.support.constraint.ConstraintLayout
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatTextView
+            android:padding="@dimen/_10dp"
+            android:id="@+id/title"
+            android:text="@string/add_wallet"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.LinearLayoutCompat
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/_10dp"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:id="@+id/create_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_add"
+                android:layout_width="@dimen/_20dp"
+                android:layout_height="@dimen/_20dp" />
+            <android.support.v7.widget.AppCompatTextView
+                style="@style/TextAppStyle"
+                android:padding="@dimen/_5dp"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:textSize="@dimen/_19sp"
+                android:text="@string/create_wallet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </android.support.v7.widget.LinearLayoutCompat>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:padding="@dimen/_10dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintTop_toBottomOf="@+id/create_wallet"
+            android:id="@+id/import_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/_20dp"
+                android:src="@drawable/ic_import"
+                android:layout_gravity="center_vertical"
+                android:layout_height="@dimen/_20dp" />
+            <android.support.v7.widget.AppCompatTextView
+                style="@style/TextAppStyle"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:padding="@dimen/_5dp"
+                android:textSize="@dimen/_19sp"
+                android:text="@string/import_wallet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </android.support.v7.widget.LinearLayoutCompat>
+    </android.support.constraint.ConstraintLayout>
+</layout>

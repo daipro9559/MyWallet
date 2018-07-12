@@ -47,7 +47,6 @@ class SendTransactionFragment :BaseFragment<FragmentSendTransactionBinding>(){
 
     fun sendTransaction(){
         var transactionSendedObject = TransactionSendedObject.Builder()
-                .setFrom("0xca41a22df47207ff3b14398f7c98ef8cdbf649ca")
                 .setTo(arguments!!.getString("address_target"))
                 .setAmount(BalanceUltil.baseToSubunit(viewDataBinding.amount.text.toString(), 18))// 18 is Ether_decimals
                 .setGasPrice(BigInteger.valueOf(1000000000L))

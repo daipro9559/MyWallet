@@ -10,8 +10,8 @@ constructor(private val transactionRepository: TransactionRepository) :BaseViewM
     val listTransactionLiveData
     get() = transactionRepository.listTransaction
 
-    fun getAllTransaction(address:String,startBlock : Int,endBlock :Int){
-         transactionRepository.fetchTransaction(address,startBlock,endBlock){
+    fun getAllTransaction(startBlock : Int,endBlock :Int){
+         transactionRepository.fetchTransaction(startBlock,endBlock){
         }
     }
 

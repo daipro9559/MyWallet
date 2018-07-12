@@ -9,10 +9,14 @@ import javax.inject.Inject
 class MainViewModel
 @Inject
 constructor(private val balanceRepository: BalanceRepository) : BaseViewModel() {
-    var balanceLiveData = MutableLiveData<BigInteger>()
-        get() = balanceRepository.balance
+    lateinit var balanceLiveData : MutableLiveData<BigInteger>
 
-    fun fetchBalance(address:String){
-        balanceRepository.fetchBalance(address)
+
+    fun fetchBalance(){
+        balanceLiveData = balanceRepository.fetchBalance()
+    }
+
+    fun reloadContent(){
+        balanceRepository.changeNetwork()
     }
 }
