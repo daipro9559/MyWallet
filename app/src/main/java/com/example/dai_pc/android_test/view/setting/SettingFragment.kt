@@ -2,18 +2,14 @@ package com.example.dai_pc.android_test.view.setting
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.preference.PreferenceScreen
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.repository.NetworkRepository
 import com.example.dai_pc.android_test.repository.WalletRepository
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import dagger.android.support.AndroidSupportInjection
-import jnr.ffi.provider.converters.CharSequenceParameterConverter
-import kotlinx.android.synthetic.main.activity_main.view.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -72,14 +68,14 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         for (i in 0 until walletRepository.accountsLiveData.value!!.size ){
             entries[i] = walletRepository.accountsLiveData.value!![i].address.hex.toString()
         }
-        walletPreferences.setDefaultValue(walletRepository.getAccountSetting())
+        walletPreferences.setDefaultValue(walletRepository.initAccountSelect())
         walletPreferences.value = walletRepository.accountSelected.value
         walletPreferences.entries = entries
         walletPreferences.entryValues = entries
         walletPreferences.summary = walletRepository.accountSelected.value
         walletPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener{_,newValue ->
             preferenceHelper.putString(context!!.getString(R.string.wallet_key),newValue.toString())
-            walletRepository.getAccountSetting()
+            walletRepository.initAccountSelect()
             initDataWallet()
             true
         }

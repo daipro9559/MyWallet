@@ -30,5 +30,11 @@
     <string name="cancel">Cancel</string>
     <string name="no_input_password">Please input password</string>
     <string name="create">Create</string>
+    <string name="create_completed">Create completed</string>
+    <string name="export_wallet">Export Wallet</string>
+    <string name="export">Export</string>
+    <string name="hint_pass_export">Password export</string>
+    <string name="keystore">Keystore</string>
+    <string name="password">Password</string>
 </resources>
 

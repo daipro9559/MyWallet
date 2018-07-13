@@ -33,6 +33,7 @@
             android:theme="@style/ActivitySetting">
 
         </activity>
+        <activity android:name=".view.import.ImportWalletActivity"/>
     </application>
 
 </manifest>

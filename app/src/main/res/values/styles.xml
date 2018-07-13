@@ -73,8 +73,9 @@
         <item name="fabSize">normal</item>
     </style>
 
-    <style name="DialogApp">
+    <style name="DialogApp" parent="@style/AlertDialog.AppCompat.Light">
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsFloating">true</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
     </style>
     <style name="BottomDialog" parent="Theme.Design.Light.BottomSheetDialog">

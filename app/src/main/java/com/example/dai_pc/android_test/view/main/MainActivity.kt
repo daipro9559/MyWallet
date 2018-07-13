@@ -52,17 +52,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
-        viewPagerAdapter.addFragment(ListAccountFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
         viewDataBinding.contentMain.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
         setupTablayout()
+        (viewPagerAdapter.getItem(1) as MyAddressFragment).callback = {
+            reloadContent()
+        }
     }
 
     private fun setupTablayout() {
         viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
         viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
-        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
+//        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

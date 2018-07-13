@@ -1,24 +1,17 @@
 package com.example.dai_pc.android_test.di
 
 import android.app.Application
-import android.arch.persistence.room.Room
 import android.content.Context
-import com.android.example.github.util.LiveDataCallAdapterFactory
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.service.AccountService
 import com.example.dai_pc.android_test.service.AccountServiceImp
-import dagger.Binds
 //import com.example.dai_pc.android_test.database.AppDatabase
 import dagger.Module
 import dagger.Provides
-import okhttp3.Cache
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.ethereum.geth.Geth
 import org.ethereum.geth.KeyStore
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -47,14 +40,14 @@ class AppModule {
     fun okHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor())
-                .readTimeout(10,TimeUnit.SECONDS)
-                .connectTimeout(10,TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .build()
     }
 
     @Singleton
     @Provides
-    fun serviceAccount(accountServiceImp: AccountServiceImp): AccountService{
+    fun serviceAccount(accountServiceImp: AccountServiceImp): AccountService {
         return accountServiceImp
     }
 

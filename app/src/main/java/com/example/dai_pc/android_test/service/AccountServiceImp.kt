@@ -5,29 +5,31 @@ import android.os.Build
 import com.example.dai_pc.android_test.ultil.KS
 import com.example.dai_pc.android_test.ultil.PasswordManager
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import org.ethereum.geth.*
 import org.web3j.crypto.Keys
 import org.web3j.crypto.Wallet
 import org.web3j.crypto.WalletFile
 import java.math.BigInteger
+import java.nio.charset.Charset
 import javax.inject.Inject
 
 class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountService {
 
-    override fun savePassword(context: Context,address: String, password: String):Completable {
-        return Completable.fromCallable{
+
+
+    override fun savePassword(context: Context, address: String, password: String) {
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                KS.put(context, address,password)
+                KS.put(context, address, password)
             } else {
                 try {
-                    PasswordManager.setPassword(address, password,context)
-                }
-                catch (e:Exception){
+                    PasswordManager.setPassword(address, password, context)
+                } catch (e: Exception) {
 
                 }
             }
-        }
     }
 
     override fun getPassword(context: Context, address: String): Single<String> {
@@ -61,9 +63,8 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountSer
             keyStore.lock(account!!.address)
             signed.encodeRLP()
         }
-
-
     }
+
 
     override fun getAllAccount(): Accounts {
         val acc = keyStore.accounts
@@ -74,7 +75,7 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountSer
     override fun generateAccount(password: String, privateKey: String?): Single<WalletFile> {
         return Single.fromCallable {
             val key = Keys.createEcKeyPair()
-            return@fromCallable Wallet.createStandard(password, key)
+            Wallet.createStandard(password, key)
         }
 
     }
@@ -88,4 +89,18 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountSer
         }
         return null
     }
+
+    override fun importByKeyStore(keyStoreInput: String, oldPassword: String, newPassword: String): Single<Account> {
+        return Single.fromCallable {
+            keyStore.importKey(keyStoreInput.toByteArray(Charset.forName("UTF-8")), oldPassword, newPassword)
+        }
+    }
+    override fun exportWallet(address: String,password: String,passwordExport: String): Flowable<String> {
+        return Flowable.fromCallable {
+            val account = findAccount(address)
+            String(keyStore.exportKey(account,password,passwordExport))
+        }
+    }
+
+
 }
