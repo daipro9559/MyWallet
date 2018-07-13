@@ -82,18 +82,19 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
     }
 
     fun clickAddAddress() {
-        val viewDialog = LayoutInflater.from(context).inflate(R.layout.dialog_add_wallet, null)
+        val viewDialog = activity!!.layoutInflater.inflate(R.layout.dialog_add_wallet, null)
         dialog = BottomSheetDialog(context!!,R.style.BottomDialog)
-        val createWallet = viewDialog.findViewById(R.id.create_wallet) as LinearLayoutCompat
-        createWallet.setOnClickListener {
-            buildDialogCreateWallet()
-        }
-        val importWallet = viewDialog.findViewById(R.id.create_wallet) as LinearLayoutCompat
-        importWallet.setOnClickListener {
-        }
         dialog.setCancelable(true)
         dialog.setCanceledOnTouchOutside(true)
         dialog.setContentView(viewDialog)
+        val createWallet = dialog.findViewById<LinearLayoutCompat>(R.id.create_wallet)
+        createWallet!!.setOnClickListener {
+            buildDialogCreateWallet()
+        }
+        val importWallet = dialog.findViewById<LinearLayoutCompat>(R.id.create_wallet)
+        importWallet!!.setOnClickListener {
+        }
+
         dialog.show()
     }
 
