@@ -1,8 +1,11 @@
 package com.example.dai_pc.android_test.view.main
 
+import android.app.FragmentTransaction
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
@@ -18,7 +21,9 @@ import com.example.dai_pc.android_test.view.setting.SettingActivity
 import java.math.BigDecimal
 
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
+    // check whe  change network or address
+    private var isNeedReload :Boolean = false
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -27,17 +32,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var mainViewModel: MainViewModel
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this)
         setSupportActionBar(viewDataBinding.toolBar)
         viewDataBinding.toolBar.title = "My Wallet"
         initView()
-        mainViewModel = ViewModelProviders.of(this,viewModelFactory)[MainViewModel::class.java]
-        mainViewModel.fetchBalance("0x312B416Af3159592bCae852278b17ced92f2d7dD")
+        mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
+        mainViewModel.fetchBalance()
         mainViewModel.balanceLiveData.observe(this, Observer {
-            val data = BigDecimal(it,18)
-            viewDataBinding.ether.text  = data.toFloat().toString()
+            it!!.t?.let {
+                val data = BigDecimal(it, 18)
+                viewDataBinding.ether.text = data.toFloat().toString()
+            }
         })
     }
 
@@ -51,21 +58,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
         setupTablayout()
     }
-    private fun setupTablayout(){
+
+    private fun setupTablayout() {
         viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
         viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
         viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item!!.itemId){
+        when (item!!.itemId) {
             R.id.setting -> {
-                startActivity(Intent(this,SettingActivity::class.java))
+                startActivity(Intent(this, SettingActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isNeedReload){
+            reloadContent()
+            isNeedReload = false
+        }
+    }
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
     }
@@ -75,9 +90,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu,menu)
+        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        when (p1) {
+            getString(R.string.network_key) -> {
+                isNeedReload = true
+            }
+            getString(R.string.wallet_key) -> {
+                isNeedReload = true
+            }
+        }
+    }
 
+    fun reloadContent() {
+        mainViewModel.reloadContent()
+        mainViewModel.fetchBalance()
+        val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
+        fragmentTransaction?.let {
+            it.resfresh()
+        }
+        val fragmentMyAddress= viewPagerAdapter.getItem(1) as MyAddressFragment
+        fragmentMyAddress?.let {
+            it.refresh()
+        }
+    }
 }

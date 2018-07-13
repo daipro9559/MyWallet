@@ -3,8 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data></data>
-
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/view_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constrainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -14,6 +21,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_10dp" />
         <android.support.v7.widget.AppCompatTextView
+            android:textIsSelectable="true"
             android:padding="@dimen/_10dp"
             android:id="@+id/txtAddress"
             style="@style/TextAppStyle"
@@ -25,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_copy"
             style="@style/ButtonApp"
             android:background="@color/colorPrimary"
             android:text="@string/copy_to_clipboard"
@@ -35,4 +44,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
+        <android.support.design.widget.FloatingActionButton
+            style="@style/FloatButton.Style"
+            android:id="@+id/floatButton_add"
+            app:layout_anchor="@+id/view_root"
+            android:src="@drawable/ic_plus"
+            app:backgroundTintMode="src_over"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_anchorGravity="bottom|right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

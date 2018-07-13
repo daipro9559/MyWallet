@@ -13,6 +13,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_setting.*
 import javax.inject.Inject
 
+
 class SettingActivity :AppCompatActivity(),HasSupportFragmentInjector {
     @Inject
     lateinit var dispatchingFragment: DispatchingAndroidInjector<Fragment>

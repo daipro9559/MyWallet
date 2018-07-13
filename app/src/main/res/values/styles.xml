@@ -66,4 +66,24 @@
         <item name ="android:windowBackground" >@drawable/splash_screen</item>
     </style>
 
+    <style name="FloatButton.Style" parent="Widget.Design.FloatingActionButton">
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:scaleType">center</item>
+        <item name="useCompatPadding">true</item>
+        <item name="fabSize">normal</item>
+    </style>
+
+    <style name="DialogApp">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
+    </style>
+    <style name="BottomDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>

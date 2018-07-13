@@ -23,5 +23,12 @@
     <!--key setting preference -->\
     <string name="wallet_key">wallet_key</string>
     <string name="network_key">network_key</string>
+    <string name="create_wallet">Create new wallet</string>
+    <string name="import_wallet">Import wallet</string>
+    <string name="add_wallet">Add wallet</string>
+    <string name="input_pass">password wallet</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_input_password">Please input password</string>
+    <string name="create">Create</string>
 </resources>
 

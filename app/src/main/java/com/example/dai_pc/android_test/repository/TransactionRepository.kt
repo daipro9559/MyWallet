@@ -36,27 +36,36 @@ class TransactionRepository
 constructor(
         private val networkRepository: NetworkRepository,
         private val serviceProvider: ServiceProvider,
-        private val accountService: AccountService
+        private val accountService: AccountService,
+        private val walletRepository: WalletRepository
 ) {
-    val listTransaction = MutableLiveData<Resource<List<Transaction>>>()
 
-    fun fetchTransaction(address: String, startBlock: Int, endBlock: Int, callback: (NetworkState) -> Unit) :LiveData<Resource<List<Transaction>>>{
+
+    fun fetchTransaction(startBlock: Int, endBlock: Int, callback: (NetworkState) -> Unit) :LiveData<Resource<List<Transaction>>>{
+        val listTransaction = MutableLiveData<Resource<List<Transaction>>>()
         listTransaction.value =  loading()
-        serviceProvider.etherScanApi.fetchTransaction("account", "txlist", address, startBlock, endBlock, "desc", Constant.API_KEY_ETHEREUM)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    callback(NetworkState.SUCCESS)
-                    listTransaction.value = success(it.result)
-                }) {
-                    when (it) {
-                        is UnknownHostException -> callback(NetworkState.BAD_URL)
-                        is SocketTimeoutException -> callback(NetworkState.TIME_OUT)
-                        is IOException -> callback(NetworkState.NO_CONENCTION)
-                        else -> callback(NetworkState.UNKNOWN)
+        walletRepository.accountSelected.value?.let {
+            serviceProvider.etherScanApi.fetchTransaction("account", "txlist", walletRepository.accountSelected.value!!, startBlock, endBlock, "desc", Constant.API_KEY_ETHEREUM)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        callback(NetworkState.SUCCESS)
+                        listTransaction.value = success(it.result)
+                    }) {
+                        listTransaction.value = error(it.message!!)
+                        when (it) {
+                            is UnknownHostException -> callback(NetworkState.BAD_URL)
+                            is SocketTimeoutException -> callback(NetworkState.TIME_OUT)
+                            is IOException -> callback(NetworkState.NO_CONENCTION)
+                            else -> callback(NetworkState.UNKNOWN)
 
+                        }
                     }
-                }
+        }
+        if (walletRepository.accountSelected.value ==null){
+            listTransaction.value = error("No Account")
+        }
+
         return listTransaction
     }
 
@@ -75,10 +84,10 @@ constructor(
 
         var web3j = Web3jFactory.build(HttpService(networkRepository.networkProviderSelected.rpcServerUrl))
         val singleData = Single.fromCallable {
-            web3j.ethGetTransactionCount(transactionSendedObject.from, DefaultBlockParameterName.LATEST).send()
+            web3j.ethGetTransactionCount(walletRepository.accountSelected.value, DefaultBlockParameterName.LATEST).send()
                     .transactionCount
         }.flatMap { t ->
-            accountService.signTransaction(transactionSendedObject.from!!,
+            accountService.signTransaction(walletRepository.accountSelected.value!!,
                     pass,
                     transactionSendedObject.to!!,
                     transactionSendedObject.amount!!,

@@ -3,6 +3,7 @@ package com.example.dai_pc.android_test.view.main.transactions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentListTransactionBinding
@@ -35,6 +36,8 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         super.onActivityCreated(savedInstanceState)
         initView()
         listTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(ListTransactionViewModel::class.java)
+
+        listTransactionViewModel.getAllTransaction(0,99999999)
         listTransactionViewModel.listTransactionLiveData.observe(this, Observer {
             viewDataBinding.resource = it
             viewDataBinding.layoutLoading.txtDescription.text = "Loading list transaction"
@@ -47,9 +50,11 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
                     return@Observer
                 }
             }
+            it.messError?.let {
+                Toast.makeText(context,it,Toast.LENGTH_LONG).show()
+            }
 
         })
-        listTransactionViewModel.getAllTransaction("0x6480600bad47cB4D2d1E827592e199886Fd5fb3a",0,99999999)
         viewDataBinding.floatButton.setOnClickListener {
             startActivity(CreateTransactionActivity::class.java)
         }
@@ -62,6 +67,11 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         val adapter = TransactionAdapter()
         adapter.addressMain = "0x6480600bad47cB4D2d1E827592e199886Fd5fb3a"
         viewDataBinding.recycleView.adapter = adapter
+
+    }
+
+    fun resfresh(){
+        listTransactionViewModel.getAllTransaction(0,99999999)
 
     }
 }
