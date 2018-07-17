@@ -60,11 +60,13 @@
         </android.support.v4.widget.NestedScrollView>
         <android.support.design.widget.FloatingActionButton
             style="@style/FloatButton.Style"
+            app:elevation="@dimen/_10dp"
+            android:elevation="@dimen/_10dp"
             app:backgroundTint="@color/colorPrimary"
             android:id="@+id/floatButton_add"
             app:layout_anchor="@+id/view_root"
-            android:src="@drawable/ic_plus"
-            app:borderWidth="0dp"
+            android:src="@drawable/ic_add"
+            app:borderWidth="@dimen/_1dp"
             app:backgroundTintMode="src_over"
             app:layout_anchorGravity="bottom|right"
             android:layout_width="wrap_content"

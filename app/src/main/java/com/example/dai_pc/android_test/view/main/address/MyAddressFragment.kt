@@ -13,7 +13,10 @@ import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.AppCompatEditText
 import android.support.v7.widget.LinearLayoutCompat
+import android.text.InputType
+import android.text.method.HideReturnsTransformationMethod
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
@@ -90,13 +93,12 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         return null
     }
 
-    fun clickAddAddress() {
+    private fun clickAddAddress() {
         val bottomSheetFragment = BottomSheetFragment()
         bottomSheetFragment.callback = {
             if (it.id == R.id.create_wallet) {
                 fragmentManager!!.beginTransaction().remove(fragmentManager!!.findFragmentByTag("bottom_sheet")).commit()
                 buildDialogCreateWallet()
-
             } else {
 
             }
@@ -104,7 +106,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         fragmentManager!!.beginTransaction().add(bottomSheetFragment, "bottom_sheet").disallowAddToBackStack().commit()
     }
 
-    fun buildDialogCreateWallet() {
+    private fun buildDialogCreateWallet() {
         var alertDialog: AlertDialog? = null
         val builder = AlertDialog.Builder(activity!!)
                 .setTitle(R.string.create_wallet)
@@ -156,9 +158,11 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
 
     }
 
-    fun createDialogExport() {
+    private fun createDialogExport() {
         val edtPass = AppCompatEditText(context!!)
         edtPass.hint = context!!.getString(R.string.hint_pass_export)
+        edtPass.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+        edtPass.transformationMethod = HideReturnsTransformationMethod.getInstance()
         edtPass.layoutParams = (LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT))
         val builder = AlertDialog.Builder(activity!!)
                 .setTitle(R.string.export_wallet)

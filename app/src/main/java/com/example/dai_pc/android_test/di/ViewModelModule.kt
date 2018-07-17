@@ -3,6 +3,7 @@ package com.example.dai_pc.android_test.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.example.dai_pc.android_test.base.MyViewModelFactory
+import com.example.dai_pc.android_test.view.import.ImportWalletViewModel
 import com.example.dai_pc.android_test.view.main.MainViewModel
 import com.example.dai_pc.android_test.view.main.address.MyAddressViewModel
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionViewModel
@@ -36,6 +37,11 @@ abstract class ViewModelModule{
     @IntoMap
     @ViewModelKey(MyAddressViewModel::class)
     abstract fun myAddresViewModel(myAddressViewModel: MyAddressViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ImportWalletViewModel::class)
+    abstract fun importWalletViewModel(importWalletViewModel: ImportWalletViewModel): ViewModel
 
     @Binds
     abstract fun viewModelFactory (myViewModelFactory: MyViewModelFactory): ViewModelProvider.Factory

@@ -14,7 +14,6 @@ import android.view.MenuItem
 import android.content.res.Configuration
 import android.view.Menu
 import com.example.dai_pc.android_test.base.Constant
-import com.example.dai_pc.android_test.view.account.ListAccountFragment
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.setting.SettingActivity
@@ -53,7 +52,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
-        viewDataBinding.contentMain.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
+        viewDataBinding.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
         setupTablayout()
         (viewPagerAdapter.getItem(1) as MyAddressFragment).callback = {
@@ -62,8 +61,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
 
     private fun setupTablayout() {
-        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
-        viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
+        viewDataBinding.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
+//        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.icon = getDrawable(R.drawable.ic_transaction)
+        viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
 //        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
     }
 

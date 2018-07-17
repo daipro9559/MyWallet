@@ -9,7 +9,6 @@
         <variable
             name="resource"
             type="com.example.dai_pc.android_test.entity.Resource"/>
-
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -32,15 +31,19 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.FloatingActionButton
+            app:elevation="@dimen/_10dp"
+            android:elevation="@dimen/_10dp"
             style="@style/FloatButton.Style"
+            app:borderWidth="@dimen/_1dp"
             android:id="@+id/floatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_sent_mail"
+            android:src="@drawable/ic_send"
             app:backgroundTintMode="src_over"
             app:layout_anchor="@+id/constrainLayout"
             app:layout_anchorGravity="right|bottom"
-           />
+            app:backgroundTint="@color/colorPrimary"
+            />
         <include
             android:id="@+id/layoutLoading"
             layout="@layout/loading_layout"
