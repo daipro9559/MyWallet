@@ -16,13 +16,13 @@ import android.support.v7.widget.LinearLayoutCompat
 import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentMyAddressBinding
 import com.example.dai_pc.android_test.repository.WalletRepository
 import com.example.dai_pc.android_test.ultil.Callback
+import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.journeyapps.barcodescanner.BarcodeEncoder
@@ -100,7 +100,8 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
                 fragmentManager!!.beginTransaction().remove(fragmentManager!!.findFragmentByTag("bottom_sheet")).commit()
                 buildDialogCreateWallet()
             } else {
-
+                fragmentManager!!.beginTransaction().remove(fragmentManager!!.findFragmentByTag("bottom_sheet")).commit()
+                startActivity(Intent(activity!!,ImportWalletActivity::class.java))
             }
         }
         fragmentManager!!.beginTransaction().add(bottomSheetFragment, "bottom_sheet").disallowAddToBackStack().commit()
@@ -159,20 +160,17 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
     }
 
     private fun createDialogExport() {
-        val edtPass = AppCompatEditText(context!!)
-        edtPass.hint = context!!.getString(R.string.hint_pass_export)
-        edtPass.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
-        edtPass.transformationMethod = HideReturnsTransformationMethod.getInstance()
-        edtPass.layoutParams = (LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT, LinearLayoutCompat.LayoutParams.MATCH_PARENT))
+        val view = layoutInflater.inflate(R.layout.dialog_create_wallet,null)
+        val textInputEditText = view.findViewById<TextInputEditText>(R.id.edt_pass)
         val builder = AlertDialog.Builder(activity!!)
                 .setTitle(R.string.export_wallet)
-                .setView(edtPass)
+                .setView(view)
                 .setNegativeButton(R.string.cancel) { dialogInterface, _ ->
                     dialogInterface.cancel()
                     dialogInterface.dismiss()
                 }
                 .setPositiveButton(R.string.export) { _, i ->
-                    myAddressViewModel.export(edtPass.text.toString().trim())
+                    myAddressViewModel.export(textInputEditText.text.toString().trim())
                     myAddressViewModel.liveDataExport.observe(this, Observer {
                         openShareDialog(it!!)
                     })

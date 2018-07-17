@@ -1,6 +1,5 @@
 package com.example.dai_pc.android_test.view.main
 
-import android.app.FragmentTransaction
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -100,23 +99,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         when (p1) {
             getString(R.string.network_key) -> {
                 isNeedReload = true
+                changeNetwork(p0!!.getInt(getString(R.string.network_key),1))
             }
             getString(R.string.wallet_key) -> {
                 isNeedReload = true
+                changeWallet(p0!!.getString(getString(R.string.wallet_key),""))
             }
         }
     }
 
-    fun reloadContent() {
-        mainViewModel.reloadContent()
+    private fun reloadContent() {
         mainViewModel.fetchBalance()
         val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
         fragmentTransaction?.let {
-            it.resfresh()
+            it.resfresh(true)
         }
         val fragmentMyAddress= viewPagerAdapter.getItem(1) as MyAddressFragment
         fragmentMyAddress?.let {
             it.refresh()
+        }
+    }
+    private fun changeNetwork(id: Int){
+        mainViewModel.changeNetwork(id)
+    }
+
+    private fun changeWallet(address:String){
+        mainViewModel.changeAddress()
+        val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
+        fragmentTransaction?.let {
+            it.changeAddress(address)
         }
     }
 }

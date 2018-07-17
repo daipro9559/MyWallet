@@ -32,9 +32,9 @@ constructor(
 ) {
 
 
-    fun fetchTransaction(startBlock: Int, endBlock: Int, callback: (NetworkState) -> Unit) :LiveData<Resource<List<Transaction>>>{
+    fun fetchTransaction(startBlock: Int, endBlock: Int, isShowLoading: Boolean, callback: (NetworkState) -> Unit): LiveData<Resource<List<Transaction>>> {
         val listTransaction = MutableLiveData<Resource<List<Transaction>>>()
-        listTransaction.value =  loading()
+        listTransaction.value = loading()
         walletRepository.accountSelected.value?.let {
             serviceProvider.etherScanApi.fetchTransaction("account", "txlist", walletRepository.accountSelected.value!!, startBlock, endBlock, "desc", Constant.API_KEY_ETHEREUM)
                     .subscribeOn(Schedulers.io())
@@ -53,7 +53,7 @@ constructor(
                         }
                     }
         }
-        if (walletRepository.accountSelected.value ==null){
+        if (walletRepository.accountSelected.value == null) {
             listTransaction.value = error("No Account")
         }
 
@@ -62,51 +62,59 @@ constructor(
 
     fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<String> {
         val liveData = MutableLiveData<String>()
-        accountService.getPassword(context,walletRepository.accountSelected.value!!)
-                 .subscribeOn(Schedulers.computation())
-                 .observeOn(AndroidSchedulers.mainThread())
-                 .subscribe({
-                     val value = BigInt(0)
-                     value.setString(transactionSendedObject.amount.toString(), 10)
-                     val gasPriceBI = BigInt(0)
-                     gasPriceBI.setString(transactionSendedObject.gasPrice.toString(), 10)
-                     val gasLimitBI = BigInt(0)
-                     gasLimitBI.setString(transactionSendedObject.gasLimit.toString(), 10)
-                     var web3j = Web3jFactory.build(HttpService(networkRepository.networkProviderSelected.rpcServerUrl))
-                     val singleData = Single.fromCallable {
-                         web3j.ethGetTransactionCount(walletRepository.accountSelected.value, DefaultBlockParameterName.LATEST).send()
-                                 .transactionCount
-                     }.flatMap { t ->
-                         accountService.signTransaction(walletRepository.accountSelected.value!!,
-                                 it,
-                                 transactionSendedObject.to!!,
-                                 transactionSendedObject.amount!!,
-                                 transactionSendedObject.gasPrice!!,
-                                 transactionSendedObject.gasLimit!!,
-                                 t.toLong(),
-                                 data,
-                                 networkRepository.networkProviderSelected.ChanId.toLong())
-                     }.flatMap { singleMessage ->
-                         Single.fromCallable {
-                             val hextString = Numeric.toHexString(singleMessage)
-                             val raw = web3j.ethSendRawTransaction(hextString).send()
-                             if (raw.hasError()) {
-                                 raw.error.message
-                             } else {
-                                 raw.transactionHash
-                             }
-                         }
-                     }
-                     singleData.observeOn(AndroidSchedulers.mainThread())
-                             .subscribeOn(Schedulers.io())
-                             .subscribe({
-                                 liveData.value = it
-                             }, {
+        accountService.getPassword(context, walletRepository.accountSelected.value!!)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val value = BigInt(0)
+                    value.setString(transactionSendedObject.amount.toString(), 10)
+                    val gasPriceBI = BigInt(0)
+                    gasPriceBI.setString(transactionSendedObject.gasPrice.toString(), 10)
+                    val gasLimitBI = BigInt(0)
+                    gasLimitBI.setString(transactionSendedObject.gasLimit.toString(), 10)
+                    var web3j = Web3jFactory.build(HttpService(networkRepository.networkProviderSelected.rpcServerUrl))
+                    val singleData = Single.fromCallable {
+                        web3j.ethGetTransactionCount(walletRepository.accountSelected.value, DefaultBlockParameterName.LATEST).send()
+                                .transactionCount
+                    }.flatMap { t ->
+                        accountService.signTransaction(walletRepository.accountSelected.value!!,
+                                it,
+                                transactionSendedObject.to!!,
+                                transactionSendedObject.amount!!,
+                                transactionSendedObject.gasPrice!!,
+                                transactionSendedObject.gasLimit!!,
+                                t.toLong(),
+                                data,
+                                networkRepository.networkProviderSelected.ChanId.toLong())
+                    }.flatMap { singleMessage ->
+                        Single.fromCallable {
+                            val hextString = Numeric.toHexString(singleMessage)
+                            val raw = web3j.ethSendRawTransaction(hextString).send()
+                            if (raw.hasError()) {
+                                raw.error.message
+                            } else {
+                                raw.transactionHash
+                            }
+                        }
+                    }
+                    singleData.observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({
+                                liveData.value = it
+                            }, {
 
-                             })
-                 },{})
+                            })
+                }, {})
         return liveData
 
+    }
+
+    fun changeNetwork(id: Int) {
+        networkRepository.changeNetworkSelect(id)
+    }
+
+    fun changeAddress() {
+        walletRepository.initAccountSelect()
     }
 
 

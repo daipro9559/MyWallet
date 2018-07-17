@@ -42,8 +42,8 @@ constructor(private val preferenceHelper: PreferenceHelper,
        return balance
     }
 
-    fun changeNetwork(){
-        serviceProvider.changeNetwork(preferenceHelper.getInt("network_key",1))
+    fun changeNetwork(id :Int){
+        serviceProvider.changeNetwork(id)
     }
 
 }

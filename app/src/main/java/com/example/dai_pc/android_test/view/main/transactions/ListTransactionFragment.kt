@@ -36,8 +36,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         super.onActivityCreated(savedInstanceState)
         initView()
         listTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(ListTransactionViewModel::class.java)
-
-        listTransactionViewModel.getAllTransaction(0,99999999)
+        listTransactionViewModel.getAllTransaction(0,99999999,true)
         listTransactionViewModel.listTransactionLiveData.observe(this, Observer {
             viewDataBinding.resource = it
             viewDataBinding.layoutLoading.txtDescription.text = "Loading list transaction"
@@ -53,10 +52,15 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
             it.messError?.let {
                 Toast.makeText(context,it,Toast.LENGTH_LONG).show()
             }
+            if (viewDataBinding.refresh.isRefreshing) viewDataBinding.refresh.isRefreshing = false
 
         })
         viewDataBinding.floatButton.setOnClickListener {
             startActivity(CreateTransactionActivity::class.java)
+        }
+
+        viewDataBinding.refresh.setOnRefreshListener {
+            resfresh(false)
         }
     }
     override fun onDestroy() {
@@ -65,13 +69,23 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
 
     private fun  initView(){
         val adapter = TransactionAdapter()
-        adapter.addressMain = "0x6480600bad47cB4D2d1E827592e199886Fd5fb3a"
+        adapter.addressMain = "0x9d60B3DE126D0cb84721956Be9AE4838BFA01211"
         viewDataBinding.recycleView.adapter = adapter
 
     }
 
-    fun resfresh(){
-        listTransactionViewModel.getAllTransaction(0,99999999)
+    fun resfresh(isShowLoading:Boolean){
+        listTransactionViewModel.getAllTransaction(0,99999999,isShowLoading)
+    }
 
+//    fun changeNetwork(id:Int){
+//        transactionRepository.changeNetwork(id)
+//
+//    }
+    fun changeAddress(address: String){
+        val adapter = viewDataBinding.recycleView.adapter as TransactionAdapter
+        adapter?.let{
+            adapter.addressMain = address
+        }
     }
 }

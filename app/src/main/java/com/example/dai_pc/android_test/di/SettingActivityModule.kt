@@ -6,8 +6,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class SettingActivityModule {
+
     @ContributesAndroidInjector
     abstract fun settingFragment():SettingFragment
-
-
 }

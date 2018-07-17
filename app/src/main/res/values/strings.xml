@@ -36,5 +36,11 @@
     <string name="hint_pass_export">Password export</string>
     <string name="keystore">Keystore</string>
     <string name="password">Password</string>
+    <string name="password_restore">Password restore</string>
+    <string name="not_empty">Must not be empty!</string>
+    <string name="import_completed">Import wallet completed!</string>
+    <string name="select_wallet_just_imported">Do you want select wallet just has imported?</string>
+    <string name="yes">Yes</string>
+    <string name="password_export">Password  Export</string>
 </resources>
 

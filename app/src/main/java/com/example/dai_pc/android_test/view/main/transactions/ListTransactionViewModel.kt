@@ -1,6 +1,5 @@
 package com.example.dai_pc.android_test.view.main.transactions
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.dai_pc.android_test.base.BaseViewModel
 import com.example.dai_pc.android_test.entity.Resource
@@ -11,11 +10,20 @@ import javax.inject.Inject
 class ListTransactionViewModel
 @Inject
 constructor(private val transactionRepository: TransactionRepository) : BaseViewModel() {
-    lateinit var listTransactionLiveData: LiveData<Resource<List<Transaction>>>
+     val listTransactionLiveData =  MutableLiveData<Resource<List<Transaction>>>()
 
-    fun getAllTransaction(startBlock: Int, endBlock: Int) {
-        listTransactionLiveData = transactionRepository.fetchTransaction(startBlock, endBlock) {
+    fun getAllTransaction(startBlock: Int, endBlock: Int,isShowLoading:Boolean) {
+       transactionRepository.fetchTransaction(startBlock, endBlock,isShowLoading) {
+       }.observeForever {
+           listTransactionLiveData.value = it
+       }
+    }
 
-        }
+    fun changeAddress() {
+        transactionRepository.changeAddress()
+    }
+
+    fun changeNetwork(id: Int) {
+        transactionRepository.changeNetwork(id)
     }
 }

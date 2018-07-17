@@ -43,7 +43,7 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         val  networkPreferences = findPreference(context!!.getString(R.string.network_key)) as ListPreference
         networkPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
             Timber.i(newValue.toString())
-            networkRepository.changeNetworkSelect(newValue.toString().toInt())
+//            networkRepository.changeNetworkSelect(newValue.toString().toInt())
             preferenceHelper.putInt(context!!.getString(R.string.network_key),newValue.toString().toInt())
             initDataNetwork()
             true

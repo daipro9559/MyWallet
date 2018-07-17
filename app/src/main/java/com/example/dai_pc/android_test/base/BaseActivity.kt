@@ -11,6 +11,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.example.dai_pc.android_test.R
 import dagger.android.AndroidInjection
@@ -30,6 +31,7 @@ abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity(), HasSuppo
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        if (hasToolbar()) setSupportActionBar(findViewById(R.id.tool_bar))
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
 
     }
@@ -67,4 +69,8 @@ abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity(), HasSuppo
 
         return super.onOptionsItemSelected(item)
     }
+
+    fun hasToolbar() = findViewById<Toolbar>(R.id.toolBar) != null
+
+    fun findToolbar() = findViewById<Toolbar>(R.id.toolBar)
 }

@@ -3,6 +3,7 @@ package com.example.dai_pc.android_test.repository
 import android.content.Context
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.di.AppScope
 import com.example.dai_pc.android_test.entity.NetworkProvider
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import javax.inject.Inject

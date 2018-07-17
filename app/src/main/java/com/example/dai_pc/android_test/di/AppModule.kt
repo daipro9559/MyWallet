@@ -3,8 +3,10 @@ package com.example.dai_pc.android_test.di
 import android.app.Application
 import android.content.Context
 import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.repository.NetworkRepository
 import com.example.dai_pc.android_test.service.AccountService
 import com.example.dai_pc.android_test.service.AccountServiceImp
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
 //import com.example.dai_pc.android_test.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -50,6 +52,12 @@ class AppModule {
     fun serviceAccount(accountServiceImp: AccountServiceImp): AccountService {
         return accountServiceImp
     }
+
+//    @Singleton
+//    @Provides
+//    fun networkRepository(preferenceHelper: PreferenceHelper,context: Context): NetworkRepository{
+//        return NetworkRepository(preferenceHelper,context)
+//    }
 
 //    @Singleton
 //    @Provides

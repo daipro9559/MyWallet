@@ -25,7 +25,7 @@ import com.example.dai_pc.android_test.view.main.MainActivity
 /**
  * Created by dai_pc on 6/15/2018.
  */
-class SplashActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class SplashActivity : AppCompatActivity() {
     lateinit var viewBinding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,15 +49,4 @@ class SplashActivity : AppCompatActivity(), HasSupportFragmentInjector {
         },2000)
 
     }
-
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.example.dai_pc.android_test.AppExecutors
 import com.example.dai_pc.android_test.R
+import com.example.dai_pc.android_test.di.AppScope
 import com.example.dai_pc.android_test.service.AccountService
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -85,13 +86,16 @@ constructor(
         initAccountSelect()
     }
 
-    fun importAccountByKeyStore(keystore: String, passwordOld: String, passwordNew: String): LiveData<Account> {
-        val accountLiveData = MutableLiveData<Account>()
+    fun importAccountByKeyStore(keystore: String, passwordOld: String, passwordNew: String): LiveData<String> {
+        val accountLiveData = MutableLiveData<String>()
+
         accountService.importByKeyStore(keystore, passwordOld, passwordNew)
+
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    accountLiveData.value = it
+                   accountService.savePassword(context,it.address.hex.toString(),passwordNew)
+                    accountLiveData.value = it.address.hex.toString()
                 }, {
 
                 })
