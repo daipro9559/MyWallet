@@ -19,12 +19,12 @@ class TransactionAdapter :BaseRecycleViewAdapter<Transaction,ItemTransactionBind
         if (i.from.endsWith(addressMain,true))  {
             holder.v.txtAddress.text = i.to
             holder.v.txtFromTo.text = "To: "
-            holder.v.icon.setImageDrawable(holder.v.root.context.getDrawable(R.drawable.ic_forward))
+            holder.v.icon.setImageDrawable(holder.v.root.context.getDrawable(R.drawable.ic_next))
         }else
         {
             holder.v.txtFromTo.text = "From: "
             holder.v.txtAddress.text = i.from
-            holder.v.icon.setImageDrawable(holder.v.root.context.getDrawable(R.drawable.ic_back))
+            holder.v.icon.setImageDrawable(holder.v.root.context.getDrawable(R.drawable.ic_back_2))
 
         }
     }

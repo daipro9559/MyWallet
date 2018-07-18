@@ -1,11 +1,9 @@
 package com.example.dai_pc.android_test.repository
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.dai_pc.android_test.base.Constant
-import com.example.dai_pc.android_test.entity.BalanceResponse
-import com.example.dai_pc.android_test.entity.Resource
-import com.example.dai_pc.android_test.entity.loading
-import com.example.dai_pc.android_test.entity.success
+import com.example.dai_pc.android_test.entity.*
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -40,6 +38,21 @@ constructor(private val preferenceHelper: PreferenceHelper,
         }
 
        return balance
+    }
+
+    fun fetchPrice() : LiveData<Resource<EtherPriceResponse>>{
+        val  priceLiveData = MutableLiveData<Resource<EtherPriceResponse>>()
+        priceLiveData.value = loading()
+        serviceProvider.etherScanApi.fetchEtherPrice("stats","ethprice",Constant.API_KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    priceLiveData.value = success(it)
+                },{
+                    priceLiveData.value = error(it.message.toString())
+                })
+
+        return priceLiveData
     }
 
     fun changeNetwork(id :Int){

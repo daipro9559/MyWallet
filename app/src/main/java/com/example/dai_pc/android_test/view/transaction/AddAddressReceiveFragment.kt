@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentAddAddressReceiveBinding
+import com.example.dai_pc.android_test.ultil.Ultil
 import kotlinx.android.synthetic.main.fragment_add_address_receive.*
 import org.walleth.activities.qrscan.QRScanActivity
 import org.walleth.activities.qrscan.SCAN_REQUEST_CODE
@@ -32,8 +33,14 @@ class AddAddressReceiveFragment : BaseFragment<FragmentAddAddressReceiveBinding>
             startActivityForResult(Intent(activity,QRScanActivity::class.java), SCAN_REQUEST_CODE)
         }
         btnNext.setOnClickListener {
-            val createTransactionActivity = activity as CreateTransactionActivity
-            createTransactionActivity.addFragment(SendTransactionFragment.newInstance(txt_address.text.toString()),SendTransactionFragment.TAG,SendTransactionFragment.TAG)
+            if (txt_address.text.isEmpty()){
+                Ultil.showDialogNotify(activity!!,getString(R.string.error),getString(R.string.address_not_empty)){
+
+                }
+            }else {
+                val createTransactionActivity = activity as CreateTransactionActivity
+                createTransactionActivity.addFragment(SendTransactionFragment.newInstance(txt_address.text.toString()), SendTransactionFragment.TAG, SendTransactionFragment.TAG)
+            }
         }
     }
 
@@ -47,4 +54,5 @@ class AddAddressReceiveFragment : BaseFragment<FragmentAddAddressReceiveBinding>
 
         }
     }
+
 }

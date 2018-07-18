@@ -8,9 +8,9 @@
             type="com.example.dai_pc.android_test.entity.Resource"/>
     </data>
 <android.support.constraint.ConstraintLayout
+    android:elevation="@dimen/_10dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/white"
-    android:alpha="0.5"
     app:visisable="@{resource.status == Status.LOADING}"
     android:layout_width="match_parent"
     android:layout_height="match_parent">

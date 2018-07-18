@@ -1,9 +1,7 @@
 package com.example.dai_pc.android_test.base
 
-import android.app.Activity
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LifecycleRegistry
+
+
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -31,8 +29,8 @@ abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity(), HasSuppo
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        if (hasToolbar()) setSupportActionBar(findViewById(R.id.tool_bar))
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
+        if (hasToolbar()) setSupportActionBar(getToolbar())
 
     }
 
@@ -72,5 +70,5 @@ abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity(), HasSuppo
 
     fun hasToolbar() = findViewById<Toolbar>(R.id.toolBar) != null
 
-    fun findToolbar() = findViewById<Toolbar>(R.id.toolBar)
+    fun getToolbar() = findViewById<Toolbar>(R.id.toolBar)
 }

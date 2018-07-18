@@ -12,8 +12,10 @@ import com.example.dai_pc.android_test.databinding.ActivityMainBinding
 import android.view.MenuItem
 import android.content.res.Configuration
 import android.view.Menu
+import android.view.View
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
+import com.example.dai_pc.android_test.view.main.rate.RateFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.setting.SettingActivity
 import java.math.BigDecimal
@@ -37,9 +39,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewDataBinding.toolBar.title = "My Wallet"
         initView()
         mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
-        mainViewModel.fetchBalance()
+        loadBalance()
         mainViewModel.balanceLiveData.observe(this, Observer {
             it!!.t?.let {
+                viewDataBinding.etherTitle.visibility  = View.VISIBLE
                 val data = BigDecimal(it, 18)
                 viewDataBinding.ether.text = data.toFloat().toString()
             }
@@ -47,9 +50,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
 
     private fun initView() {
+        viewDataBinding.contentMain.viewPager.offscreenPageLimit = 3
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
+        viewPagerAdapter.addFragment(RateFragment.newsInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
         viewDataBinding.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
@@ -63,6 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewDataBinding.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
 //        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.icon = getDrawable(R.drawable.ic_transaction)
         viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
+        viewDataBinding.tabLayout.getTabAt(2)!!.text = Constant.RATE
 //        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
     }
 
@@ -109,13 +115,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
 
     private fun reloadContent() {
-        mainViewModel.fetchBalance()
+       loadBalance()
         val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
         fragmentTransaction?.let {
             it.resfresh(true)
         }
         val fragmentMyAddress= viewPagerAdapter.getItem(1) as MyAddressFragment
         fragmentMyAddress?.let {
+            it.refresh()
+        }
+
+        val rateFragment= viewPagerAdapter.getItem(2) as RateFragment
+        rateFragment?.let {
             it.refresh()
         }
     }
@@ -129,5 +140,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         fragmentTransaction?.let {
             it.changeAddress(address)
         }
+    }
+
+    fun loadBalance(){
+        mainViewModel.fetchBalance()
+
     }
 }

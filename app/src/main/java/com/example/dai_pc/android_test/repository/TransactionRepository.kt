@@ -60,8 +60,9 @@ constructor(
         return listTransaction
     }
 
-    fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<String> {
-        val liveData = MutableLiveData<String>()
+    fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<Resource<String>> {
+        val liveData = MutableLiveData<Resource<String>>()
+        liveData.value = loading()
         accountService.getPassword(context, walletRepository.accountSelected.value!!)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -100,9 +101,9 @@ constructor(
                     singleData.observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe({
-                                liveData.value = it
+                                liveData.value = success(it)
                             }, {
-
+                                liveData.value = error(it.message.toString())
                             })
                 }, {})
         return liveData

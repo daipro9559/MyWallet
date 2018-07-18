@@ -19,6 +19,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableHomeHomeAsUp()
         setTitle(R.string.import_wallet)
         viewDataBinding.btnImport.setOnClickListener {
             clickImport()
@@ -47,7 +48,10 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.import_completed)
                 .setMessage(R.string.select_wallet_just_imported)
-                .setPositiveButton(R.string.yes) { _, _ -> importWalletViewModel.selectWalletImported(address) }
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    importWalletViewModel.selectWalletImported(address)
+                    finish()
+                }
                 .setNegativeButton(R.string.cancel) { dialog, _ ->
                     dialog.cancel()
                     finish()

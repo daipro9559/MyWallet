@@ -6,6 +6,7 @@ import com.example.dai_pc.android_test.base.MyViewModelFactory
 import com.example.dai_pc.android_test.view.wallet.ImportWalletViewModel
 import com.example.dai_pc.android_test.view.main.MainViewModel
 import com.example.dai_pc.android_test.view.main.address.MyAddressViewModel
+import com.example.dai_pc.android_test.view.main.rate.RateViewModel
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionViewModel
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionViewModel
 import dagger.Binds
@@ -42,6 +43,11 @@ abstract class ViewModelModule{
     @IntoMap
     @ViewModelKey(ImportWalletViewModel::class)
     abstract fun importWalletViewModel(importWalletViewModel: ImportWalletViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RateViewModel::class)
+    abstract fun rateViewModel(rateViewModel: RateViewModel) : ViewModel
 
     @Binds
     abstract fun viewModelFactory (myViewModelFactory: MyViewModelFactory): ViewModelProvider.Factory

@@ -42,5 +42,11 @@
     <string name="select_wallet_just_imported">Do you want select wallet just has imported?</string>
     <string name="yes">Yes</string>
     <string name="password_export">Password  Export</string>
+    <string name="current_price">Current price</string>
+    <string name="sending_transaction">Sending transaction</string>
+    <string name="send_transaction_completed">Send transaction completed!</string>
+    <string name="notify">Notify</string>
+    <string name="address_not_empty">Address target not empty</string>
+    <string name="error">Error</string>
 </resources>
 

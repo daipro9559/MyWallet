@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.FragmentListTransactionBinding
 import com.example.dai_pc.android_test.repository.TransactionRepository
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
+import com.example.dai_pc.android_test.view.main.MainActivity
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 import javax.inject.Inject
 
@@ -26,7 +29,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
 
     override fun getlayoutId(): Int = R.layout.fragment_list_transaction
 
-    @Inject lateinit var transactionRepository: TransactionRepository
+    @Inject lateinit var preferenceHelper: PreferenceHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,15 +64,17 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
 
         viewDataBinding.refresh.setOnRefreshListener {
             resfresh(false)
+           (activity as MainActivity).loadBalance()
+
         }
     }
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+
 
     private fun  initView(){
         val adapter = TransactionAdapter()
-        adapter.addressMain = "0x9d60B3DE126D0cb84721956Be9AE4838BFA01211"
+        preferenceHelper.getString(getString(R.string.wallet_key))?.let{
+            adapter.addressMain = it
+        }
         viewDataBinding.recycleView.adapter = adapter
 
     }
@@ -78,10 +83,6 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         listTransactionViewModel.getAllTransaction(0,99999999,isShowLoading)
     }
 
-//    fun changeNetwork(id:Int){
-//        transactionRepository.changeNetwork(id)
-//
-//    }
     fun changeAddress(address: String){
         val adapter = viewDataBinding.recycleView.adapter as TransactionAdapter
         adapter?.let{

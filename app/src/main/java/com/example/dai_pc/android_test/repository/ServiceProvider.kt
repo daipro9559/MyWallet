@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class ServiceProvider
 @Inject
-constructor(val okHttpClient: OkHttpClient,
+constructor(private val okHttpClient: OkHttpClient,
             private val networkRepository: NetworkRepository)
 {
     init {

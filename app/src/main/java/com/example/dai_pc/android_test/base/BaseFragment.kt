@@ -45,7 +45,6 @@ abstract class BaseFragment<V:ViewDataBinding> :Fragment(){
     override fun onStart() {
         super.onStart()
 
-
     }
 
     override fun onDestroyView() {
