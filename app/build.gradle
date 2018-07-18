@@ -75,6 +75,7 @@ dependencies {
     implementation deps.zxing
     implementation deps.genToCode
     implementation deps.coroutine
+    implementation deps.view_expand
 
 
 
