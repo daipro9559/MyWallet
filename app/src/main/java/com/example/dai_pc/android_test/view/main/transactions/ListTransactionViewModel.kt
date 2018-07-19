@@ -10,20 +10,15 @@ import javax.inject.Inject
 class ListTransactionViewModel
 @Inject
 constructor(private val transactionRepository: TransactionRepository) : BaseViewModel() {
-     val listTransactionLiveData =  MutableLiveData<Resource<List<Transaction>>>()
+    val listTransactionLiveData = MutableLiveData<Resource<List<Transaction>>>()
 
-    fun getAllTransaction(startBlock: Int, endBlock: Int,isShowLoading:Boolean) {
-       transactionRepository.fetchTransaction(startBlock, endBlock,isShowLoading) {
-       }.observeForever {
-           listTransactionLiveData.value = it
-       }
+    fun getAllTransaction(startBlock: Int, endBlock: Int, isShowLoading: Boolean) {
+        transactionRepository.fetchTransaction(startBlock, endBlock, isShowLoading) {
+        }.observeForever {
+            listTransactionLiveData.value = it
+
+        }
     }
 
-    fun changeAddress() {
-        transactionRepository.changeAddress()
-    }
 
-    fun changeNetwork(id: Int) {
-        transactionRepository.changeNetwork(id)
-    }
 }

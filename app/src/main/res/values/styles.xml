@@ -48,9 +48,11 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="EditTextApp" >
-        <item name="android:paddingLeft">@dimen/_20dp</item>
-        <item name="android:paddingRight">@dimen/_20dp</item>
+    <style name="EditTextApp" parent="Base.V7.Widget.AppCompat.EditText">
+        <item name="android:textSize">@dimen/text_size_app</item>
+        <item name="android:textColor">@color/text_color_app</item>
+        <item name="android:paddingLeft">@dimen/_10dp</item>
+        <item name="android:paddingRight">@dimen/_10dp</item>
         <item name="android:paddingTop">@dimen/_10dp</item>
         <item name="android:paddingBottom">@dimen/_10dp</item>
         <item name="android:textCursorDrawable">@color/colorPrimary</item>
@@ -83,7 +85,9 @@
     </style>
 
     <style name="DialogApp" parent="@style/AlertDialog.AppCompat.Light">
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
     </style>
@@ -100,6 +104,16 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <dimen name="_200dp">200dp</dimen>
-    <dimen name="_150dp">150dp</dimen>
+    <style name="TextTitle" parent="TextAppStyle">
+        <item name="android:layout_marginLeft">@dimen/_5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/_14sp</item>
+        <item name="android:textColor">@color/txt_color_title</item>
+    </style>
+    <style name="TextContent" parent="TextAppStyle">
+        <item name="android:layout_marginLeft">@dimen/_10dp</item>
+        <item name="android:textSize">@dimen/_17sp</item>
+        <item name="android:textColor">@color/txt_color_content</item>
+    </style>
+
 </resources>

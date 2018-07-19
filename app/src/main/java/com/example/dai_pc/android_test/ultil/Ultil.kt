@@ -1,9 +1,12 @@
 package com.example.dai_pc.android_test.ultil
 
 import android.app.Activity
+import android.content.Context
+import android.support.design.widget.TextInputEditText
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.format.DateFormat
 import com.example.dai_pc.android_test.R
 import java.sql.Date
 import java.sql.Timestamp
@@ -18,6 +21,11 @@ object Ultil {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"))
         return  sdf.format(date)
     }
+    fun getTimeFromTimeStamp(timeStamp:Long,context: Context):String{
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timeStamp * 1000
+        return  DateFormat.getLongDateFormat(context).format(calendar.time)
+    }
 
     fun showDialogNotify(activity :FragmentActivity,title:String,message:String,Callback:()->Unit){
         AlertDialog.Builder(activity)
@@ -26,6 +34,22 @@ object Ultil {
                 .setNegativeButton("Ok"){dialogInterface, _ ->
                     dialogInterface.cancel()
                     Callback()
+                }
+                .create()
+                .show()
+    }
+
+    fun showDialogInputPassword(activity: FragmentActivity,title: String,textButtonOk :String,Callback:(String)->Unit){
+        AlertDialog.Builder(activity)
+                .setTitle(title)
+                .setView(R.layout.dialog_create_wallet)
+                .setNegativeButton(textButtonOk){dialogInterface, _ ->
+                    dialogInterface.cancel()
+                    val editText = activity.findViewById<TextInputEditText>(R.id.edt_pass)
+                    Callback(editText.text.toString())
+                }
+                .setPositiveButton(R.string.cancel){dialogInterface, _ ->
+                    dialogInterface.cancel()
                 }
                 .create()
                 .show()

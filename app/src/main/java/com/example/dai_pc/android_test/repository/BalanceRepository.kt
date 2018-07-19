@@ -36,6 +36,9 @@ constructor(private val preferenceHelper: PreferenceHelper,
                         Timber.e(it.message)
                     })
         }
+        if (walletRepository.accountSelected.value == null){
+            balance.value = error("")
+        }
 
        return balance
     }

@@ -2,10 +2,9 @@ package com.example.dai_pc.android_test.view.setting
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.preference.ListPreference
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
+import android.support.v7.preference.*
 import com.example.dai_pc.android_test.R
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.repository.NetworkRepository
 import com.example.dai_pc.android_test.repository.WalletRepository
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
@@ -34,6 +33,12 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         addPreferencesFromResource(R.xml.setting)
         initDataWallet()
         initDataNetwork()
+        val requirePass = findPreference(Constant.KEY_REQUIRE_PASSWORD) as SwitchPreferenceCompat
+        requirePass.setOnPreferenceChangeListener { _, _ ->
+            preferenceHelper.putBoolean(Constant.KEY_REQUIRE_PASSWORD,requirePass.isChecked)
+            true
+        }
+
     }
 
     fun initDataNetwork(){
@@ -43,7 +48,7 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         val  networkPreferences = findPreference(context!!.getString(R.string.network_key)) as ListPreference
         networkPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
             Timber.i(newValue.toString())
-//            networkRepository.changeNetworkSelect(newValue.toString().toInt())
+            networkRepository.changeNetworkSelect(newValue.toString().toInt())
             preferenceHelper.putInt(context!!.getString(R.string.network_key),newValue.toString().toInt())
             initDataNetwork()
             true
@@ -74,7 +79,7 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         walletPreferences.entryValues = entries
         walletPreferences.summary = walletRepository.accountSelected.value
         walletPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener{_,newValue ->
-            preferenceHelper.putString(context!!.getString(R.string.wallet_key),newValue.toString())
+            walletRepository.saveAccountSelect(newValue.toString())
             walletRepository.initAccountSelect()
             initDataWallet()
             true

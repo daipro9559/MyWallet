@@ -7,7 +7,7 @@ import com.example.dai_pc.android_test.view.wallet.ImportWalletViewModel
 import com.example.dai_pc.android_test.view.main.MainViewModel
 import com.example.dai_pc.android_test.view.main.address.MyAddressViewModel
 import com.example.dai_pc.android_test.view.main.rate.RateViewModel
-import com.example.dai_pc.android_test.view.transaction.CreateTransactionViewModel
+import com.example.dai_pc.android_test.view.transaction.SendTransactionViewModel
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionViewModel
 import dagger.Binds
 import dagger.Module
@@ -21,8 +21,8 @@ import dagger.multibindings.IntoMap
 abstract class ViewModelModule{
     @Binds
     @IntoMap
-    @ViewModelKey(CreateTransactionViewModel::class)
-    abstract fun createTransactionViewModel(createTransactionViewModel: CreateTransactionViewModel): ViewModel
+    @ViewModelKey(SendTransactionViewModel::class)
+    abstract fun createTransactionViewModel(createTransactionViewModel: SendTransactionViewModel): ViewModel
 
     @Binds
     @IntoMap

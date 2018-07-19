@@ -7,7 +7,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class CreateTransactionActivityModule {
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [SendTransactionFragmentModule::class])
     abstract fun addAddressFragment():AddAddressReceiveFragment
     @ContributesAndroidInjector
     abstract fun sendTransactionFragment():SendTransactionFragment

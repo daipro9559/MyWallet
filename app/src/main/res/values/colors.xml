@@ -13,4 +13,6 @@
     <color name="tab_title_select">@android:color/white</color>
     <color name="text_color_hint">#969696</color>
     <color name="color_icon_setting">#797878</color>
+    <color name="txt_color_content">#7c7c7c</color>
+    <color name="txt_color_title">#515151</color>
 </resources>

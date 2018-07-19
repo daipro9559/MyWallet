@@ -10,7 +10,11 @@
         android:title="@string/network"
         android:icon="@drawable/ic_server"
         android:key="@string/network_key"
-
         />
-
+    <android.support.v7.preference.SwitchPreferenceCompat
+        android:icon="@drawable/ic_lock"
+        android:key="require_password_send"
+        android:title="@string/require_password"
+        android:summary="@string/require_pass_des"
+        android:defaultValue="true" />
 </android.support.v7.preference.PreferenceScreen>

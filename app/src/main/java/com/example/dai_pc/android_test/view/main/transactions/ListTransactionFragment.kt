@@ -3,6 +3,7 @@ package com.example.dai_pc.android_test.view.main.transactions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
@@ -39,7 +40,10 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         super.onActivityCreated(savedInstanceState)
         initView()
         listTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(ListTransactionViewModel::class.java)
-        listTransactionViewModel.getAllTransaction(0,99999999,true)
+        if (preferenceHelper.getString(getString(R.string.wallet_key)) ==null){
+            viewDataBinding.floatButton.visibility = View.GONE
+        }
+        refresh(true)
         listTransactionViewModel.listTransactionLiveData.observe(this, Observer {
             viewDataBinding.resource = it
             viewDataBinding.layoutLoading.txtDescription.text = "Loading list transaction"
@@ -48,7 +52,6 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
                 val adapter = viewDataBinding.recycleView.adapter as TransactionAdapter
                 adapter?.let {
                     adapter.swapListItem(list)
-                    viewDataBinding.recycleView.adapter = adapter
                     return@Observer
                 }
             }
@@ -63,12 +66,21 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         }
 
         viewDataBinding.refresh.setOnRefreshListener {
-            resfresh(false)
+            refresh(false)
            (activity as MainActivity).loadBalance()
 
         }
     }
 
+    fun checkHaveWallet() :Boolean{
+        return if (preferenceHelper.getString(getString(R.string.wallet_key)) ==null){
+            viewDataBinding.floatButton.visibility = View.GONE
+            false
+        }else{
+            viewDataBinding.floatButton.visibility = View.VISIBLE
+            true
+        }
+    }
 
     private fun  initView(){
         val adapter = TransactionAdapter()
@@ -79,8 +91,11 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
 
     }
 
-    fun resfresh(isShowLoading:Boolean){
-        listTransactionViewModel.getAllTransaction(0,99999999,isShowLoading)
+    fun refresh(isShowLoading:Boolean){
+         checkHaveWallet()
+
+        listTransactionViewModel.getAllTransaction(0, 99999999, isShowLoading)
+
     }
 
     fun changeAddress(address: String){

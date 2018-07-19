@@ -23,6 +23,7 @@ object Constant {
 
     //key preference
     val KEY_NETWORK_ID = "network_id_preference"
+    val KEY_REQUIRE_PASSWORD ="require_password_send"
 
 
     // Network init
@@ -63,10 +64,11 @@ object Constant {
 
     //title tab item
     const val TRANSACTIONS="Transactions"
-    const val MY_ADDRESS ="My address"
+    const val MY_Wallet ="My wallet"
     const val TEST ="tab test"
     const val RATE ="Rate"
     const val MY_TOKEN = "My Token"
+
 
 
 }

@@ -5,7 +5,7 @@
     <string name="api_key_ether">QVK4XE2W1H2VM9RXU22FMDYWHJUA5X5FKA</string>
 
     <!---->
-    <string name="address_receive">Address receive</string>
+    <string name="address_receive">Address receive:</string>
     <string name="next">Next</string>
     <string name="no_camera_permission">need allow access camera</string>
     <string name="scan_instructions">Center a QR code inside the frame.</string>
@@ -15,6 +15,8 @@
     <!--setting title-->
     <string name="wallet">Select wallet</string>
     <string name="network">Change Network</string>
+    <string name="require_password">Require password</string>
+    <string name="require_pass_des">Require password when send transaction</string>
     <string name="contact"></string>
     <string name="about">About us</string>
     <string name="setting">Setting</string>
@@ -48,5 +50,19 @@
     <string name="notify">Notify</string>
     <string name="address_not_empty">Address target not empty</string>
     <string name="error">Error</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="amount">Amount:</string>
+    <string name="amount_ether">%d Ether</string>
+    <string name="nonce">Nonce</string>
+    <string name="time">Time</string>
+    <string name="blockNumber">Block number</string>
+    <string name="transaction_time">Transaction time</string>
+    <string name="gas_use">Gas used</string>
+    <string name="no_account">No wallet, please create or import wallet!</string>
+    <string name="show_option">Show option</string>
+    <string name="gasPrice">Gas Price:</string>
+    <string name="gasLimit">Gas Limit:</string>
+    <string name="input_pass_wallet">Please input password of your wallet</string>
 </resources>
 

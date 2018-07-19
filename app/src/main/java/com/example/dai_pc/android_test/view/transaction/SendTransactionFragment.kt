@@ -3,22 +3,25 @@ package com.example.dai_pc.android_test.view.transaction
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentSendTransactionBinding
 import com.example.dai_pc.android_test.entity.Resource
-import com.example.dai_pc.android_test.entity.TransactionSendedObject
+import com.example.dai_pc.android_test.entity.TransactionSendObject
 import com.example.dai_pc.android_test.ultil.BalanceUltil
 import com.example.dai_pc.android_test.ultil.Ultil
-import kotlinx.android.synthetic.main.fragment_send_transaction.*
+import com.example.dai_pc.android_test.view.main.MainViewModel
 import java.math.BigInteger
 
 const val ADDRESS_TARGET = "address_target"
 
 class SendTransactionFragment :BaseFragment<FragmentSendTransactionBinding>(){
+
     override fun getlayoutId() = R.layout.fragment_send_transaction
-    lateinit var createTransactionViewModel: CreateTransactionViewModel
+
+    lateinit var createTransactionViewModel: SendTransactionViewModel
+    lateinit var mainViewModel: MainViewModel
+
     companion object {
         const val TAG = "Send transaction"
         fun newInstance(toAddress:String):SendTransactionFragment{
@@ -32,8 +35,12 @@ class SendTransactionFragment :BaseFragment<FragmentSendTransactionBinding>(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.txtAddressTarget.text = arguments!!.getString(ADDRESS_TARGET)
-        createTransactionViewModel = ViewModelProviders.of(this,viewModelFactory)[CreateTransactionViewModel::class.java]
+        createTransactionViewModel = ViewModelProviders.of(this,viewModelFactory)[SendTransactionViewModel::class.java]
+        mainViewModel  =  ViewModelProviders.of(this,viewModelFactory)[MainViewModel::class.java]
 
+        mainViewModel.balanceLiveData.observe(this, Observer {
+
+        })
         viewDataBinding.btnSend.setOnClickListener{
             sendTransaction()
         }
@@ -53,7 +60,7 @@ class SendTransactionFragment :BaseFragment<FragmentSendTransactionBinding>(){
     }
 
     fun sendTransaction(){
-        var transactionSendedObject = TransactionSendedObject.Builder()
+        var transactionSendedObject = TransactionSendObject.Builder()
                 .setTo(arguments!!.getString(ADDRESS_TARGET))
                 .setAmount(BalanceUltil.baseToSubunit(viewDataBinding.amount.text.toString(), 18))// 18 is Ether_decimals
                 .setGasPrice(BigInteger.valueOf(1000000000L))

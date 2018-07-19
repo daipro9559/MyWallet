@@ -46,6 +46,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
                 val data = BigDecimal(it, 18)
                 viewDataBinding.ether.text = data.toFloat().toString()
             }
+            it.messError?.let {
+                viewDataBinding.ether.text = "----"
+                viewDataBinding.etherTitle.visibility  = View.VISIBLE
+
+            }
         })
     }
 
@@ -67,7 +72,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     private fun setupTablayout() {
         viewDataBinding.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
 //        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.icon = getDrawable(R.drawable.ic_transaction)
-        viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_ADDRESS
+        viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_Wallet
         viewDataBinding.tabLayout.getTabAt(2)!!.text = Constant.RATE
 //        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
     }
@@ -118,7 +123,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
        loadBalance()
         val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
         fragmentTransaction?.let {
-            it.resfresh(true)
+            it.refresh(true)
         }
         val fragmentMyAddress= viewPagerAdapter.getItem(1) as MyAddressFragment
         fragmentMyAddress?.let {
@@ -144,6 +149,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
 
     fun loadBalance(){
         mainViewModel.fetchBalance()
-
     }
 }

@@ -35,4 +35,10 @@ constructor(context: Context){
         }
     }
     fun getString(key: String) = sharedPreferences.getString(key,null)
+
+    fun getBoolean(key:String) = sharedPreferences.getBoolean(key,false)
+
+    fun putBoolean(key: String,value: Boolean){
+        sharedPreferences.edit()!!.putBoolean(key,value).commit()
+    }
 }

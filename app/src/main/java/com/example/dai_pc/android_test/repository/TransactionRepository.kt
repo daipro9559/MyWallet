@@ -3,6 +3,7 @@ package com.example.dai_pc.android_test.repository
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.entity.*
 import com.example.dai_pc.android_test.service.AccountService
@@ -54,13 +55,13 @@ constructor(
                     }
         }
         if (walletRepository.accountSelected.value == null) {
-            listTransaction.value = error("No Account")
+            listTransaction.value = error(context.getString(R.string.no_account))
         }
 
         return listTransaction
     }
 
-    fun sendTransaction(transactionSendedObject: TransactionSendedObject, data: ByteArray?): LiveData<Resource<String>> {
+    fun sendTransaction(transactionSendObject: TransactionSendObject, data: ByteArray?): LiveData<Resource<String>> {
         val liveData = MutableLiveData<Resource<String>>()
         liveData.value = loading()
         accountService.getPassword(context, walletRepository.accountSelected.value!!)
@@ -68,11 +69,11 @@ constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     val value = BigInt(0)
-                    value.setString(transactionSendedObject.amount.toString(), 10)
+                    value.setString(transactionSendObject.amount.toString(), 10)
                     val gasPriceBI = BigInt(0)
-                    gasPriceBI.setString(transactionSendedObject.gasPrice.toString(), 10)
+                    gasPriceBI.setString(transactionSendObject.gasPrice.toString(), 10)
                     val gasLimitBI = BigInt(0)
-                    gasLimitBI.setString(transactionSendedObject.gasLimit.toString(), 10)
+                    gasLimitBI.setString(transactionSendObject.gasLimit.toString(), 10)
                     var web3j = Web3jFactory.build(HttpService(networkRepository.networkProviderSelected.rpcServerUrl))
                     val singleData = Single.fromCallable {
                         web3j.ethGetTransactionCount(walletRepository.accountSelected.value, DefaultBlockParameterName.LATEST).send()
@@ -80,10 +81,10 @@ constructor(
                     }.flatMap { t ->
                         accountService.signTransaction(walletRepository.accountSelected.value!!,
                                 it,
-                                transactionSendedObject.to!!,
-                                transactionSendedObject.amount!!,
-                                transactionSendedObject.gasPrice!!,
-                                transactionSendedObject.gasLimit!!,
+                                transactionSendObject.to!!,
+                                transactionSendObject.amount!!,
+                                transactionSendObject.gasPrice!!,
+                                transactionSendObject.gasLimit!!,
                                 t.toLong(),
                                 data,
                                 networkRepository.networkProviderSelected.ChanId.toLong())
