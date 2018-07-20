@@ -34,8 +34,8 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
         initDataWallet()
         initDataNetwork()
         val requirePass = findPreference(Constant.KEY_REQUIRE_PASSWORD) as SwitchPreferenceCompat
-        requirePass.setOnPreferenceChangeListener { _, _ ->
-            preferenceHelper.putBoolean(Constant.KEY_REQUIRE_PASSWORD,requirePass.isChecked)
+        requirePass.setOnPreferenceChangeListener { _, newValue ->
+            preferenceHelper.putBoolean(Constant.KEY_REQUIRE_PASSWORD,newValue as Boolean)
             true
         }
 

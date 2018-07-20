@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10dp"
                 android:layout_marginTop="@dimen/_5dp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textColorHint="@color/text_color_hint"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/balanceTitle"
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                app:cardElevation="@dimen/_5dp"
+                app:cardElevation="@dimen/_2dp"
                 app:cardUseCompatPadding="true"
                 app:contentPadding="@dimen/_10dp"
                 app:layout_constraintTop_toBottomOf="@+id/amount">
@@ -150,7 +150,7 @@
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/option"
+                        android:id="@+id/txtOption"
                         style="@style/TextAppStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -187,15 +187,26 @@
                     <android.support.v7.widget.AppCompatEditText
                         android:id="@+id/gasPrice"
                         style="@style/EditTextApp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_10dp"
                         android:layout_marginTop="@dimen/_5dp"
                         android:inputType="number"
+                        app:layout_constraintRight_toLeftOf="@+id/gasPriceReset"
                         android:textColorHint="@color/text_color_hint"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/gasPriceTitle"
                   />
+                    <android.support.v7.widget.AppCompatImageView
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground"
+                        app:layout_constraintTop_toTopOf="@+id/gasPrice"
+                        app:layout_constraintBottom_toBottomOf="@+id/gasPrice"
+                        android:id="@+id/gasPriceReset"
+                        android:layout_width="@dimen/_40dp"
+                        android:src="@drawable/ic_reset"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_height="@dimen/_40dp" />
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/gasLimitTitle"
                         style="@style/TextTitle"
@@ -206,38 +217,49 @@
                         app:layout_constraintTop_toBottomOf="@+id/gasPrice" />
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/gaslimit"
+                        android:id="@+id/gasLimit"
                         style="@style/EditTextApp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_10dp"
                         android:layout_marginTop="@dimen/_5dp"
                         android:inputType="number"
+                        app:layout_constraintRight_toLeftOf="@+id/gasLimitReset"
                         android:textColorHint="@color/text_color_hint"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/gasLimitTitle"
                         />
-                    <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/nonceTitle"
-                        style="@style/TextTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_15dp"
-                        android:text="@string/nonce"
-                        app:layout_constraintTop_toBottomOf="@+id/gaslimit" />
+                    <android.support.v7.widget.AppCompatImageView
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground"
+                        app:layout_constraintTop_toTopOf="@+id/gasLimit"
+                        app:layout_constraintBottom_toBottomOf="@+id/gasLimit"
+                        android:id="@+id/gasLimitReset"
+                        android:layout_width="@dimen/_40dp"
+                        android:src="@drawable/ic_reset"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_height="@dimen/_40dp" />
+                    <!--<android.support.v7.widget.AppCompatTextView-->
+                        <!--android:id="@+id/nonceTitle"-->
+                        <!--style="@style/TextTitle"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="@dimen/_15dp"-->
+                        <!--android:text="@string/nonce"-->
+                        <!--app:layout_constraintTop_toBottomOf="@+id/gasLimit" />-->
 
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/nonce"
-                        style="@style/EditTextApp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_10dp"
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:inputType="number"
-                        android:textColorHint="@color/text_color_hint"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nonceTitle"
-                        />
+                    <!--<android.support.v7.widget.AppCompatEditText-->
+                        <!--android:id="@+id/nonce"-->
+                        <!--style="@style/EditTextApp"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="@dimen/_10dp"-->
+                        <!--android:layout_marginTop="@dimen/_5dp"-->
+                        <!--android:inputType="number"-->
+                        <!--android:textColorHint="@color/text_color_hint"-->
+                        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                        <!--app:layout_constraintTop_toBottomOf="@+id/nonceTitle"-->
+                        <!--/>-->
 
                 </android.support.constraint.ConstraintLayout>
             </net.cachapa.expandablelayout.ExpandableLayout>
@@ -248,6 +270,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:id="@+id/loadingLayout"
                 app:resource="@{resource}"
+                tool:visibility="gone"
                 layout="@layout/loading_layout" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>

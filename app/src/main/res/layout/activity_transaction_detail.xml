@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="transaction"
-            type="com.example.dai_pc.android_test.entity.Transaction"/>
+
     </data>
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -19,9 +17,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/fromTitle"
-            android:textSize="@dimen/_14sp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/txt_color_title"
+            style="@style/TextAppStyle"
+            android:textStyle="bold"
+            android:textSize="@dimen/_20sp"
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/_10dp"
+            android:id="@+id/fromTitle"
+            android:textSize="@dimen/_15sp"
+            app:layout_constraintTop_toBottomOf="@+id/txtDescription"
             app:layout_constraintLeft_toLeftOf="parent"
             style="@style/TextAppStyle"
             android:textColor="@color/txt_color_title"
@@ -32,7 +42,7 @@
             tools:text="0x9d60B3DE126D0cb84721956Be9AE4838BFA01211"
             style="@style/TextAppStyle"
             android:textColor="@color/txt_color_content"
-            android:textSize="@dimen/_15sp"
+            android:textSize="@dimen/_17sp"
             android:layout_marginTop="@dimen/_2dp"
             app:layout_constraintTop_toBottomOf="@+id/fromTitle"
             android:layout_marginLeft="@dimen/_5dp"
@@ -43,7 +53,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/toTitle"
             android:layout_marginTop="@dimen/_8dp"
-            android:textSize="@dimen/_14sp"
+            android:textSize="@dimen/_15sp"
             android:textColor="@color/txt_color_title"
             app:layout_constraintTop_toBottomOf="@+id/from"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -55,7 +65,7 @@
             tools:text="0x9d60B3DE126D0cb84721956Be9AE4838BFA01211"
             style="@style/TextAppStyle"
             android:textColor="@color/txt_color_content"
-            android:textSize="@dimen/_15sp"
+            android:textSize="@dimen/_17sp"
             android:layout_marginTop="@dimen/_2dp"
             app:layout_constraintTop_toBottomOf="@+id/toTitle"
             android:layout_marginLeft="@dimen/_5dp"
@@ -66,7 +76,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/amountTitle"
             android:layout_marginTop="@dimen/_8dp"
-            android:textSize="@dimen/_14sp"
+            android:textSize="@dimen/_15sp"
             android:textColor="@color/txt_color_title"
             app:layout_constraintTop_toBottomOf="@+id/to"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -78,7 +88,7 @@
             tools:text="10 Ether"
             style="@style/TextAppStyle"
             android:textColor="@color/txt_color_content"
-            android:textSize="@dimen/_15sp"
+            android:textSize="@dimen/_17sp"
             android:layout_marginTop="@dimen/_2dp"
             app:layout_constraintTop_toBottomOf="@+id/amountTitle"
             android:layout_marginLeft="@dimen/_5dp"
@@ -89,7 +99,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/nonceTitle"
             android:layout_marginTop="@dimen/_8dp"
-            android:textSize="@dimen/_14sp"
+            android:textSize="@dimen/_15sp"
             android:textColor="@color/txt_color_title"
             app:layout_constraintTop_toBottomOf="@+id/amount"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -106,14 +116,14 @@
             android:layout_marginLeft="@dimen/_5dp"
             android:layout_marginTop="@dimen/_2dp"
             android:textColor="@color/txt_color_content"
-            android:textSize="@dimen/_15sp"
+            android:textSize="@dimen/_17sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nonceTitle"
             tools:text="0.01" />
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/timeTitle"
             android:layout_marginTop="@dimen/_8dp"
-            android:textSize="@dimen/_14sp"
+            android:textSize="@dimen/_15sp"
             android:textColor="@color/txt_color_title"
             app:layout_constraintTop_toBottomOf="@+id/nonce"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -125,7 +135,7 @@
             tools:text="19/07/2018"
             style="@style/TextAppStyle"
             android:textColor="@color/txt_color_content"
-            android:textSize="@dimen/_15sp"
+            android:textSize="@dimen/_17sp"
             android:layout_marginTop="@dimen/_2dp"
             app:layout_constraintTop_toBottomOf="@+id/timeTitle"
             android:layout_marginLeft="@dimen/_5dp"
@@ -136,7 +146,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/blockTitle"
             android:layout_marginTop="@dimen/_8dp"
-            android:textSize="@dimen/_14sp"
+            android:textSize="@dimen/_15sp"
             android:textColor="@color/txt_color_title"
             app:layout_constraintTop_toBottomOf="@+id/time"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -148,7 +158,7 @@
             tools:text="3605241"
             style="@style/TextAppStyle"
             android:textColor="@color/txt_color_content"
-            android:textSize="@dimen/_15sp"
+            android:textSize="@dimen/_17sp"
             android:layout_marginTop="@dimen/_2dp"
             app:layout_constraintTop_toBottomOf="@+id/blockTitle"
             android:layout_marginLeft="@dimen/_5dp"
@@ -159,7 +169,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/gasTitle"
             android:layout_marginTop="@dimen/_8dp"
-            android:textSize="@dimen/_14sp"
+            android:textSize="@dimen/_15sp"
             android:textColor="@color/txt_color_title"
             app:layout_constraintTop_toBottomOf="@+id/block"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -171,7 +181,7 @@
             tools:text="0.0000021"
             style="@style/TextAppStyle"
             android:textColor="@color/txt_color_content"
-            android:textSize="@dimen/_15sp"
+            android:textSize="@dimen/_17sp"
             android:layout_marginTop="@dimen/_2dp"
             app:layout_constraintTop_toBottomOf="@+id/gasTitle"
             android:layout_marginLeft="@dimen/_5dp"

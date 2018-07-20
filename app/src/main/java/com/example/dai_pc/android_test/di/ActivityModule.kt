@@ -1,6 +1,7 @@
 package com.example.dai_pc.android_test.di
 
 import com.example.dai_pc.android_test.view.SplashActivity
+import com.example.dai_pc.android_test.view.TransactionDetailActivity
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
 import com.example.dai_pc.android_test.view.main.MainActivity
 import com.example.dai_pc.android_test.view.setting.SettingActivity
@@ -27,5 +28,8 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = [ImportActivityModule::class])
     abstract fun importActivity(): ImportWalletActivity
+
+    @ContributesAndroidInjector
+    abstract fun transactionDetailActivity(): TransactionDetailActivity
 
 }

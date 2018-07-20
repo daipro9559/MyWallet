@@ -1,7 +1,6 @@
 package com.example.dai_pc.android_test.view.transaction
 
 import android.content.Context
-import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.entity.TransactionSendObject
 import com.example.dai_pc.android_test.repository.WalletRepository
 import com.example.dai_pc.android_test.service.AccountService
@@ -16,11 +15,11 @@ class SendTransactionPresenterImp
 @Inject constructor(private val preferenceHelper: PreferenceHelper,
                     private val context: Context,
                     private val accountService: AccountService,
-                    private val walletRepository: WalletRepository) : SendTransactionPresenter<AddAddressReceiveFragment> {
+                    private val walletRepository: WalletRepository) : SendTransactionPresenter<SendTransactionFragment> {
 
 
     private var view: SendTransactionView? = null
-    override fun bindView(v: AddAddressReceiveFragment) {
+    override fun bindView(v: SendTransactionFragment) {
         this.view = v
     }
 

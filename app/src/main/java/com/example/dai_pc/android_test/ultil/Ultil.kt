@@ -15,23 +15,24 @@ import java.util.*
 
 
 object Ultil {
-    fun getTimeFromTimeStamp(timeStamp:Long):String{
+    fun getTimeFromTimeStamp(timeStamp: Long): String {
         val date = Date(timeStamp * 1000)
         val sdf = SimpleDateFormat("HH:mm MM/dd/yyyy")
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"))
-        return  sdf.format(date)
-    }
-    fun getTimeFromTimeStamp(timeStamp:Long,context: Context):String{
-        val calendar = Calendar.getInstance(Locale.ENGLISH)
-        calendar.timeInMillis = timeStamp * 1000
-        return  DateFormat.getLongDateFormat(context).format(calendar.time)
+        return sdf.format(date)
     }
 
-    fun showDialogNotify(activity :FragmentActivity,title:String,message:String,Callback:()->Unit){
+    fun getTimeFromTimeStamp(timeStamp: Long, context: Context): String {
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timeStamp * 1000
+        return DateFormat.getLongDateFormat(context).format(calendar.time)
+    }
+
+    fun showDialogNotify(activity: FragmentActivity, title: String, message: String, Callback: () -> Unit) {
         AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setMessage(message)
-                .setNegativeButton("Ok"){dialogInterface, _ ->
+                .setNegativeButton(activity.getString(R.string.ok)) { dialogInterface, _ ->
                     dialogInterface.cancel()
                     Callback()
                 }
@@ -39,19 +40,20 @@ object Ultil {
                 .show()
     }
 
-    fun showDialogInputPassword(activity: FragmentActivity,title: String,textButtonOk :String,Callback:(String)->Unit){
-        AlertDialog.Builder(activity)
+    fun showDialogInputPassword(activity: FragmentActivity, title: String, textButtonOk: String, Callback: (String) -> Unit) {
+        var dialog: AlertDialog? = null
+        dialog = AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setView(R.layout.dialog_create_wallet)
-                .setNegativeButton(textButtonOk){dialogInterface, _ ->
+                .setPositiveButton(textButtonOk) { dialogInterface, _ ->
                     dialogInterface.cancel()
-                    val editText = activity.findViewById<TextInputEditText>(R.id.edt_pass)
-                    Callback(editText.text.toString())
+                    val editText = dialog!!.findViewById<TextInputEditText>(R.id.edt_pass)
+                    Callback(editText!!.text.toString())
                 }
-                .setPositiveButton(R.string.cancel){dialogInterface, _ ->
+                .setNegativeButton(R.string.cancel) { dialogInterface, _ ->
                     dialogInterface.cancel()
                 }
                 .create()
-                .show()
+        dialog.show()
     }
 }

@@ -18,7 +18,7 @@ class CreateTransactionActivity :BaseActivity<ActivityCreateTransactionBinding>(
         setSupportActionBar(viewDataBinding.toolBar)
         enableHomeHomeAsUp()
         createTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(SendTransactionViewModel::class.java)
-        addFragment(AddAddressReceiveFragment.newInstance(),AddAddressReceiveFragment.TAG,AddAddressReceiveFragment.TAG)
+        addFragment(SendTransactionFragment.newInstance(),SendTransactionFragment.TAG,SendTransactionFragment.TAG)
 
     }
 

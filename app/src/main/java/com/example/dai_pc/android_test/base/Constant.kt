@@ -11,7 +11,7 @@ object Constant {
     val APP_DATABASE_NAME = "Wallet_ethereum"
     val DB_VERSION = 1
     val KEY_STORE_FILE_CHILD = "keystore"
-    val IS_DEBUG = true
+    val IS_DEBUG = false
 
     //network
     val ETHEREUM_NETWORK_NAME = "Ethereum"
@@ -24,7 +24,7 @@ object Constant {
     //key preference
     val KEY_NETWORK_ID = "network_id_preference"
     val KEY_REQUIRE_PASSWORD ="require_password_send"
-
+    val KEY_OPEN_APP_FIRST  = "open app first"
 
     // Network init
     val NETWORKS = arrayOf(NetworkProvider(1, ETHEREUM_NETWORK_NAME, ETH_SYMBOL,

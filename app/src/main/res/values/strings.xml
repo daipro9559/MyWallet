@@ -43,7 +43,7 @@
     <string name="import_completed">Import wallet completed!</string>
     <string name="select_wallet_just_imported">Do you want select wallet just has imported?</string>
     <string name="yes">Yes</string>
-    <string name="password_export">Password  Export</string>
+    <string name="password_export">Export password</string>
     <string name="current_price">Current price</string>
     <string name="sending_transaction">Sending transaction</string>
     <string name="send_transaction_completed">Send transaction completed!</string>
@@ -64,5 +64,11 @@
     <string name="gasPrice">Gas Price:</string>
     <string name="gasLimit">Gas Limit:</string>
     <string name="input_pass_wallet">Please input password of your wallet</string>
+    <string name="hide_option">Hide option</string>
+    <string name="transaction_detail">Transaction detail</string>
+    <string name="ok">Ok</string>
+    <string name="send_ether">Send %s ETH</string>
+    <string name="receive_ether">Receive %s ETH</string>
+    <string name="new_password_wallet">New password</string>
 </resources>
 

@@ -33,13 +33,19 @@ class RateFragment :BaseFragment<FragmentRateBinding>(){
             }else{
                 viewDataBinding.txtPriceUSD.clearAnimation()
                 viewDataBinding.txtPriceBTC.clearAnimation()
+                if (viewDataBinding.swipeRefresh.isRefreshing){
+                    viewDataBinding.swipeRefresh.isRefreshing = false
+                }
             }
             it?.t?.let {
                 viewDataBinding.txtPriceUSD.text = it.result.ethusd.toString()+ " USD"
                 viewDataBinding.txtPriceBTC.text = it.result.ethbtc.toString() +" BTC"
             }
         })
-        rateViewModel.fetchPrice()
+        refresh()
+        viewDataBinding.swipeRefresh.setOnRefreshListener {
+            refresh()
+        }
     }
 
     fun refresh(){

@@ -2,15 +2,16 @@ package com.example.dai_pc.android_test.view.main.transactions
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
-import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.FragmentListTransactionBinding
-import com.example.dai_pc.android_test.repository.TransactionRepository
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
+import com.example.dai_pc.android_test.view.TRANSACTION_KEY
+import com.example.dai_pc.android_test.view.TransactionDetailActivity
 import com.example.dai_pc.android_test.view.main.MainActivity
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 import javax.inject.Inject
@@ -83,9 +84,15 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
     }
 
     private fun  initView(){
-        val adapter = TransactionAdapter()
+        val adapter = TransactionAdapter{
+            val intent = Intent(activity!!,TransactionDetailActivity::class.java)
+            val bundle = Bundle()
+            bundle.putParcelable(TRANSACTION_KEY,it)
+            intent.putExtra("bundle",bundle)
+            startActivity(intent)
+        }
         preferenceHelper.getString(getString(R.string.wallet_key))?.let{
-            adapter.addressMain = it
+            adapter.myWallet = it
         }
         viewDataBinding.recycleView.adapter = adapter
 
@@ -93,7 +100,6 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
 
     fun refresh(isShowLoading:Boolean){
          checkHaveWallet()
-
         listTransactionViewModel.getAllTransaction(0, 99999999, isShowLoading)
 
     }
@@ -101,7 +107,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
     fun changeAddress(address: String){
         val adapter = viewDataBinding.recycleView.adapter as TransactionAdapter
         adapter?.let{
-            adapter.addressMain = address
+            adapter.myWallet = address
         }
     }
 }

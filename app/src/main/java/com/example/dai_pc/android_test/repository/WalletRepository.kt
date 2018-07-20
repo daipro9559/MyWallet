@@ -88,9 +88,7 @@ constructor(
 
     fun importAccountByKeyStore(keystore: String, passwordOld: String, passwordNew: String): LiveData<String> {
         val accountLiveData = MutableLiveData<String>()
-
         accountService.importByKeyStore(keystore, passwordOld, passwordNew)
-
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

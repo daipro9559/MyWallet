@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.inputmethod.EditorInfo
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityImportWalletBinding
@@ -28,6 +29,13 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
         importWalletViewModel.addressLiveData.observe(this, Observer {
             buildDialogSelectAccount(it!!)
         })
+
+        viewDataBinding.edtNewPassword.setOnEditorActionListener { textView, i, keyEvent ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                clickImport()
+            }
+            true
+        }
     }
 
     fun clickImport() {
@@ -35,12 +43,18 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
             viewDataBinding.edtKeystore.error = getString(R.string.not_empty)
             return
         }
-        if (viewDataBinding.edtPassword.text.isEmpty()) {
-            viewDataBinding.edtPassword.error = getString(R.string.not_empty)
+        if (viewDataBinding.edtExportPassword.text.isEmpty()) {
+            viewDataBinding.edtExportPassword.error = getString(R.string.not_empty)
+            return
+        }
+        if (viewDataBinding.edtNewPassword.text.isEmpty()) {
+            viewDataBinding.edtNewPassword.error = getString(R.string.not_empty)
             return
         }
 
-        importWalletViewModel.importByKeyStore(viewDataBinding.edtKeystore.text.toString(), viewDataBinding.edtPassword.text.toString())
+        importWalletViewModel.importByKeyStore(viewDataBinding.edtKeystore.text.toString()
+                , viewDataBinding.edtExportPassword.text.toString()
+                , viewDataBinding.edtNewPassword.text.toString())
     }
 
 
