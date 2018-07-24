@@ -151,6 +151,8 @@ deps.expandLayout = "net.cachapa.expandablelayout:expandablelayout:2.9.2"
 deps.genToCode =  "com.journeyapps:zxing-android-embedded:3.2.0@aar"
 deps.coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.5"
 deps.view_expand = "net.cachapa.expandablelayout:expandablelayout:2.9.2"
+deps.easing =  "com.daimajia.easing:library:2.0@aar"
+deps.animationLib = "com.daimajia.androidanimations:library:2.3@aar"
 
 ext.deps = deps
 

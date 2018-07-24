@@ -56,9 +56,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
                     return@Observer
                 }
             }
-            it.messError?.let {
-                Toast.makeText(context,it,Toast.LENGTH_LONG).show()
-            }
+
             if (viewDataBinding.refresh.isRefreshing) viewDataBinding.refresh.isRefreshing = false
 
         })

@@ -11,6 +11,7 @@ import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.ethereum.geth.*
+import java.security.PrivateKey
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -98,5 +99,19 @@ constructor(
 
                 })
         return accountLiveData
+    }
+
+    fun importAccountByPrivateKey(privateKey: String, newPassword:String):LiveData<String>{
+        val accountLiveData = MutableLiveData<String>()
+        accountService.importByPrivatekey(privateKey,newPassword)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({
+
+                    accountService.savePassword(context,it.address.hex.toString(),newPassword)
+                    accountLiveData.value = it.address.hex.toString()
+                },{})
+        return accountLiveData
+
     }
 }

@@ -70,5 +70,9 @@
     <string name="send_ether">Send %s ETH</string>
     <string name="receive_ether">Receive %s ETH</string>
     <string name="new_password_wallet">New password</string>
+    <string name="privateKey">Private key</string>
+    <string name="import_wallet_by_keystore">Import wallet by keystore</string>
+    <string name="import_wallet_by_privatekey">Import wallet by private key</string>
+    <string name="change_import">Change import</string>
 </resources>
 

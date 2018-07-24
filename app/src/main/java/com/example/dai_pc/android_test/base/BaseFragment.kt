@@ -22,7 +22,7 @@ abstract class BaseFragment<V:ViewDataBinding> :Fragment(){
 
     protected lateinit var viewDataBinding:V
     @Inject
-    lateinit var viewModelFactory : ViewModelProvider.Factory
+     lateinit var viewModelFactory : ViewModelProvider.Factory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

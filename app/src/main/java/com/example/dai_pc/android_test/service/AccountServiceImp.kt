@@ -4,20 +4,31 @@ import android.content.Context
 import android.os.Build
 import com.example.dai_pc.android_test.ultil.KS
 import com.example.dai_pc.android_test.ultil.PasswordManager
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.FlowableTransformer
 import io.reactivex.Single
 import org.ethereum.geth.*
+import org.web3j.crypto.ECKeyPair
 import org.web3j.crypto.Keys
 import org.web3j.crypto.Wallet
+import org.web3j.crypto.Wallet.create
 import org.web3j.crypto.WalletFile
 import java.math.BigInteger
 import java.nio.charset.Charset
 import javax.inject.Inject
 
 class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountService {
-
-
+    private val PRIVATE_KEY_RADIX = 16
+    /**
+     * CPU/Memory cost parameter. Must be larger than 1, a power of 2 and less than 2^(128 * r / 8).
+     */
+    private val N = 1 shl 9
+    /**
+     * Parallelization parameter. Must be a positive integer less than or equal to Integer.MAX_VALUE / (128 * r * 8).
+     */
+    private val P = 1
 
     override fun savePassword(context: Context, address: String, password: String) {
 
@@ -95,6 +106,19 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountSer
             keyStore.importKey(keyStoreInput.toByteArray(Charset.forName("UTF-8")), oldPassword, newPassword)
         }
     }
+    override fun importByPrivatekey(privateKey: String, newPassword: String): Single<Account> {
+        return Single.fromCallable {
+            val key = BigInteger(privateKey, PRIVATE_KEY_RADIX)
+            val keypair = ECKeyPair.create(key)
+            val walletFile = create(newPassword, keypair, N, P)
+            ObjectMapper().writeValueAsString(walletFile)
+        }.compose {
+            importByKeyStore(it.blockingGet(),newPassword,newPassword)
+        }
+
+    }
+
+
     override fun exportWallet(address: String,password: String,passwordExport: String): Flowable<String> {
         return Flowable.fromCallable {
             val account = findAccount(address)

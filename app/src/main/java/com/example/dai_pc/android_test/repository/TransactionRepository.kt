@@ -46,10 +46,20 @@ constructor(
                     }) {
                         listTransaction.value = error(it.message!!)
                         when (it) {
-                            is UnknownHostException -> callback(NetworkState.BAD_URL)
-                            is SocketTimeoutException -> callback(NetworkState.TIME_OUT)
-                            is IOException -> callback(NetworkState.NO_CONENCTION)
-                            else -> callback(NetworkState.UNKNOWN)
+                            is UnknownHostException -> {
+                                callback(NetworkState.BAD_URL)
+                            }
+                            is SocketTimeoutException -> {
+                                callback(NetworkState.TIME_OUT)
+                            }
+
+                            is IOException -> {
+                                callback(NetworkState.NO_CONENCTION)
+                            }
+                            else -> {
+                                callback(NetworkState.UNKNOWN)
+                            }
+
 
                         }
                     }

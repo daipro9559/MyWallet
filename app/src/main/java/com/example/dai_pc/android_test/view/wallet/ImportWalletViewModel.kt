@@ -17,10 +17,18 @@ constructor(val walletRepository: WalletRepository) : BaseViewModel() {
         addressLiveData = Transformations.switchMap(importParamLiveData){
             return@switchMap walletRepository.importAccountByKeyStore(it.param,it.exportPassword,it.newPassword)
         }
+        addressLiveData = Transformations.switchMap(importParamLiveData){
+            return@switchMap walletRepository.importAccountByPrivateKey(it.param,it.newPassword)
+        }
     }
 
     fun importByKeyStore(keyStore: String, exportPassword: String,newPassword:String) {
      importParamLiveData.value = ImportParam(keyStore,exportPassword,newPassword)
+    }
+
+    fun importByPrivateKey(privateKey:String, newPassword: String){
+        importParamLiveData.value = ImportParam(privateKey,newPassword,newPassword)
+
     }
 
     fun selectWalletImported(address:String){

@@ -25,4 +25,5 @@ interface AccountService {
     fun getPassword(context: Context,address:String ):Single<String>
     fun exportWallet(address: String,password: String,passwordExport: String):Flowable<String>
     fun importByKeyStore(keyStore:String,oldPassword:String,newPassword:String):Single<Account>
+    fun importByPrivatekey(privateKey:String, newPassword: String):Single<Account>
 }

@@ -11,7 +11,7 @@ object Constant {
     val APP_DATABASE_NAME = "Wallet_ethereum"
     val DB_VERSION = 1
     val KEY_STORE_FILE_CHILD = "keystore"
-    val IS_DEBUG = false
+    val IS_DEBUG = true
 
     //network
     val ETHEREUM_NETWORK_NAME = "Ethereum"
