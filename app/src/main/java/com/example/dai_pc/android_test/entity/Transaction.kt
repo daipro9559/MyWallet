@@ -9,7 +9,6 @@ import com.google.gson.annotations.Expose
 import java.math.BigInteger
 
 data class Transaction(
-
         @Expose
         var blockNumber: Long?,
         @Expose

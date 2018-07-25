@@ -2,6 +2,7 @@ package com.example.dai_pc.android_test.di
 
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.main.rate.RateFragment
+import com.example.dai_pc.android_test.view.main.token.TokenFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -17,4 +18,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector
     abstract fun rateFragment(): RateFragment
+
+    @ContributesAndroidInjector
+    abstract fun tokenFragment(): TokenFragment
 }

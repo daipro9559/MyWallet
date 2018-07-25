@@ -1,8 +1,10 @@
 package com.example.dai_pc.android_test.di
 
 import android.app.Application
+import android.arch.persistence.room.Room
 import android.content.Context
 import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.database.AppDatabase
 import com.example.dai_pc.android_test.repository.NetworkRepository
 import com.example.dai_pc.android_test.service.AccountService
 import com.example.dai_pc.android_test.service.AccountServiceImp
@@ -59,8 +61,8 @@ class AppModule {
 //        return NetworkRepository(preferenceHelper,context)
 //    }
 
-//    @Singleton
-//    @Provides
-//    fun appDatabase(context: Context) = Room.databaseBuilder(context, AppDatabase::class.java, Constant.APP_DATABASE_NAME).build()
+    @Singleton
+    @Provides
+    fun appDatabase(context: Context) = Room.databaseBuilder(context, AppDatabase::class.java, Constant.APP_DATABASE_NAME).build()
 
 }

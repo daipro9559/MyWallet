@@ -41,6 +41,9 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
         importWalletViewModel.addressLiveData.observe(this, Observer {
             buildDialogSelectAccount(it!!)
         })
+        importWalletViewModel.addressByPrivateKeyLiveData.observe(this, Observer {
+            buildDialogSelectAccount(it!!)
+        })
 
         viewDataBinding.edtNewPassword.setOnEditorActionListener { textView, i, keyEvent ->
             if (i == EditorInfo.IME_ACTION_DONE) {

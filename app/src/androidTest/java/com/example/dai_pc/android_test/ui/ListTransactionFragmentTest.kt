@@ -44,7 +44,7 @@ class ListTransactionFragmentTest {
     @Test
     fun testLoadListTransaction() {
 //        listTransactionLiveData.postValue(loading())
-        viewModel.listTransactionLiveData.postValue(loading())
+//        viewModel.listTransactionLiveData.postValue(loading())
         Espresso.onView(ViewMatchers.withId(R.id.progressBar)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
     }

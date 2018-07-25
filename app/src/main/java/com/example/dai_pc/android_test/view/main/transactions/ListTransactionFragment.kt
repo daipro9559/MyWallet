@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.android.example.github.testing.OpenForTesting
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentListTransactionBinding
@@ -16,6 +18,7 @@ import com.example.dai_pc.android_test.view.main.MainActivity
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 import javax.inject.Inject
 
+@OpenForTesting
 class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
 
     companion object {
@@ -108,4 +111,5 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
             adapter.myWallet = address
         }
     }
+    fun navigation() = findNavController()
 }

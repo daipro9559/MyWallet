@@ -13,7 +13,7 @@ class RateFragment :BaseFragment<FragmentRateBinding>(){
     private lateinit var rateViewModel: RateViewModel
 
     companion object {
-        fun newsInstance() : RateFragment{
+        fun newInstance() : RateFragment{
             val rateFragment = RateFragment()
            return rateFragment
         }

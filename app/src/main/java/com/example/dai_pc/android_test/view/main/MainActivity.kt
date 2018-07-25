@@ -16,6 +16,7 @@ import android.view.View
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.main.rate.RateFragment
+import com.example.dai_pc.android_test.view.main.token.TokenFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.setting.SettingActivity
 import java.math.BigDecimal
@@ -59,7 +60,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
-        viewPagerAdapter.addFragment(RateFragment.newsInstance())
+        viewPagerAdapter.addFragment(RateFragment.newInstance())
+        viewPagerAdapter.addFragment(TokenFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
         viewDataBinding.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
@@ -74,6 +76,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
 //        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.icon = getDrawable(R.drawable.ic_transaction)
         viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_Wallet
         viewDataBinding.tabLayout.getTabAt(2)!!.text = Constant.RATE
+        viewDataBinding.tabLayout.getTabAt(3)!!.text = Constant.MY_TOKEN
 //        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
     }
 

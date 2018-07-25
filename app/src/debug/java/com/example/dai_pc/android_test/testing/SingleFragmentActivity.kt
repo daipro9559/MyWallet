@@ -25,7 +25,6 @@ class SingleFragmentActivity :AppCompatActivity(){
         supportFragmentManager.beginTransaction()
                 .add(R.id.container,fragment,"")
                 .commit()
-
     }
 
     fun replaceFragment(fragment: Fragment){

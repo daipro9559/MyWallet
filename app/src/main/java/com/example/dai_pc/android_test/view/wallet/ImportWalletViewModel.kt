@@ -10,24 +10,26 @@ import javax.inject.Inject
 class ImportWalletViewModel
 @Inject
 constructor(val walletRepository: WalletRepository) : BaseViewModel() {
-    private val importParamLiveData = MutableLiveData<ImportParam>()
+    private val importParamPrivateKeyLiveData = MutableLiveData<ImportParamByPrivateKey>()
+    private val importParamKeyStoreLiveData = MutableLiveData<ImportParamByKeyStore>()
     // address added
     var addressLiveData : LiveData<String>
+    var addressByPrivateKeyLiveData : LiveData<String>
     init {
-        addressLiveData = Transformations.switchMap(importParamLiveData){
+        addressLiveData = Transformations.switchMap(importParamKeyStoreLiveData){
             return@switchMap walletRepository.importAccountByKeyStore(it.param,it.exportPassword,it.newPassword)
         }
-        addressLiveData = Transformations.switchMap(importParamLiveData){
+        addressByPrivateKeyLiveData = Transformations.switchMap(importParamPrivateKeyLiveData){
             return@switchMap walletRepository.importAccountByPrivateKey(it.param,it.newPassword)
         }
     }
 
     fun importByKeyStore(keyStore: String, exportPassword: String,newPassword:String) {
-     importParamLiveData.value = ImportParam(keyStore,exportPassword,newPassword)
+        importParamKeyStoreLiveData.value = ImportParamByKeyStore(keyStore,exportPassword,newPassword)
     }
 
     fun importByPrivateKey(privateKey:String, newPassword: String){
-        importParamLiveData.value = ImportParam(privateKey,newPassword,newPassword)
+        importParamPrivateKeyLiveData.value = ImportParamByPrivateKey(privateKey,newPassword)
 
     }
 
@@ -35,5 +37,6 @@ constructor(val walletRepository: WalletRepository) : BaseViewModel() {
         walletRepository.saveAccountSelect(address)
     }
 
-    class ImportParam(val param:String,val exportPassword: String,val newPassword: String)
+    class ImportParamByPrivateKey(val param:String, val newPassword: String)
+    class ImportParamByKeyStore(val param:String, val exportPassword: String, val newPassword: String)
 }
