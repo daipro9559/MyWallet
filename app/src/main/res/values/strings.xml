@@ -17,7 +17,7 @@
     <string name="network">Change Network</string>
     <string name="require_password">Require password</string>
     <string name="require_pass_des">Require password when send transaction</string>
-    <string name="contact"></string>
+    <string name="contract"></string>
     <string name="about">About us</string>
     <string name="setting">Setting</string>
 
@@ -74,5 +74,11 @@
     <string name="import_wallet_by_keystore">Import wallet by keystore</string>
     <string name="import_wallet_by_privatekey">Import wallet by private key</string>
     <string name="change_import">Change import</string>
+    <string name="add_token_title">Add Token</string>
+    <string name="address">Address</string>
+    <string name="symbol">Symbol</string>
+    <string name="decimals">Decimals</string>
+    <string name="contract_address">Contract address</string>
+    <string name="save">Save</string>
 </resources>
 

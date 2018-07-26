@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/toolbar_layout"
+            android:id="@+id/toolbarLayout"/>
+        <android.support.constraint.ConstraintLayout
+            android:padding="@dimen/page_padding"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.design.widget.TextInputLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/contractAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/contract_address">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edtContractAddress"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                app:layout_constraintTop_toBottomOf="@+id/contractAddress"
+                android:id="@+id/symbol"
+                android:hint="@string/symbol"
+                android:layout_marginTop="@dimen/_10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edtSymbol"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                app:layout_constraintTop_toBottomOf="@+id/symbol"
+                android:id="@+id/decimal"
+                android:layout_marginTop="@dimen/_10dp"
+                android:hint="@string/decimals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:imeOptions="actionDone"
+                    android:id="@+id/edtDecimal"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.v7.widget.AppCompatButton
+                style="@style/ButtonApp"
+                android:id="@+id/btnSave"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:text="@string/save"
+                app:layout_constraintTop_toBottomOf="@+id/decimal"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

@@ -4,13 +4,13 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="pag_padding">10dp</dimen>
 
-	<dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="page_padding">5dp</dimen>
-	<dimen name="padding_header_navi">5dp</dimen>
-	<dimen name="min_height_header_navi">150dp</dimen>
+    <dimen name="padding_header_navi">5dp</dimen>
+    <dimen name="min_height_header_navi">150dp</dimen>
     <dimen name="text_size_app">16sp</dimen>
     <dimen name="item_margin_left">6dp</dimen>
     <dimen name="size_icon_splash">100dp</dimen>
@@ -39,5 +39,4 @@
     <dimen name="_25dp">25dp</dimen>
     <dimen name="_40dp">40dp</dimen>
     <dimen name="_18sp">18sp</dimen>
-
 </resources>

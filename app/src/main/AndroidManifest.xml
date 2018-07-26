@@ -36,6 +36,7 @@
         <activity android:name=".view.wallet.ImportWalletActivity">
         </activity>
         <activity android:name=".view.TransactionDetailActivity"/>
+        <activity android:name=".view.AddTokenActivity"/>
     </application>
 
 </manifest>

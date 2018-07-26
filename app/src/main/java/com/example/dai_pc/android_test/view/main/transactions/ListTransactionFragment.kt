@@ -4,6 +4,9 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
@@ -95,7 +98,9 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         preferenceHelper.getString(getString(R.string.wallet_key))?.let{
             adapter.myWallet = it
         }
+        viewDataBinding.recycleView.addItemDecoration(DividerItemDecoration(activity!!.applicationContext,LinearLayoutManager.VERTICAL))
         viewDataBinding.recycleView.adapter = adapter
+
 
     }
 

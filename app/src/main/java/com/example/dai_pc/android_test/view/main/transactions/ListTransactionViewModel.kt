@@ -16,7 +16,7 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
     private val fetchParam = MutableLiveData<FetchTransactionParam>()
     val listTransactionLiveData = Transformations.switchMap(fetchParam) {
         transactionRepository.fetchTransaction(it.startBlock, it.endBlock, it.isShowLoading) {
-
+            networkStateLiveData.value = it
         }
     }!!
 

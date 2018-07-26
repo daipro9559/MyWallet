@@ -44,6 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/keystore"
+                        android:inputType="text"
                         android:imeOptions="actionNext" />
                 </android.support.design.widget.TextInputLayout>
 

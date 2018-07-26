@@ -3,9 +3,12 @@ package com.example.dai_pc.android_test.entity
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcel
+import android.os.Parcelable
+import java.math.BigDecimal
 
-@Entity(tableName = "tokenInfo")
-data class TokenInfo(
+@Entity(tableName = "token")
+data class Token(
         @PrimaryKey
         @ColumnInfo(name = "address")
         val address: String,
@@ -16,6 +19,8 @@ data class TokenInfo(
         @ColumnInfo(name = "decimals")
         val decimals: Int,
         @ColumnInfo(name = "addedTime")
-        val addedTime: Int,
+        val addedTime: Long,
         @ColumnInfo(name = "network")
-        val network: String)
+        var network: String,
+        @ColumnInfo(name = "balance")
+        val balance: String)

@@ -1,0 +1,110 @@
+<resources>
+  <dimen name="activity_horizontal_margin">
+    28.44dp
+  </dimen>
+  <dimen name="activity_vertical_margin">
+    28.44dp
+  </dimen>
+  <dimen name="pag_padding">
+    17.78dp
+  </dimen>
+  <dimen name="fab_margin">
+    28.44dp
+  </dimen>
+  <dimen name="app_bar_height">
+    355.56dp
+  </dimen>
+  <dimen name="item_width">
+    355.56dp
+  </dimen>
+  <dimen name="text_margin">
+    28.44dp
+  </dimen>
+  <dimen name="page_padding">
+    8.89dp
+  </dimen>
+  <dimen name="padding_header_navi">
+    8.89dp
+  </dimen>
+  <dimen name="min_height_header_navi">
+    266.67dp
+  </dimen>
+  <dimen name="text_size_app">
+    28.44sp
+  </dimen>
+  <dimen name="item_margin_left">
+    10.67dp
+  </dimen>
+  <dimen name="size_icon_splash">
+    177.78dp
+  </dimen>
+  <dimen name="item_recycle_view_padding">
+    12.44dp
+  </dimen>
+  <dimen name="_19sp">
+    33.78sp
+  </dimen>
+  <dimen name="_5dp">
+    8.89dp
+  </dimen>
+  <dimen name="_.5dp">
+    0.89dp
+  </dimen>
+  <dimen name="_10dp">
+    17.78dp
+  </dimen>
+  <dimen name="_20dp">
+    35.56dp
+  </dimen>
+  <dimen name="_50dp">
+    88.89dp
+  </dimen>
+  <dimen name="_30dp">
+    53.33dp
+  </dimen>
+  <dimen name="_20sp">
+    35.56sp
+  </dimen>
+  <dimen name="_1dp">
+    1.78dp
+  </dimen>
+  <dimen name="_15sp">
+    26.67sp
+  </dimen>
+  <dimen name="_13sp">
+    23.11sp
+  </dimen>
+  <dimen name="_25sp">
+    44.44sp
+  </dimen>
+  <dimen name="_2dp">
+    3.56dp
+  </dimen>
+  <dimen name="_14sp">
+    24.89sp
+  </dimen>
+  <dimen name="_17sp">
+    30.22sp
+  </dimen>
+  <dimen name="_8dp">
+    14.22dp
+  </dimen>
+  <dimen name="_200dp">
+    355.56dp
+  </dimen>
+  <dimen name="_150dp">
+    266.67dp
+  </dimen>
+  <dimen name="_15dp">
+    26.67dp
+  </dimen>
+  <dimen name="_25dp">
+    44.44dp
+  </dimen>
+  <dimen name="_40dp">
+    71.11dp
+  </dimen>
+  <dimen name="_18sp">
+    32.0sp
+  </dimen>
+</resources>

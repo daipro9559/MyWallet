@@ -1,5 +1,6 @@
 package com.example.dai_pc.android_test.di
 
+import com.example.dai_pc.android_test.view.AddTokenActivity
 import com.example.dai_pc.android_test.view.SplashActivity
 import com.example.dai_pc.android_test.view.TransactionDetailActivity
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
@@ -31,5 +32,8 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun transactionDetailActivity(): TransactionDetailActivity
+
+    @ContributesAndroidInjector
+    abstract fun addTokenActivity(): AddTokenActivity
 
 }
