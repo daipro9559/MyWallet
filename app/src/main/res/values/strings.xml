@@ -13,7 +13,7 @@
     <string name="copy_to_clipboard">Copy to clipboard</string>
 
     <!--setting title-->
-    <string name="wallet">Select wallet</string>
+    <string name="select_account">Select account</string>
     <string name="network">Change Network</string>
     <string name="require_password">Require password</string>
     <string name="require_pass_des">Require password when send transaction</string>
@@ -22,26 +22,26 @@
     <string name="setting">Setting</string>
 
 
-    <!--key setting preference -->\
-    <string name="wallet_key">wallet_key</string>
+    <!--key setting preference -->
+    <string name="account_key">account_key</string>
     <string name="network_key">network_key</string>
-    <string name="create_wallet">Create new wallet</string>
-    <string name="import_wallet">Import wallet</string>
+    <string name="create_account">Create new account</string>
+    <string name="import_account">Import account</string>
     <string name="add_wallet">Add wallet</string>
     <string name="input_pass">password wallet</string>
     <string name="cancel">Cancel</string>
     <string name="no_input_password">Please input password</string>
     <string name="create">Create</string>
     <string name="create_completed">Create completed</string>
-    <string name="export_wallet">Export Wallet</string>
+    <string name="export_account">Export account</string>
     <string name="export">Export</string>
     <string name="hint_pass_export">Password export</string>
     <string name="keystore">Keystore</string>
     <string name="password">Password</string>
     <string name="password_restore">Password restore</string>
     <string name="not_empty">Must not be empty!</string>
-    <string name="import_completed">Import wallet completed!</string>
-    <string name="select_wallet_just_imported">Do you want select wallet just has imported?</string>
+    <string name="import_completed">Import account completed!</string>
+    <string name="select_account_just_imported">Do you want select account just has imported?</string>
     <string name="yes">Yes</string>
     <string name="password_export">Export password</string>
     <string name="current_price">Current price</string>
@@ -59,20 +59,20 @@
     <string name="blockNumber">Block number</string>
     <string name="transaction_time">Transaction time</string>
     <string name="gas_use">Gas used</string>
-    <string name="no_account">No wallet, please create or import wallet!</string>
+    <string name="no_account">No account, please create or import account!</string>
     <string name="show_option">Show option</string>
     <string name="gasPrice">Gas Price:</string>
     <string name="gasLimit">Gas Limit:</string>
-    <string name="input_pass_wallet">Please input password of your wallet</string>
+    <string name="input_pass_account">Please input password of your account</string>
     <string name="hide_option">Hide option</string>
     <string name="transaction_detail">Transaction detail</string>
     <string name="ok">Ok</string>
     <string name="send_ether">Send %s ETH</string>
     <string name="receive_ether">Receive %s ETH</string>
-    <string name="new_password_wallet">New password</string>
+    <string name="new_password_account">New password</string>
     <string name="privateKey">Private key</string>
-    <string name="import_wallet_by_keystore">Import wallet by keystore</string>
-    <string name="import_wallet_by_privatekey">Import wallet by private key</string>
+    <string name="import_account_by_keystore">Import account by keystore</string>
+    <string name="import_account_by_private_key">Import account by private key</string>
     <string name="change_import">Change import</string>
     <string name="add_token_title">Add Token</string>
     <string name="address">Address</string>
@@ -80,5 +80,13 @@
     <string name="decimals">Decimals</string>
     <string name="contract_address">Contract address</string>
     <string name="save">Save</string>
+    <string name="update_completed">Update account completed</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="delete_account">Delete address !</string>
+    <string name="delete_account_complete">Delete account completed!</string>
+    <string name="Error">Error!</string>
+    <string name="manage_account">Manage accounts</string>
+    <string name="select_account_completed">Select account completed</string>
 </resources>
 

@@ -11,10 +11,6 @@ import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.AppCompatEditText
-import android.support.v7.widget.LinearLayoutCompat
-import android.text.InputType
-import android.text.method.HideReturnsTransformationMethod
 import android.view.View
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
@@ -22,6 +18,7 @@ import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.databinding.FragmentMyAddressBinding
 import com.example.dai_pc.android_test.repository.WalletRepository
 import com.example.dai_pc.android_test.ultil.Callback
+import com.example.dai_pc.android_test.view.accounts.ManageAccountActivity
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -71,6 +68,9 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         btn_export.setOnClickListener {
             createDialogExport()
         }
+        btn_manage.setOnClickListener {
+            startActivity(Intent(activity!!,ManageAccountActivity::class.java))
+        }
     }
 
     fun genAddressToBarCode(address: String): Bitmap? {
@@ -110,7 +110,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
     private fun buildDialogCreateWallet() {
         var alertDialog: AlertDialog? = null
         val builder = AlertDialog.Builder(activity!!)
-                .setTitle(R.string.create_wallet)
+                .setTitle(R.string.create_account)
                 .setView(R.layout.dialog_create_wallet)
                 .setNegativeButton(R.string.cancel) { dialogInterface, _ ->
                     dialogInterface.cancel()
@@ -163,7 +163,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         val view = layoutInflater.inflate(R.layout.dialog_create_wallet,null)
         val textInputEditText = view.findViewById<TextInputEditText>(R.id.edt_pass)
         val builder = AlertDialog.Builder(activity!!)
-                .setTitle(R.string.export_wallet)
+                .setTitle(R.string.export_account)
                 .setView(view)
                 .setNegativeButton(R.string.cancel) { dialogInterface, _ ->
                     dialogInterface.cancel()

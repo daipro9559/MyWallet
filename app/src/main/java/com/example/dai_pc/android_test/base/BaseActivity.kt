@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.example.dai_pc.android_test.R
+import com.example.dai_pc.android_test.ultil.Ultil
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -71,4 +72,10 @@ abstract class BaseActivity<V : ViewDataBinding> : AppCompatActivity(), HasSuppo
     fun hasToolbar() = findViewById<Toolbar>(R.id.toolBar) != null
 
     fun getToolbar() = findViewById<Toolbar>(R.id.toolBar)
+
+    fun showDialogErrorNotify(message:String){
+        Ultil.showDialogNotify(this,getString(R.string.Error),message){
+
+        }
+    }
 }

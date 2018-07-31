@@ -134,7 +134,7 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
         gasPrice.setText(GAS_PRICE_DEFAULT.toString())
         btnSend.setOnClickListener {
             if (preferenceHelper.getBoolean(Constant.KEY_REQUIRE_PASSWORD)) {
-                Ultil.showDialogInputPassword(activity!!, getString(R.string.input_pass_wallet), getString(R.string.Send)) {
+                Ultil.showDialogInputPassword(activity!!, getString(R.string.input_pass_account), getString(R.string.Send)) {
                     validateTransaction(it, true)
                 }
             } else {

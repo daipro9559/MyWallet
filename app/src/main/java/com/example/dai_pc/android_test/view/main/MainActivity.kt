@@ -74,7 +74,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     private fun setupTablayout() {
         viewDataBinding.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
 //        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.icon = getDrawable(R.drawable.ic_transaction)
-        viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_Wallet
+        viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_ACCOUNT
         viewDataBinding.tabLayout.getTabAt(2)!!.text = Constant.RATE
         viewDataBinding.tabLayout.getTabAt(3)!!.text = Constant.MY_TOKEN
 //        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
@@ -115,9 +115,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
                 isNeedReload = true
                 changeNetwork(p0!!.getInt(getString(R.string.network_key),1))
             }
-            getString(R.string.wallet_key) -> {
+            getString(R.string.account_key) -> {
                 isNeedReload = true
-                changeWallet(p0!!.getString(getString(R.string.wallet_key),""))
+                changeWallet(p0!!.getString(getString(R.string.account_key),""))
             }
         }
     }

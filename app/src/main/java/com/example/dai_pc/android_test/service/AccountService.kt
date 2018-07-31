@@ -26,4 +26,7 @@ interface AccountService {
     fun exportWallet(address: String,password: String,passwordExport: String):Flowable<String>
     fun importByKeyStore(keyStore:String,oldPassword:String,newPassword:String):Single<Account>
     fun importByPrivatekey(privateKey:String, newPassword: String):Single<Account>
+    // update password
+    fun updateAccount(address:String, oldPassword:String,newPassword:String) : Completable
+    fun deleteAccount(address: String,password: String)
 }

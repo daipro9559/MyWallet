@@ -6,9 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.android.example.github.testing.OpenForTesting
 import com.example.dai_pc.android_test.R
@@ -47,7 +45,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         super.onActivityCreated(savedInstanceState)
         initView()
         listTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(ListTransactionViewModel::class.java)
-        if (preferenceHelper.getString(getString(R.string.wallet_key)) ==null){
+        if (preferenceHelper.getString(getString(R.string.account_key)) ==null){
             viewDataBinding.floatButton.visibility = View.GONE
         }
         refresh(true)
@@ -78,7 +76,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
     }
 
     fun checkHaveWallet() :Boolean{
-        return if (preferenceHelper.getString(getString(R.string.wallet_key)) ==null){
+        return if (preferenceHelper.getString(getString(R.string.account_key)) ==null){
             viewDataBinding.floatButton.visibility = View.GONE
             false
         }else{
@@ -95,7 +93,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
             intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
-        preferenceHelper.getString(getString(R.string.wallet_key))?.let{
+        preferenceHelper.getString(getString(R.string.account_key))?.let{
             adapter.myWallet = it
         }
         viewDataBinding.recycleView.addItemDecoration(DividerItemDecoration(activity!!.applicationContext,LinearLayoutManager.VERTICAL))

@@ -32,6 +32,7 @@ constructor(
         private val walletRepository: WalletRepository
 ) {
 
+    val errorLiveData =  MutableLiveData<String>()
 
     fun fetchTransaction(startBlock: Int, endBlock: Int, isShowLoading: Boolean, callback: (NetworkState) -> Unit): LiveData<Resource<List<Transaction>>> {
         val listTransaction = MutableLiveData<Resource<List<Transaction>>>()
@@ -86,7 +87,8 @@ constructor(
                     gasLimitBI.setString(transactionSendObject.gasLimit.toString(), 10)
                     var web3j = Web3jFactory.build(HttpService(networkRepository.networkProviderSelected.rpcServerUrl))
                     val singleData = Single.fromCallable {
-                        web3j.ethGetTransactionCount(walletRepository.accountSelected.value, DefaultBlockParameterName.LATEST).send()
+                        web3j.ethGetTransactionCount(walletRepository.accountSelected.value, DefaultBlockParameterName.LATEST)
+                                .send()
                                 .transactionCount
                     }.flatMap { t ->
                         accountService.signTransaction(walletRepository.accountSelected.value!!,

@@ -37,6 +37,7 @@
         </activity>
         <activity android:name=".view.TransactionDetailActivity"/>
         <activity android:name=".view.AddTokenActivity"/>
+        <activity android:name=".view.accounts.ManageAccountActivity"/>
     </application>
 
 </manifest>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/select"
+        android:checked="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/select_account"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/edit"
+        android:checked="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/edit"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/export"
+        android:checked="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/export_account"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/delete"
+        android:checked="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom" />
+</menu>

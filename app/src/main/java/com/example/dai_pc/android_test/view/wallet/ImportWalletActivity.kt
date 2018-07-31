@@ -5,22 +5,16 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
-import android.view.animation.TranslateAnimation
 import android.view.inputmethod.EditorInfo
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityImportWalletBinding
-import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_import_wallet.*
 
 class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
 
@@ -33,7 +27,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableHomeHomeAsUp()
-        setTitle(R.string.import_wallet_by_keystore)
+        setTitle(R.string.import_account_by_keystore)
         viewDataBinding.btnImport.setOnClickListener {
             clickImport()
         }
@@ -96,7 +90,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
     private fun buildDialogSelectAccount(address: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.import_completed)
-                .setMessage(R.string.select_wallet_just_imported)
+                .setMessage(R.string.select_account_just_imported)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     importWalletViewModel.selectWalletImported(address)
                     finish()
@@ -129,7 +123,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
                 })
                 .playOn(viewDataBinding.viewKeyStore)
         isImportByPrivateKey = true
-        setTitle(R.string.import_wallet_by_privatekey)
+        setTitle(R.string.import_account_by_private_key)
 
     }
 
@@ -154,7 +148,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
                 })
                 .playOn(viewDataBinding.viewKeyStore)
         isImportByPrivateKey = false
-        setTitle(R.string.import_wallet_by_keystore)
+        setTitle(R.string.import_account_by_keystore)
 
     }
 

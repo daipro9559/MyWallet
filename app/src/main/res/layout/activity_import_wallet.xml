@@ -75,7 +75,7 @@
                         android:id="@+id/edtNewPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/new_password_wallet"
+                        android:hint="@string/new_password_account"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword" />
                 </android.support.design.widget.TextInputLayout>
@@ -120,7 +120,7 @@
                         android:id="@+id/edtNewPasswordPrivateKey"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/new_password_wallet"
+                        android:hint="@string/new_password_account"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"/>
                 </android.support.design.widget.TextInputLayout>

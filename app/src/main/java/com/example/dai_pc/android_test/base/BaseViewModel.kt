@@ -10,10 +10,18 @@ import com.example.dai_pc.android_test.entity.NetworkState
 
 abstract class BaseViewModel: ViewModel() {
     val progressState : LiveData<Boolean> = MutableLiveData<Boolean>()
-    val errorLiveData = MutableLiveData<String>()
+    lateinit var errorLiveData : MutableLiveData<String>
     val networkStateLiveData = MutableLiveData<NetworkState>()
 
     override fun onCleared() {
         super.onCleared()
+    }
+
+    fun onError(error:String){
+        errorLiveData.postValue(error)
+    }
+
+    fun networkError(state: NetworkState){
+        networkStateLiveData.postValue(state)
     }
 }

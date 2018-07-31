@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityCreateTransactionBinding
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 
 class CreateTransactionActivity :BaseActivity<ActivityCreateTransactionBinding>(){
@@ -15,7 +16,7 @@ class CreateTransactionActivity :BaseActivity<ActivityCreateTransactionBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(viewDataBinding.toolBar)
+        setSupportActionBar(viewDataBinding.toolbarLayout.toolBar)
         enableHomeHomeAsUp()
         createTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(SendTransactionViewModel::class.java)
         addFragment(SendTransactionFragment.newInstance(),SendTransactionFragment.TAG,SendTransactionFragment.TAG)

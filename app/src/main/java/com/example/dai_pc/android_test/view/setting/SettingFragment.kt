@@ -68,7 +68,7 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
 
     fun initDataWallet(){
         walletRepository.getAllAccount()
-        val  walletPreferences= findPreference(context!!.getString(R.string.wallet_key)) as ListPreference
+        val  walletPreferences= findPreference(context!!.getString(R.string.account_key)) as ListPreference
         val entries = arrayOfNulls<CharSequence>(walletRepository.accountsLiveData.value!!.size)
         for (i in 0 until walletRepository.accountsLiveData.value!!.size ){
             entries[i] = walletRepository.accountsLiveData.value!![i].address.hex.toString()
@@ -92,7 +92,7 @@ class SettingFragment : PreferenceFragmentCompat(),SharedPreferences.OnSharedPre
             context!!.getString(R.string.network_key) ->{
             // need reload wallet content
             }
-            context!!.getString(R.string.wallet_key) ->{
+            context!!.getString(R.string.account_key) ->{
                 // need reload wallet content
             }
         }

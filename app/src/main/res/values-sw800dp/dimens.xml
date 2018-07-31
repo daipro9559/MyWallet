@@ -107,4 +107,7 @@
   <dimen name="_18sp">
     40.0sp
   </dimen>
+  <dimen name="_32dp">
+    71.11dp
+  </dimen>
 </resources>

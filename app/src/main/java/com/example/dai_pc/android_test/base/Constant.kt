@@ -64,7 +64,7 @@ object Constant {
 
     //title tab item
     const val TRANSACTIONS="Transactions"
-    const val MY_Wallet ="My wallet"
+    const val MY_ACCOUNT ="My account"
     const val TEST ="tab test"
     const val RATE ="Rate"
     const val MY_TOKEN = "My Token"

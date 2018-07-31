@@ -3,15 +3,15 @@ package com.example.dai_pc.android_test.entity
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Wallet(val name:String,val address:String) :Parcelable {
+data class Wallet(val name:String,val address:String, val note : String) :Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
-            parcel.readString()) {
-    }
-
+            parcel.readString(),
+            parcel.readString())
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(address)
+        parcel.writeString(note)
     }
 
     override fun describeContents(): Int {
@@ -27,5 +27,6 @@ data class Wallet(val name:String,val address:String) :Parcelable {
             return arrayOfNulls(size)
         }
     }
+
 
 }

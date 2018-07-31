@@ -15,11 +15,19 @@ import org.web3j.crypto.Keys
 import org.web3j.crypto.Wallet
 import org.web3j.crypto.Wallet.create
 import org.web3j.crypto.WalletFile
+import java.lang.Comparable
 import java.math.BigInteger
 import java.nio.charset.Charset
 import javax.inject.Inject
 
-class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountService {
+class AccountServiceImp @Inject constructor(private val keyStore: KeyStore) : AccountService {
+
+    @Throws
+    override fun deleteAccount(address: String,password: String) {
+            keyStore.deleteAccount(findAccount(address),password)
+    }
+
+
     private val PRIVATE_KEY_RADIX = 16
     /**
      * CPU/Memory cost parameter. Must be larger than 1, a power of 2 and less than 2^(128 * r / 8).
@@ -104,6 +112,7 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountSer
     override fun importByKeyStore(keyStoreInput: String, oldPassword: String, newPassword: String): Single<Account> {
         return Single.fromCallable {
             keyStore.importKey(keyStoreInput.toByteArray(Charset.forName("UTF-8")), oldPassword, newPassword)
+
         }
     }
     override fun importByPrivatekey(privateKey: String, newPassword: String): Single<Account> {
@@ -125,6 +134,10 @@ class AccountServiceImp @Inject constructor(val keyStore: KeyStore) : AccountSer
             String(keyStore.exportKey(account,password,passwordExport))
         }
     }
-
+    override fun updateAccount(address: String, oldPassword: String, newPassword: String): Completable {
+        return Completable.create{
+            keyStore.updateAccount(findAccount(address),oldPassword,newPassword)
+        }
+    }
 
 }
