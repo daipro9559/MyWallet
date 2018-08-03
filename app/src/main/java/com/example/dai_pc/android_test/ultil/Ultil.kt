@@ -6,15 +6,20 @@ import android.support.design.widget.TextInputEditText
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.text.format.DateFormat
 import com.example.dai_pc.android_test.R
 import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 
 object Ultil {
+
+    private val addressPattern = Pattern.compile("(?i)^(0x)[0-9a-f]{40}$")
+
     fun getTimeFromTimeStamp(timeStamp: Long): String {
         val date = Date(timeStamp * 1000)
         val sdf = SimpleDateFormat("HH:mm MM/dd/yyyy")
@@ -55,5 +60,9 @@ object Ultil {
                 }
                 .create()
         dialog.show()
+    }
+
+    fun checkAddressPattern(address:String):Boolean{
+        return (TextUtils.isEmpty(address) || !addressPattern.matcher(address).matches())
     }
 }

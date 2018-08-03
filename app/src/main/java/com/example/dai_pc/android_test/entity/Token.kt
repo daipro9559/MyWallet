@@ -11,7 +11,7 @@ import java.math.BigDecimal
 data class Token(
         @PrimaryKey
         @ColumnInfo(name = "address")
-        val address: String,
+        var address: String,
         @ColumnInfo(name = "name")
         val name: String,
         @ColumnInfo(name = "symbol")
@@ -23,4 +23,6 @@ data class Token(
         @ColumnInfo(name = "network")
         var network: String,
         @ColumnInfo(name = "balance")
-        val balance: String)
+        val balance: String,
+        @ColumnInfo(name = "contractAddress")
+        val contractAddress: String)

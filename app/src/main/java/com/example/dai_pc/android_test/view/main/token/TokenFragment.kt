@@ -32,10 +32,21 @@ class TokenFragment : BaseFragment<FragmentTokenBinding>() {
             it?.let {
                 Timber.e(it!!.size.toString())
                 tokenAdapter.swapListItem(it)
+                // test
+                if (it.isNotEmpty()) {
+                            tokenViewModel.getBalance(it[0])
+                }
+
             }
 
         })
         tokenViewModel.getAllToken()
+        tokenViewModel.valueBalance.observe(this, Observer {
+            it?.let {
+                Timber.e(it!!.toString())
+
+            }
+        })
     }
 
     private fun initView() {
@@ -48,6 +59,7 @@ class TokenFragment : BaseFragment<FragmentTokenBinding>() {
             startActivity(Intent(activity!!, AddTokenActivity::class.java))
         }
     }
+
 
 
 }

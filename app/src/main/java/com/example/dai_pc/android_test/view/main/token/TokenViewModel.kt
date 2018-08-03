@@ -12,22 +12,28 @@ import javax.inject.Inject
 class TokenViewModel @Inject constructor(private val tokenRepository: TokenRepository,
                                          private val context: Context) : BaseViewModel() {
     private val tokenInforAdded = MutableLiveData<Token>()
-     val notifyAddCompleted  = Transformations.switchMap(tokenInforAdded){
-         tokenRepository.addToken(it)
+    private val tokenBalance = MutableLiveData<Token>()
+    val notifyAddCompleted = Transformations.switchMap(tokenInforAdded) {
+        tokenRepository.addToken(it)
     }
-     val listTokenInfo = MutableLiveData<List<Token>>()
-
-    fun addToken(address:String,symbol:String,decimal: Int){
-        tokenInforAdded.value = Token(address,"",symbol,decimal,System.currentTimeMillis(),"","0")
+    val listTokenInfo = MutableLiveData<List<Token>>()
+    val valueBalance  = Transformations.switchMap(tokenBalance){
+        tokenRepository.getBalance(it)
     }
 
-    fun getAllToken(){
+    fun addToken(contractAddress: String, symbol: String, decimal: Int) {
+        tokenInforAdded.value = Token(""// addressWallet
+                , "", symbol, decimal, System.currentTimeMillis(), "", "0",contractAddress)
+    }
+
+    fun getAllToken() {
         tokenRepository.getAllToken().observeForever {
             listTokenInfo.value = it
         }
     }
 
-    fun getBalance(address: String, token: Token){
-
+    fun getBalance(token: Token) {
+        tokenBalance.value = token
     }
+
 }

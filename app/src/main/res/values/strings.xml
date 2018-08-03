@@ -88,5 +88,7 @@
     <string name="Error">Error!</string>
     <string name="manage_account">Manage accounts</string>
     <string name="select_account_completed">Select account completed</string>
+    <string name="error_invalid_address">Invalid address</string>
+    <string name="field_require">This field is required</string>
 </resources>
 
