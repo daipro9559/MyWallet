@@ -12,8 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SendTransactionPresenterImp
-@Inject constructor(private val preferenceHelper: PreferenceHelper,
-                    private val context: Context,
+@Inject constructor(private val context: Context,
                     private val accountService: AccountService,
                     private val walletRepository: WalletRepository) : SendTransactionPresenter<SendTransactionFragment> {
 
@@ -27,9 +26,7 @@ class SendTransactionPresenterImp
         this.view = null
     }
 
-    private var passIsValidated = false
 
-    private val ADDRESS_REGEX = "0x\\w"
 
     private lateinit var transactionSendObject: TransactionSendObject
 

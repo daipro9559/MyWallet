@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
@@ -98,6 +99,14 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
     }
 
     fun validateTransaction(password: String, isRequirePass: Boolean) {
+        if (TextUtils.isEmpty(viewDataBinding.amount.text.toString())){
+            viewDataBinding.amount.error = getString(R.string.field_require)
+            return
+        }
+        if (TextUtils.isEmpty(viewDataBinding.txtAddress.text.toString())){
+            viewDataBinding.txtAddress.error = getString(R.string.field_require)
+            return
+        }
         var transactionSendedObject = TransactionSendObject.Builder()
                 .setTo(viewDataBinding.txtAddress.text.toString())
                 .setAmount(BalanceUltil.baseToSubunit(viewDataBinding.amount.text.toString(), 18))// 18 is Ether_decimals
