@@ -3,7 +3,9 @@ package com.example.dai_pc.android_test.repository
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.dai_pc.android_test.database.AppDatabase
+import com.example.dai_pc.android_test.entity.BalanceToken
 import com.example.dai_pc.android_test.entity.Token
+import jnr.ffi.annotations.In
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -56,6 +58,19 @@ class TokenRepository @Inject constructor(
         return state
     }
 
+    fun deleteToken(token: Token): LiveData<Int> {
+        val state = MutableLiveData<Int>()
+        token.address = walletRepository.accountSelected.value!!
+        token.network = networkRepository.networkProviderSelected.name
+        launch(UI) {
+            val value = async(CommonPool) {
+                appDatabase.tokenDao().deleteToken(token)
+            }
+            state.value = value.await()
+        }
+        return state
+    }
+
     fun getAllToken(): LiveData<List<Token>> {
         walletRepository.accountSelected.value?.apply {
             return appDatabase.tokenDao().getAllToken(walletRepository.accountSelected.value!!, networkRepository.networkProviderSelected.name)
@@ -63,17 +78,20 @@ class TokenRepository @Inject constructor(
         return MutableLiveData<List<Token>>()
     }
 
-    fun getBalance( token: Token): LiveData<BigDecimal> {
-        val mutableLiveData = MutableLiveData<BigDecimal>()
-        launch(UI) {
-            val fetchBalance = async (CommonPool){
-                val  function = balanceOf(walletRepository.accountSelected.value!!)
-                val responseValue = callSmartContractFunction(function,token.address,walletRepository.accountSelected.value!!)
-                val response = FunctionReturnDecoder.decode(responseValue,function.outputParameters)
-                if(response.size == 0) null else BigDecimal((response[0] as Uint256).value )
+    fun getBalance(token: Token, position: Int): LiveData<BalanceToken> {
+        val mutableLiveData = MutableLiveData<BalanceToken>()
+        walletRepository.accountSelected.value?.let {
+            launch(UI) {
+                val fetchBalance = async(CommonPool) {
+                    val function = balanceOf(walletRepository.accountSelected.value!!)
+                    val responseValue = callSmartContractFunction(function, token.contractAddress, walletRepository.accountSelected.value!!.toLowerCase())
+                    val response = FunctionReturnDecoder.decode(responseValue, function.outputParameters)
+                    if (response.size == 0) null else BalanceToken(position, BigDecimal((response[0] as Uint256).value))
+                }
+                mutableLiveData.value = fetchBalance.await()
             }
-            mutableLiveData.value = fetchBalance.await()
         }
+
         return mutableLiveData
 
 
@@ -82,6 +100,7 @@ class TokenRepository @Inject constructor(
     private fun balanceOf(owner: String) = Function("balanceOf"
             , listOf(Address(owner))
             , listOf(object : TypeReference<Uint256>() {}))
+
     // address: address is selected
     private fun callSmartContractFunction(function: Function, contractAddress: String, address: String): String {
         val encodeFuntion = FunctionEncoder.encode(function)
@@ -93,12 +112,5 @@ class TokenRepository @Inject constructor(
 
     }
 
-    // send token
-    fun createTokenTransferData(to: String, tokenAmount: BigInteger): ByteArray {
-        val params = listOf(Address(to), Uint256(tokenAmount))
-        val returnTypes = listOf(object : TypeReference<Bool>(){})
-        val funtion = Function("transfer",params,returnTypes)
-        val encodedFuntion = FunctionEncoder.encode(funtion)
-        return Numeric.hexStringToByteArray(encodedFuntion)
-    }
+
 }

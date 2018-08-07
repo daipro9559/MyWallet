@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityAddTokenBinding
@@ -30,7 +31,14 @@ class AddTokenActivity : BaseActivity<ActivityAddTokenBinding>() {
                     edtDecimal.text.toString().toInt())
         }
         tokenViewModel.notifyAddCompleted.observe(this, Observer {
-            Timber.e("add token state$it")
+            if (it!!.compareTo(-1)==0){
+                Ultil.showDialogNotify(this,getString(R.string.error),getString(R.string.add_token_fail)){
+
+                }
+            }else{
+                Toast.makeText(applicationContext,getString(R.string.add_token_completed),Toast.LENGTH_SHORT).show()
+                finish()
+            }
         })
     }
 

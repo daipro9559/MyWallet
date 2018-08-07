@@ -12,13 +12,13 @@ import javax.inject.Inject
 class TokenViewModel @Inject constructor(private val tokenRepository: TokenRepository,
                                          private val context: Context) : BaseViewModel() {
     private val tokenInforAdded = MutableLiveData<Token>()
-    private val tokenBalance = MutableLiveData<Token>()
+    private val tokenBalance = MutableLiveData<BalanceObject>()
     val notifyAddCompleted = Transformations.switchMap(tokenInforAdded) {
         tokenRepository.addToken(it)
     }
     val listTokenInfo = MutableLiveData<List<Token>>()
     val valueBalance  = Transformations.switchMap(tokenBalance){
-        tokenRepository.getBalance(it)
+        tokenRepository.getBalance(it.token,it.position)
     }
 
     fun addToken(contractAddress: String, symbol: String, decimal: Int) {
@@ -32,8 +32,9 @@ class TokenViewModel @Inject constructor(private val tokenRepository: TokenRepos
         }
     }
 
-    fun getBalance(token: Token) {
-        tokenBalance.value = token
+    fun getBalance(token: Token, position :Int) {
+        tokenBalance.value = BalanceObject(token,position)
     }
 
 }
+data class BalanceObject(val token: Token,val position:Int)

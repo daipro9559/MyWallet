@@ -1,4 +1,4 @@
-package com.example.dai_pc.android_test.view.main.rate
+package com.example.dai_pc.android_test.view.rate
 
 import android.arch.lifecycle.MutableLiveData
 import com.example.dai_pc.android_test.base.BaseViewModel

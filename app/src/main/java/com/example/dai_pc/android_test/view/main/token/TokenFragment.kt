@@ -8,8 +8,11 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.FragmentTokenBinding
+import com.example.dai_pc.android_test.entity.Token
 import com.example.dai_pc.android_test.view.AddTokenActivity
+import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 import timber.log.Timber
 
 class TokenFragment : BaseFragment<FragmentTokenBinding>() {
@@ -33,25 +36,21 @@ class TokenFragment : BaseFragment<FragmentTokenBinding>() {
                 Timber.e(it!!.size.toString())
                 tokenAdapter.swapListItem(it)
                 // test
-                if (it.isNotEmpty()) {
-                            tokenViewModel.getBalance(it[0])
-                }
-
             }
 
         })
-        tokenViewModel.getAllToken()
+        refresh()
         tokenViewModel.valueBalance.observe(this, Observer {
             it?.let {
-                Timber.e(it!!.toString())
-
+                tokenAdapter.updateBalance(it)
             }
         })
     }
 
     private fun initView() {
         viewDataBinding.recycleView.layoutManager
-        tokenAdapter = TokenAdapter()
+        tokenAdapter = TokenAdapter({ token, i -> tokenViewModel.getBalance(token, i) }
+                , { token -> startSendTokenActivity(token) })
         viewDataBinding.recycleView.addItemDecoration(DividerItemDecoration(activity!!.applicationContext, LinearLayoutManager.VERTICAL))
 
         viewDataBinding.recycleView.adapter = tokenAdapter
@@ -60,6 +59,24 @@ class TokenFragment : BaseFragment<FragmentTokenBinding>() {
         }
     }
 
+    /**
+     * temporary code : because case balance is loading and user click to token, balance is not define
+     *
+     */
+    private fun startSendTokenActivity(token: Token) {
+        val intent = Intent(activity!!, CreateTransactionActivity::class.java)
+        intent.putExtra(Constant.IS_SEND_TOKEN, true)
+        intent.putExtra(Constant.SYMBOL_TOKEN, token.symbol)
+        intent.putExtra(Constant.BALANCE_TOKEN, token.balance)
+        intent.putExtra(Constant.CONTRACT_ADDRESS, token.contractAddress)
+        startActivity(intent)
+
+    }
+
+    fun refresh(){
+        tokenViewModel.getAllToken()
+
+    }
 
 
 }

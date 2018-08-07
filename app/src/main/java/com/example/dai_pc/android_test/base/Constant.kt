@@ -57,6 +57,7 @@ object Constant {
     const val ACTION = "action"
     const val API_KEY = "apikey"
     const val ADDRESS = "address"
+    const val CONTRACT_ADDRESS = "contractaddress"
     const val START_BLOCK = "startblock"
     const val END_BLOCK = "endblock"
     const val SORT = "sort"
@@ -69,6 +70,8 @@ object Constant {
     const val RATE ="Rate"
     const val MY_TOKEN = "My Token"
 
-
-
+    //key bundle fragment
+    const val IS_SEND_TOKEN = "isSendToken"
+    const val SYMBOL_TOKEN = "symbol"
+    const val BALANCE_TOKEN = "balance_token"
 }

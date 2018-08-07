@@ -23,7 +23,7 @@ abstract class BaseRecycleViewAdapter<I, V : ViewDataBinding> : RecyclerView.Ada
 
     abstract fun bindData(i: I, holder: ItemViewHolder<V>)
 
-    fun swapListItem(items: List<I>) {
+    open  fun swapListItem(items: List<I>) {
         this.items = items
         notifyDataSetChanged()
     }

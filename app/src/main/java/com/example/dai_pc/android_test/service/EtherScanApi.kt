@@ -32,5 +32,28 @@ interface EtherScanApi {
     @GET("/api")
     fun fetchEtherPrice(@Query(Constant.MODULE) module: String,
                         @Query(Constant.ACTION) action: String,
-                        @Query(Constant.API_KEY) apiKey: String):Flowable<EtherPriceResponse>
+                        @Query(Constant.API_KEY) apiKey: String): Flowable<EtherPriceResponse>
+
+    // get list of token by Address
+    @GET("/api")
+    fun fetchListToken(@Query(Constant.MODULE) module: String,
+                       @Query(Constant.ACTION) action: String,
+                       @Query(Constant.ADDRESS) address: String,
+                       @Query(Constant.START_BLOCK) startBlock: Int,
+                       @Query(Constant.END_BLOCK) endBlock: Int,
+                       @Query(Constant.SORT) sort: String,
+                       @Query(Constant.API_KEY) apiKey: String) {
+
+    }
+
+    @GET("/api")
+    fun fetchListTokenByContractAddress(@Query(Constant.MODULE) module: String,
+                                        @Query(Constant.ACTION) action: String,
+                                        @Query(Constant.CONTRACT_ADDRESS) address: String,
+                                        @Query(Constant.START_BLOCK) startBlock: Int,
+                                        @Query(Constant.END_BLOCK) endBlock: Int,
+                                        @Query(Constant.SORT) sort: String,
+                                        @Query(Constant.API_KEY) apiKey: String) {
+
+    }
 }

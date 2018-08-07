@@ -23,6 +23,6 @@ data class Token(
         @ColumnInfo(name = "network")
         var network: String,
         @ColumnInfo(name = "balance")
-        val balance: String,
+        var balance: String,
         @ColumnInfo(name = "contractAddress")
         val contractAddress: String)

@@ -110,4 +110,13 @@
   <dimen name="_32dp">
     53.33dp
   </dimen>
+  <dimen name="_4dp">
+    6.67dp
+  </dimen>
+  <dimen name="_60dp">
+    100.0dp
+  </dimen>
+  <dimen name="_100dp">
+    166.67dp
+  </dimen>
 </resources>

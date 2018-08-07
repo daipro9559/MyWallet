@@ -59,7 +59,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
 
         btn_copy.setOnClickListener {
             val clipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText(KEY_ADDRESS, walletRepository.accountSelected.value!!)
+            val clip = ClipData.newPlainText(KEY_ADDRESS, walletRepository.accountSelected.value)
             if (clipboard != null) {
                 clipboard.primaryClip = clip
             }

@@ -6,6 +6,7 @@ import com.example.dai_pc.android_test.view.TransactionDetailActivity
 import com.example.dai_pc.android_test.view.accounts.ManageAccountActivity
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
 import com.example.dai_pc.android_test.view.main.MainActivity
+import com.example.dai_pc.android_test.view.rate.RateActivity
 import com.example.dai_pc.android_test.view.setting.SettingActivity
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 import dagger.Module
@@ -38,6 +39,9 @@ abstract class ActivityModule {
     abstract fun addTokenActivity(): AddTokenActivity
 
     @ContributesAndroidInjector
-    abstract fun manageAccountActivity() : ManageAccountActivity
+    abstract fun manageAccountActivity(): ManageAccountActivity
+
+    @ContributesAndroidInjector
+    abstract fun rateActivity(): RateActivity
 
 }

@@ -11,11 +11,18 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.ethereum.geth.BigInt
+import org.web3j.abi.FunctionEncoder
+import org.web3j.abi.TypeReference
+import org.web3j.abi.datatypes.Address
+import org.web3j.abi.datatypes.Bool
+import org.web3j.abi.datatypes.Function
+import org.web3j.abi.datatypes.generated.Uint256
 import org.web3j.protocol.Web3jFactory
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.http.HttpService
 import org.web3j.utils.Numeric
 import java.io.IOException
+import java.math.BigInteger
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -72,7 +79,7 @@ constructor(
         return listTransaction
     }
 
-    fun sendTransaction(transactionSendObject: TransactionSendObject, data: ByteArray?): LiveData<Resource<String>> {
+    fun sendTransaction(transactionSendObject: TransactionSendObject): LiveData<Resource<String>> {
         val liveData = MutableLiveData<Resource<String>>()
         liveData.value = loading()
         accountService.getPassword(context, walletRepository.accountSelected.value!!)
@@ -98,14 +105,14 @@ constructor(
                                 transactionSendObject.gasPrice!!,
                                 transactionSendObject.gasLimit!!,
                                 t.toLong(),
-                                data,
+                                transactionSendObject.data,
                                 networkRepository.networkProviderSelected.ChanId.toLong())
                     }.flatMap { singleMessage ->
                         Single.fromCallable {
                             val hextString = Numeric.toHexString(singleMessage)
                             val raw = web3j.ethSendRawTransaction(hextString).send()
                             if (raw.hasError()) {
-                                raw.error.message
+                                throw Exception(raw.error.message)
                             } else {
                                 raw.transactionHash
                             }
@@ -114,12 +121,16 @@ constructor(
                     singleData.observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe({
-                                liveData.value = success(it)
+                                liveData.value = success(it.toString())
                             }, {
                                 liveData.value = error(it.message.toString())
                             })
                 }, {})
         return liveData
+
+    }
+
+    fun sendToken(transactionSendObject: TransactionSendObject){
 
     }
 
@@ -131,7 +142,14 @@ constructor(
         walletRepository.initAccountSelect()
     }
 
-
+    // create data for send token
+    fun createTokenTransferData(to: String, tokenAmount: BigInteger): ByteArray {
+        val params = listOf(Address(to), Uint256(tokenAmount))
+        val returnTypes = listOf(object : TypeReference<Bool>() {})
+        val funtion = Function("transfer", params, returnTypes)
+        val encodedFuntion = FunctionEncoder.encode(funtion)
+        return Numeric.hexStringToByteArray(encodedFuntion)
+    }
 }
 
 

@@ -15,9 +15,9 @@ import android.view.Menu
 import android.view.View
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
-import com.example.dai_pc.android_test.view.main.rate.RateFragment
 import com.example.dai_pc.android_test.view.main.token.TokenFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
+import com.example.dai_pc.android_test.view.rate.RateActivity
 import com.example.dai_pc.android_test.view.setting.SettingActivity
 import java.math.BigDecimal
 
@@ -53,6 +53,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
 
             }
         })
+        viewDataBinding.viewBalance.setOnClickListener {
+            startActivity(Intent(this,RateActivity::class.java))
+        }
     }
 
     private fun initView() {
@@ -60,7 +63,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
-        viewPagerAdapter.addFragment(RateFragment.newInstance())
         viewPagerAdapter.addFragment(TokenFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
         viewDataBinding.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
@@ -73,11 +75,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
 
     private fun setupTablayout() {
         viewDataBinding.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
-//        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.icon = getDrawable(R.drawable.ic_transaction)
         viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_ACCOUNT
-        viewDataBinding.tabLayout.getTabAt(2)!!.text = Constant.RATE
-        viewDataBinding.tabLayout.getTabAt(3)!!.text = Constant.MY_TOKEN
-//        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.TEST
+        viewDataBinding.tabLayout.getTabAt(2)!!.text = Constant.MY_TOKEN
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -95,13 +94,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
             reloadContent()
             isNeedReload = false
         }
-    }
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -132,9 +124,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         fragmentMyAddress?.let {
             it.refresh()
         }
-
-        val rateFragment= viewPagerAdapter.getItem(2) as RateFragment
-        rateFragment?.let {
+        val tokenFragment = viewPagerAdapter.getItem(2) as TokenFragment
+        tokenFragment?.let {
             it.refresh()
         }
     }
@@ -149,7 +140,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
             it.changeAddress(address)
         }
     }
-
     fun loadBalance(){
         mainViewModel.fetchBalance()
     }

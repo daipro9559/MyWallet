@@ -109,10 +109,13 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
     }
 
     fun changeAddress(address: String){
-        val adapter = viewDataBinding.recycleView.adapter as TransactionAdapter
-        adapter?.let{
-            adapter.myWallet = address
+        viewDataBinding?.let {
+            val adapter = viewDataBinding.recycleView.adapter as TransactionAdapter
+            adapter?.let{
+                adapter.myWallet = address
+            }
         }
+
     }
     fun navigation() = findNavController()
 }

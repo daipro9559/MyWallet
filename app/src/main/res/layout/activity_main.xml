@@ -27,6 +27,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <android.support.constraint.ConstraintLayout
+                        android:id="@+id/viewBalance"
+                        android:padding="@dimen/_2dp"
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -58,36 +62,7 @@
                             android:textStyle="bold"
                             app:layout_constraintLeft_toRightOf="@+id/ether" />
 
-                        <!--<android.support.v7.widget.AppCompatTextView-->
-                        <!--android:id="@+id/usd"-->
-                        <!--tools:text="0"-->
-                        <!--style="@style/TextToolbar"-->
-                        <!--app:layout_constraintTop_toBottomOf="@+id/ether"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content" />-->
-
-                        <!--<android.support.v7.widget.AppCompatTextView-->
-                        <!--android:id="@+id/usdTitle"-->
-                        <!--android:text="USD"-->
-                        <!--app:layout_constraintTop_toBottomOf="@+id/ether"-->
-                        <!--android:layout_marginLeft="@dimen/_5dp"-->
-                        <!--app:layout_constraintLeft_toRightOf="@+id/usd"-->
-                        <!--style="@style/TextToolbar"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content" />-->
                     </android.support.constraint.ConstraintLayout>
-                    <!--<android.support.v7.widget.AppCompatImageView-->
-                    <!--android:padding="@dimen/_10dp"-->
-                    <!--android:background="?attr/selectableItemBackgroundBorderless"-->
-                    <!--android:clickable="true"-->
-                    <!--android:id="@+id/setting"-->
-                    <!--android:layout_marginRight="@dimen/_5dp"-->
-                    <!--app:layout_constraintRight_toRightOf="parent"-->
-                    <!--app:layout_constraintTop_toTopOf="parent"-->
-                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--android:src="@drawable/ic_settings"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.Toolbar>
 

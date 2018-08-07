@@ -9,6 +9,7 @@
     </data>
 
 <android.support.constraint.ConstraintLayout
+    android:id="@+id/constrainLayout"
     android:clickable="true"
     android:paddingLeft="@dimen/_5dp"
     android:paddingRight="@dimen/_5dp"

@@ -25,9 +25,18 @@ import java.math.BigInteger
 import javax.inject.Inject
 
 class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>(), SendTransactionView {
-
     companion object {
         const val TAG = "Send transaction"
+        fun newInstance(isSendToken: Boolean, symbol: String,balance:String,contractAddress:String): SendTransactionFragment {
+            val bundle = Bundle()
+            bundle.putBoolean(Constant.IS_SEND_TOKEN, isSendToken)
+            bundle.putString(Constant.SYMBOL_TOKEN, symbol)
+            bundle.putString(Constant.BALANCE_TOKEN, balance)
+            bundle.putString(Constant.CONTRACT_ADDRESS, contractAddress)
+            val addAddressReceiveFragment = SendTransactionFragment()
+            addAddressReceiveFragment.arguments = bundle
+            return addAddressReceiveFragment
+        }
         fun newInstance(): SendTransactionFragment {
             val bundle = Bundle()
             val addAddressReceiveFragment = SendTransactionFragment()
@@ -35,7 +44,6 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
             return addAddressReceiveFragment
         }
     }
-
     lateinit var createTransactionViewModel: SendTransactionViewModel
     lateinit var mainViewModel: MainViewModel
     @Inject
@@ -43,12 +51,25 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
     @Inject
     lateinit var preferenceHelper: PreferenceHelper
 
-    private val GAS_PRICE_DEFAULT = 1000000000L
-    private val GAS_LIMIT_DEFAULT = 21000L
+    private val GAS_PRICE_DEFAULT = 21000000000L
+    private val GAS_LIMIT_DEFAULT = 90000L
+    private val GAS_LIMIT_DEFAULT_TOKEN = 144000L
+
+    private var isSendToken = false
+
+    private  var symbolToken :String? = null
+    private  var balanceOfToken :String? = null
+    private  var contractAddress : String? = null
 
     override fun getlayoutId() = R.layout.fragment_add_address_receive
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isSendToken = arguments!!.getBoolean(Constant.IS_SEND_TOKEN)
+        symbolToken = arguments!!.getString(Constant.SYMBOL_TOKEN)
+        balanceOfToken = arguments!!.getString(Constant.BALANCE_TOKEN)
+        contractAddress = arguments!!.getString(Constant.CONTRACT_ADDRESS)
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter.bindView(this)
@@ -72,13 +93,7 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
         })
 
         mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
-        mainViewModel.balanceLiveData.observe(this, Observer {
-            it!!.t?.let {
-                val data = BigDecimal(it, 18)
-                viewDataBinding.balance.text = data.toFloat().toString() + " ETH"
-            }
-        })
-        mainViewModel.fetchBalance()
+
         inintView()
     }
 
@@ -110,27 +125,37 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
         presenter.dropView()
     }
 
-    override fun sendTransaction(transactionSendObject: TransactionSendObject) = createTransactionViewModel.createTransaction(transactionSendObject)
-
+    override fun sendTransaction(transactionSendObject: TransactionSendObject) {
+        if (isSendToken){
+            createTransactionViewModel.sendToken(transactionSendObject,contractAddress!!                                                                                                                                                                                                                                                                                                                                                            )
+            return
+        }
+        createTransactionViewModel.createTransaction(transactionSendObject)
+    }
 
     override fun errorInput(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     private fun toogleExpanView() {
-        if (expandView.isExpanded){
-            viewDataBinding.iconRotate.startAnimation(AnimationUtils.loadAnimation(activity!!.applicationContext,R.anim.rotate_up))
+        if (expandView.isExpanded) {
+            viewDataBinding.iconRotate.startAnimation(AnimationUtils.loadAnimation(activity!!.applicationContext, R.anim.rotate_up))
             viewDataBinding.txtOption.text = getString(R.string.show_option)
 
-        }else{
-            viewDataBinding.iconRotate.startAnimation(AnimationUtils.loadAnimation(activity!!.applicationContext,R.anim.rotate_down))
+        } else {
+            viewDataBinding.iconRotate.startAnimation(AnimationUtils.loadAnimation(activity!!.applicationContext, R.anim.rotate_down))
             viewDataBinding.txtOption.text = getString(R.string.hide_option)
 
         }
         expandView.toggle(true)
     }
-    fun inintView(){
-        gasLimit.setText( GAS_LIMIT_DEFAULT.toString())
+
+    fun inintView() {
+        if (isSendToken){
+            gasLimit.setText(GAS_LIMIT_DEFAULT_TOKEN.toString())
+        }else{
+            gasLimit.setText(GAS_LIMIT_DEFAULT.toString())
+        }
         gasPrice.setText(GAS_PRICE_DEFAULT.toString())
         btnSend.setOnClickListener {
             if (preferenceHelper.getBoolean(Constant.KEY_REQUIRE_PASSWORD)) {
@@ -145,10 +170,30 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
             toogleExpanView()
         }
         gasLimitReset.setOnClickListener {
-            gasLimit.setText( GAS_LIMIT_DEFAULT.toString())
+            if (isSendToken){
+                gasLimit.setText(GAS_LIMIT_DEFAULT_TOKEN.toString())
+
+            }else {
+                gasLimit.setText(GAS_LIMIT_DEFAULT.toString())
+            }
         }
         gasPriceReset.setOnClickListener {
             gasPrice.setText(GAS_PRICE_DEFAULT.toString())
         }
+        if (isSendToken){
+            viewDataBinding.balance.text = balanceOfToken.toString() + " $symbolToken"
+            viewDataBinding.layoutAmount.hint = getString(R.string.amount,symbolToken)
+
+        }else {
+            viewDataBinding.layoutAmount.hint = getString(R.string.amount,"ETH")
+            mainViewModel.fetchBalance()
+            mainViewModel.balanceLiveData.observe(this, Observer {
+                it!!.t?.let {
+                    val data = BigDecimal(it, 18)
+                    viewDataBinding.balance.text = data.toFloat().toString() + "ETH"
+                }
+            })
+        }
+
     }
 }

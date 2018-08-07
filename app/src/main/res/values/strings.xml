@@ -5,12 +5,12 @@
     <string name="api_key_ether">QVK4XE2W1H2VM9RXU22FMDYWHJUA5X5FKA</string>
 
     <!---->
-    <string name="address_receive">Address receive:</string>
+    <string name="address_receive">Address receive</string>
     <string name="next">Next</string>
     <string name="no_camera_permission">need allow access camera</string>
     <string name="scan_instructions">Center a QR code inside the frame.</string>
     <string name="Send">Send</string>
-    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copy_to_clipboard">Copy address</string>
 
     <!--setting title-->
     <string name="select_account">Select account</string>
@@ -52,7 +52,7 @@
     <string name="error">Error</string>
     <string name="from">From</string>
     <string name="to">To</string>
-    <string name="amount">Amount:</string>
+    <string name="amount">Amount %s</string>
     <string name="amount_ether">%d Ether</string>
     <string name="nonce">Nonce</string>
     <string name="time">Time</string>
@@ -90,5 +90,11 @@
     <string name="select_account_completed">Select account completed</string>
     <string name="error_invalid_address">Invalid address</string>
     <string name="field_require">This field is required</string>
+    <string name="send_token">Send Token</string>
+    <string name="send_transaction">Send transaction</string>
+    <string name="add_token_completed">Add token completed</string>
+    <string name="add_token_fail">Add token fail!</string>
+    <string name="my_balance_account">My  account balance</string>
+    <string name="current_balance">My balance</string>
 </resources>
 
