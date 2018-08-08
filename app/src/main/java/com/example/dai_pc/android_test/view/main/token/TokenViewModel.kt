@@ -9,21 +9,24 @@ import com.example.dai_pc.android_test.repository.TokenRepository
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class TokenViewModel @Inject constructor(private val tokenRepository: TokenRepository,
-                                         private val context: Context) : BaseViewModel() {
+class TokenViewModel @Inject constructor(private val tokenRepository: TokenRepository) : BaseViewModel() {
     private val tokenInforAdded = MutableLiveData<Token>()
     private val tokenBalance = MutableLiveData<BalanceObject>()
+    private val tokenDeletedliveData = MutableLiveData<Token>()
     val notifyAddCompleted = Transformations.switchMap(tokenInforAdded) {
         tokenRepository.addToken(it)
     }
     val listTokenInfo = MutableLiveData<List<Token>>()
-    val valueBalance  = Transformations.switchMap(tokenBalance){
-        tokenRepository.getBalance(it.token,it.position)
+    val valueBalance = Transformations.switchMap(tokenBalance) {
+        tokenRepository.getBalance(it.token, it.position)
+    }
+    val deletedNotify = Transformations.switchMap(tokenDeletedliveData){
+        tokenRepository.deleteToken(it)
     }
 
     fun addToken(contractAddress: String, symbol: String, decimal: Int) {
         tokenInforAdded.value = Token(""// addressWallet
-                , "", symbol, decimal, System.currentTimeMillis(), "", "0",contractAddress)
+                , "", symbol, decimal, System.currentTimeMillis(), "", "0", contractAddress)
     }
 
     fun getAllToken() {
@@ -32,9 +35,14 @@ class TokenViewModel @Inject constructor(private val tokenRepository: TokenRepos
         }
     }
 
-    fun getBalance(token: Token, position :Int) {
-        tokenBalance.value = BalanceObject(token,position)
+    fun getBalance(token: Token, position: Int) {
+        tokenBalance.value = BalanceObject(token, position)
+    }
+
+    fun deleteToken(token: Token){
+        tokenDeletedliveData.value = token
     }
 
 }
-data class BalanceObject(val token: Token,val position:Int)
+
+data class BalanceObject(val token: Token, val position: Int)

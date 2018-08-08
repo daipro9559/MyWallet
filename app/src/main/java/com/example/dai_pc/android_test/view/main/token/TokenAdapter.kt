@@ -8,7 +8,7 @@ import com.example.dai_pc.android_test.entity.BalanceToken
 import com.example.dai_pc.android_test.entity.Token
 import java.math.BigDecimal
 
-class TokenAdapter(val CallBack:(Token,Int) ->Unit,val ItemClick:(Token) ->Unit) :BaseRecycleViewAdapter<Token,ItemTokenBinding>(){
+class TokenAdapter(val CallBack:(Token,Int) ->Unit, val itemClick:(Token) ->Unit, val itemLongClick:(Token)->Unit) :BaseRecycleViewAdapter<Token,ItemTokenBinding>(){
     private val listPositionReceived = ArrayList<Int>()
     override fun getlayoutId() = R.layout.item_token
     override fun bindData(i: Token, holder: ItemViewHolder<ItemTokenBinding>) {
@@ -17,7 +17,11 @@ class TokenAdapter(val CallBack:(Token,Int) ->Unit,val ItemClick:(Token) ->Unit)
             listPositionReceived.add(holder.adapterPosition)
         }
         holder.v.constrainLayout.setOnClickListener{
-            ItemClick(i)
+            itemClick(i)
+        }
+        holder.v.constrainLayout.setOnLongClickListener {
+            itemLongClick(i)
+            true
         }
         holder.v.token  = i
 

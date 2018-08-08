@@ -25,7 +25,7 @@ class CreateTransactionActivity : BaseActivity<ActivityCreateTransactionBinding>
 
     private fun handleIntent() {
          if (intent.getBooleanExtra(Constant.IS_SEND_TOKEN, false)) {
-            addFragment(SendTransactionFragment.newInstance(intent.getBooleanExtra(Constant.IS_SEND_TOKEN, false), intent.getStringExtra(Constant.SYMBOL_TOKEN), intent.getStringExtra(Constant.BALANCE_TOKEN), intent.getStringExtra(Constant.CONTRACT_ADDRESS))
+            addFragment(SendTransactionFragment.newInstance(intent.getBooleanExtra(Constant.IS_SEND_TOKEN, false), intent.getStringExtra(Constant.SYMBOL_TOKEN),  intent.getStringExtra(Constant.CONTRACT_ADDRESS))
                     , SendTransactionFragment.TAG
             )
         } else {

@@ -12,12 +12,18 @@ import javax.inject.Inject
 
 class SendTransactionViewModel
 @Inject
-constructor(private val transactionRepository: TransactionRepository)
+constructor(private val transactionRepository: TransactionRepository,
+            private val tokenRepository: TokenRepository)
     : BaseViewModel(){
 
     private val transactionObjectLiveData = MutableLiveData<TransactionSendObject>()
     val sendResult = Transformations.switchMap(transactionObjectLiveData){
         transactionRepository.sendTransaction(it)
+    }
+
+    private val contractAddresLiveData = MutableLiveData<String>()
+    val balanceToken = Transformations.switchMap(contractAddresLiveData){
+        tokenRepository.getBalanceByContractAddress(it)
     }
 
     // string of message response
@@ -31,6 +37,10 @@ constructor(private val transactionRepository: TransactionRepository)
         transactionSendObject.to = contractAddress
         transactionSendObject.data = data
         transactionObjectLiveData.value = transactionSendObject
+    }
+
+    fun getBalanceToken(contractAddress: String){
+        contractAddresLiveData.value = contractAddress
     }
 
 

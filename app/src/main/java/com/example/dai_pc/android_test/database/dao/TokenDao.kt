@@ -11,6 +11,9 @@ interface TokenDao {
     @Query("SELECT * FROM token WHERE address = :myAddress AND network = :networkName")
     fun getAllToken(myAddress: String, networkName: String): LiveData<List<Token>>
 
+    @Query("SELECT * FROM token WHERE address = :myAddress AND network = :networkName AND contractAddress = :contractAddress")
+    fun getToken(myAddress: String, networkName: String,contractAddress:String): LiveData<Token>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addToken(token: Token): Long
 

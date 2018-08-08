@@ -96,5 +96,6 @@
     <string name="add_token_fail">Add token fail!</string>
     <string name="my_balance_account">My  account balance</string>
     <string name="current_balance">My balance</string>
+    <string name="want_delete_token">Are you want delete this token?</string>
 </resources>
 

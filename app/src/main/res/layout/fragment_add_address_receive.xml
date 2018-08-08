@@ -40,9 +40,10 @@
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/txt_address"
+                        android:inputType="text|textMultiLine"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="1" />
+                        android:singleLine="false" />
                 </android.support.design.widget.TextInputLayout>
 
                 <View

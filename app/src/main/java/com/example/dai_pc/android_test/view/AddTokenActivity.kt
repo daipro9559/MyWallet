@@ -1,5 +1,6 @@
 package com.example.dai_pc.android_test.view
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -12,6 +13,9 @@ import com.example.dai_pc.android_test.ultil.Ultil
 import com.example.dai_pc.android_test.view.main.token.TokenViewModel
 import kotlinx.android.synthetic.main.activity_add_token.*
 import timber.log.Timber
+import android.content.Intent
+
+
 
 class AddTokenActivity : BaseActivity<ActivityAddTokenBinding>() {
 
@@ -37,6 +41,8 @@ class AddTokenActivity : BaseActivity<ActivityAddTokenBinding>() {
                 }
             }else{
                 Toast.makeText(applicationContext,getString(R.string.add_token_completed),Toast.LENGTH_SHORT).show()
+                val returnIntent = Intent()
+                setResult(Activity.RESULT_OK,returnIntent)
                 finish()
             }
         })

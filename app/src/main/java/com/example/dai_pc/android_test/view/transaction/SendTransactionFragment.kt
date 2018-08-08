@@ -17,6 +17,7 @@ import com.example.dai_pc.android_test.ultil.BalanceUltil
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.dai_pc.android_test.ultil.Ultil
 import com.example.dai_pc.android_test.view.main.MainViewModel
+import com.example.dai_pc.android_test.view.main.token.TokenViewModel
 import kotlinx.android.synthetic.main.fragment_add_address_receive.*
 import org.walleth.activities.qrscan.QRScanActivity
 import org.walleth.activities.qrscan.SCAN_REQUEST_CODE
@@ -28,16 +29,16 @@ import javax.inject.Inject
 class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>(), SendTransactionView {
     companion object {
         const val TAG = "Send transaction"
-        fun newInstance(isSendToken: Boolean, symbol: String,balance:String,contractAddress:String): SendTransactionFragment {
+        fun newInstance(isSendToken: Boolean, symbol: String, contractAddress: String): SendTransactionFragment {
             val bundle = Bundle()
             bundle.putBoolean(Constant.IS_SEND_TOKEN, isSendToken)
             bundle.putString(Constant.SYMBOL_TOKEN, symbol)
-            bundle.putString(Constant.BALANCE_TOKEN, balance)
             bundle.putString(Constant.CONTRACT_ADDRESS, contractAddress)
             val addAddressReceiveFragment = SendTransactionFragment()
             addAddressReceiveFragment.arguments = bundle
             return addAddressReceiveFragment
         }
+
         fun newInstance(): SendTransactionFragment {
             val bundle = Bundle()
             val addAddressReceiveFragment = SendTransactionFragment()
@@ -45,6 +46,7 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
             return addAddressReceiveFragment
         }
     }
+
     lateinit var createTransactionViewModel: SendTransactionViewModel
     lateinit var mainViewModel: MainViewModel
     @Inject
@@ -58,9 +60,8 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
 
     private var isSendToken = false
 
-    private  var symbolToken :String? = null
-    private  var balanceOfToken :String? = null
-    private  var contractAddress : String? = null
+    private var symbolToken: String? = null
+    private var contractAddress: String? = null
 
     override fun getlayoutId() = R.layout.fragment_add_address_receive
 
@@ -68,9 +69,9 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
         super.onCreate(savedInstanceState)
         isSendToken = arguments!!.getBoolean(Constant.IS_SEND_TOKEN)
         symbolToken = arguments!!.getString(Constant.SYMBOL_TOKEN)
-        balanceOfToken = arguments!!.getString(Constant.BALANCE_TOKEN)
         contractAddress = arguments!!.getString(Constant.CONTRACT_ADDRESS)
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter.bindView(this)
@@ -99,11 +100,11 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
     }
 
     fun validateTransaction(password: String, isRequirePass: Boolean) {
-        if (TextUtils.isEmpty(viewDataBinding.amount.text.toString())){
+        if (TextUtils.isEmpty(viewDataBinding.amount.text.toString())) {
             viewDataBinding.amount.error = getString(R.string.field_require)
             return
         }
-        if (TextUtils.isEmpty(viewDataBinding.txtAddress.text.toString())){
+        if (TextUtils.isEmpty(viewDataBinding.txtAddress.text.toString())) {
             viewDataBinding.txtAddress.error = getString(R.string.field_require)
             return
         }
@@ -135,8 +136,8 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
     }
 
     override fun sendTransaction(transactionSendObject: TransactionSendObject) {
-        if (isSendToken){
-            createTransactionViewModel.sendToken(transactionSendObject,contractAddress!!                                                                                                                                                                                                                                                                                                                                                            )
+        if (isSendToken) {
+            createTransactionViewModel.sendToken(transactionSendObject, contractAddress!!)
             return
         }
         createTransactionViewModel.createTransaction(transactionSendObject)
@@ -160,9 +161,9 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
     }
 
     fun inintView() {
-        if (isSendToken){
+        if (isSendToken) {
             gasLimit.setText(GAS_LIMIT_DEFAULT_TOKEN.toString())
-        }else{
+        } else {
             gasLimit.setText(GAS_LIMIT_DEFAULT.toString())
         }
         gasPrice.setText(GAS_PRICE_DEFAULT.toString())
@@ -179,22 +180,29 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
             toogleExpanView()
         }
         gasLimitReset.setOnClickListener {
-            if (isSendToken){
+            if (isSendToken) {
                 gasLimit.setText(GAS_LIMIT_DEFAULT_TOKEN.toString())
 
-            }else {
+            } else {
                 gasLimit.setText(GAS_LIMIT_DEFAULT.toString())
             }
         }
         gasPriceReset.setOnClickListener {
             gasPrice.setText(GAS_PRICE_DEFAULT.toString())
         }
-        if (isSendToken){
-            viewDataBinding.balance.text = balanceOfToken.toString() + " $symbolToken"
-            viewDataBinding.layoutAmount.hint = getString(R.string.amount,symbolToken)
+        if (isSendToken) {
+            contractAddress?.let {
+                createTransactionViewModel.getBalanceToken(contractAddress!!)
+                createTransactionViewModel.balanceToken.observe(this, Observer {
+                    viewDataBinding.balance.text = BigDecimal(it!!.toBigIntegerExact(), 18).toFloat().toString() + " $symbolToken"
+                })
 
-        }else {
-            viewDataBinding.layoutAmount.hint = getString(R.string.amount,"ETH")
+                viewDataBinding.layoutAmount.hint = getString(R.string.amount, symbolToken)
+            }
+
+
+        } else {
+            viewDataBinding.layoutAmount.hint = getString(R.string.amount, "ETH")
             mainViewModel.fetchBalance()
             mainViewModel.balanceLiveData.observe(this, Observer {
                 it!!.t?.let {

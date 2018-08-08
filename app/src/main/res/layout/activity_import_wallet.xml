@@ -40,11 +40,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <android.support.design.widget.TextInputEditText
+                        android:singleLine="false"
                         android:id="@+id/edtKeystore"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/keystore"
-                        android:inputType="text"
+                        android:inputType="text|textMultiLine"
                         android:imeOptions="actionNext" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -102,6 +103,8 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <android.support.design.widget.TextInputEditText
+                        android:inputType="text|textMultiLine"
+                        android:singleLine="false"
                         android:id="@+id/edtPrivateKey"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

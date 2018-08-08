@@ -58,6 +58,20 @@ class TokenRepository @Inject constructor(
         return state
     }
 
+    fun getBalanceByContractAddress(contractAddress: String):LiveData<BigDecimal>{
+        val mutableLiveData = MutableLiveData<BigDecimal>()
+        launch(UI) {
+           val balance =  async (CommonPool){
+               val function = balanceOf(walletRepository.accountSelected.value!!)
+               val responseValue = callSmartContractFunction(function, contractAddress, walletRepository.accountSelected.value!!.toLowerCase())
+               val response = FunctionReturnDecoder.decode(responseValue, function.outputParameters)
+               if (response.size == 0) null else BigDecimal((response[0] as Uint256).value)
+            }
+            mutableLiveData.value = balance.await()
+        }
+        return mutableLiveData
+    }
+
     fun deleteToken(token: Token): LiveData<Int> {
         val state = MutableLiveData<Int>()
         token.address = walletRepository.accountSelected.value!!
