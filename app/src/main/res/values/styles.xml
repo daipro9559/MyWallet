@@ -10,19 +10,28 @@
         <item name="preferenceTheme">@style/App.Preference</item>
     </style>
 
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
     <style name="ActivitySetting" parent="AppTheme">
         <item name="colorAccent">@color/colorAccentActivitySetting</item>
 
     </style>
     <style name="App.Preference" parent="@style/PreferenceThemeOverlay.v14.Material">
     </style>
+
     <style name="Splash.Activity" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name ="android:windowBackground" >@drawable/splash_screen</item>
     </style>
+
     <style name="wallethActionBarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <!-- title text color -->
         <item name="android:textColorPrimary">@android:color/white</item>
@@ -75,9 +84,6 @@
         <item name="android:textSize">@dimen/text_size_app</item>
         <item name="android:textColor">@color/text_color_app</item>
         <item name="android:fontFamily">sans-serif-light</item>
-    </style>
-    <style name="SplashScreenTheme" parent="AppTheme">
-        <item name ="android:windowBackground" >@drawable/splash_screen</item>
     </style>
 
     <style name="FloatButton.Style" parent="Widget.Design.FloatingActionButton">

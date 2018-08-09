@@ -2,6 +2,8 @@ package com.example.dai_pc.android_test.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
+import com.example.dai_pc.android_test.base.BaseRepository
 import com.example.dai_pc.android_test.database.AppDatabase
 import com.example.dai_pc.android_test.entity.BalanceToken
 import com.example.dai_pc.android_test.entity.Token
@@ -37,7 +39,8 @@ class TokenRepository @Inject constructor(
         private val networkRepository: NetworkRepository,
         private val walletRepository: WalletRepository,
         private val okHttpClient: OkHttpClient,
-        private val appDatabase: AppDatabase) {
+        private val appDatabase: AppDatabase,
+        context: Context) : BaseRepository(context) {
     private var web3j: Web3j
 
     init {
@@ -58,14 +61,14 @@ class TokenRepository @Inject constructor(
         return state
     }
 
-    fun getBalanceByContractAddress(contractAddress: String):LiveData<BigDecimal>{
+    fun getBalanceByContractAddress(contractAddress: String): LiveData<BigDecimal> {
         val mutableLiveData = MutableLiveData<BigDecimal>()
         launch(UI) {
-           val balance =  async (CommonPool){
-               val function = balanceOf(walletRepository.accountSelected.value!!)
-               val responseValue = callSmartContractFunction(function, contractAddress, walletRepository.accountSelected.value!!.toLowerCase())
-               val response = FunctionReturnDecoder.decode(responseValue, function.outputParameters)
-               if (response.size == 0) null else BigDecimal((response[0] as Uint256).value)
+            val balance = async(CommonPool) {
+                val function = balanceOf(walletRepository.accountSelected.value!!)
+                val responseValue = callSmartContractFunction(function, contractAddress, walletRepository.accountSelected.value!!.toLowerCase())
+                val response = FunctionReturnDecoder.decode(responseValue, function.outputParameters)
+                if (response.size == 0) null else BigDecimal((response[0] as Uint256).value)
             }
             mutableLiveData.value = balance.await()
         }

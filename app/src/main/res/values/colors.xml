@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_app">#dcdcdc</color>
-    <color name="colorPrimary">#788b91</color>
-    <color name="colorPrimaryDark">#788b91</color>
+    <color name="colorPrimary">#4a585c</color>
+    <color name="colorPrimaryDark">#4a585c</color>
+    <!--<color name="colorPrimaryDark">#788b91</color>-->
     <color name="colorAccent">#469467</color>
     <color name="colorAccentActivitySetting">#788b91</color>
     <color name="text_color_app">#585858</color>

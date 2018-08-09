@@ -97,5 +97,11 @@
     <string name="my_balance_account">My  account balance</string>
     <string name="current_balance">My balance</string>
     <string name="want_delete_token">Are you want delete this token?</string>
+    <string name="socket_timeout">Connect timeout</string>
+    <string name="stella">Stella</string>
+    <string name="ethereum">Ethereum</string>
+    <string name="main_net">Main net</string>
+    <string name="test_net">Test net</string>
+    <string name="blockChainPlatform">Platform</string>
 </resources>
 

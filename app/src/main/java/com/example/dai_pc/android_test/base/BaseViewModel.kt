@@ -13,15 +13,4 @@ abstract class BaseViewModel: ViewModel() {
     lateinit var errorLiveData : MutableLiveData<String>
     val networkStateLiveData = MutableLiveData<NetworkState>()
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
-    fun onError(error:String){
-        errorLiveData.postValue(error)
-    }
-
-    fun networkError(state: NetworkState){
-        networkStateLiveData.postValue(state)
-    }
 }

@@ -119,4 +119,10 @@
   <dimen name="_100dp">
     133.33dp
   </dimen>
+  <dimen name="_300dp">
+    400.0dp
+  </dimen>
+  <dimen name="_180dp">
+    240.0dp
+  </dimen>
 </resources>

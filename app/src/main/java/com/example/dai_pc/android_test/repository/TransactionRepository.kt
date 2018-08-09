@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.example.dai_pc.android_test.R
+import com.example.dai_pc.android_test.base.BaseRepository
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.entity.*
 import com.example.dai_pc.android_test.service.AccountService
@@ -32,16 +33,14 @@ import javax.inject.Singleton
 class TransactionRepository
 @Inject
 constructor(
-        private val context: Context,
+        context: Context,
         private val networkRepository: NetworkRepository,
         private val serviceProvider: ServiceProvider,
         private val accountService: AccountService,
         private val walletRepository: WalletRepository
-) {
+) : BaseRepository(context) {
 
-    val errorLiveData =  MutableLiveData<String>()
-
-    fun fetchTransaction(startBlock: Int, endBlock: Int, isShowLoading: Boolean, callback: (NetworkState) -> Unit): LiveData<Resource<List<Transaction>>> {
+    fun fetchTransaction(startBlock: Int, endBlock: Int, isShowLoading: Boolean): LiveData<Resource<List<Transaction>>> {
         val listTransaction = MutableLiveData<Resource<List<Transaction>>>()
         listTransaction.value = loading()
         walletRepository.accountSelected.value?.let {
@@ -49,27 +48,10 @@ constructor(
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        callback(NetworkState.SUCCESS)
                         listTransaction.value = success(it.result)
                     }) {
                         listTransaction.value = error(it.message!!)
-                        when (it) {
-                            is UnknownHostException -> {
-                                callback(NetworkState.BAD_URL)
-                            }
-                            is SocketTimeoutException -> {
-                                callback(NetworkState.TIME_OUT)
-                            }
-
-                            is IOException -> {
-                                callback(NetworkState.NO_CONENCTION)
-                            }
-                            else -> {
-                                callback(NetworkState.UNKNOWN)
-                            }
-
-
-                        }
+                        setError(it)
                     }
         }
         if (walletRepository.accountSelected.value == null) {
@@ -124,22 +106,11 @@ constructor(
                                 liveData.value = success(it.toString())
                             }, {
                                 liveData.value = error(it.message.toString())
+                                setError(it)
                             })
                 }, {})
         return liveData
 
-    }
-
-    fun sendToken(transactionSendObject: TransactionSendObject){
-
-    }
-
-    fun changeNetwork(id: Int) {
-        networkRepository.changeNetworkSelect(id)
-    }
-
-    fun changeAddress() {
-        walletRepository.initAccountSelect()
     }
 
     // create data for send token

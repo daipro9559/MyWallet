@@ -13,11 +13,12 @@ import javax.inject.Inject
 @OpenForTesting
 open class ListTransactionViewModel @Inject constructor(private val transactionRepository: TransactionRepository) : BaseViewModel() {
 
+    init {
+        errorLiveData = transactionRepository.error
+    }
     private val fetchParam = MutableLiveData<FetchTransactionParam>()
     val listTransactionLiveData = Transformations.switchMap(fetchParam) {
-        transactionRepository.fetchTransaction(it.startBlock, it.endBlock, it.isShowLoading) {
-            networkStateLiveData.value = it
-        }
+        transactionRepository.fetchTransaction(it.startBlock, it.endBlock, it.isShowLoading)
     }!!
 
     fun getAllTransaction(startBlock: Int, endBlock: Int, isShowLoading: Boolean) {

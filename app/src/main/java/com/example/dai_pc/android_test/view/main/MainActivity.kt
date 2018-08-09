@@ -11,6 +11,8 @@ import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityMainBinding
 import android.view.MenuItem
 import android.content.res.Configuration
+import android.os.PersistableBundle
+import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.View
 import com.example.dai_pc.android_test.base.Constant
@@ -29,35 +31,40 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
-
     private lateinit var mainViewModel: MainViewModel
-
-
+    private lateinit var drawerToggle: ActionBarDrawerToggle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this)
-        setSupportActionBar(viewDataBinding.toolBar)
-        viewDataBinding.toolBar.title = "My Wallet"
         initView()
         mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
         loadBalance()
         mainViewModel.balanceLiveData.observe(this, Observer {
             it!!.t?.let {
-                viewDataBinding.etherTitle.visibility  = View.VISIBLE
+                viewDataBinding.contentMain.etherTitle.visibility  = View.VISIBLE
                 val data = BigDecimal(it, 18)
-                viewDataBinding.ether.text = data.toFloat().toString()
+                viewDataBinding.contentMain.ether.text = data.toFloat().toString()
             }
             it.messError?.let {
-                viewDataBinding.ether.text = "----"
-                viewDataBinding.etherTitle.visibility  = View.VISIBLE
+                viewDataBinding.contentMain.ether.text = "----"
+                viewDataBinding.contentMain.etherTitle.visibility  = View.VISIBLE
 
             }
         })
-        viewDataBinding.viewBalance.setOnClickListener {
+        viewDataBinding.contentMain.viewBalance.setOnClickListener {
             startActivity(Intent(this,RateActivity::class.java))
         }
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        drawerToggle.syncState()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        drawerToggle.onConfigurationChanged(newConfig)
+    }
     private fun initView() {
         viewDataBinding.contentMain.viewPager.offscreenPageLimit = 3
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
@@ -65,18 +72,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
         viewPagerAdapter.addFragment(TokenFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
-        viewDataBinding.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
+        viewDataBinding.contentMain.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
         setupTablayout()
         (viewPagerAdapter.getItem(1) as MyAddressFragment).callback = {
             reloadContent()
         }
+        drawerToggle = ActionBarDrawerToggle(this,viewDataBinding.drawerLayout,getToolbar(),R.string.drawer_open,R.string.drawer_close)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
+        drawerToggle.isDrawerIndicatorEnabled = true
+        viewDataBinding.drawerLayout.addDrawerListener(drawerToggle)
     }
 
     private fun setupTablayout() {
-        viewDataBinding.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
-        viewDataBinding.tabLayout.getTabAt(1)!!.text = Constant.MY_ACCOUNT
-        viewDataBinding.tabLayout.getTabAt(2)!!.text = Constant.MY_TOKEN
+        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
+        viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ACCOUNT
+        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.MY_TOKEN
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

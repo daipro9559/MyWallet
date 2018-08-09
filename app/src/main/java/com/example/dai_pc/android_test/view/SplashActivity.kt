@@ -26,8 +26,6 @@ import com.example.dai_pc.android_test.view.main.MainActivity
  * Created by dai_pc on 6/15/2018.
  */
 class SplashActivity : AppCompatActivity() {
-    lateinit var viewBinding: ActivitySplashBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -40,13 +38,13 @@ class SplashActivity : AppCompatActivity() {
         val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         decorView.systemUiVisibility = uiOptions
         var handler = Handler()
-        handler.postDelayed({
+//        handler.postDelayed({
             val intent = Intent(applicationContext,
                     MainActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
             finish()
-        },2000)
+//        },2000)
 
     }
 }

@@ -24,9 +24,9 @@ class WalletRepository
 constructor(
         private val preferenceHelper: PreferenceHelper,
         private val keyStore: KeyStore,
-        private val context: Context,
+        context: Context,
         private val appExecutors: AppExecutors,
-        private val accountService: AccountService) : BaseRepository() {
+        private val accountService: AccountService) : BaseRepository(context) {
     val accountsLiveData = MutableLiveData<List<Account>>()
     val accountSelected = MutableLiveData<String>()
 
@@ -64,7 +64,6 @@ constructor(
             result.value = success(context.getString(R.string.delete_account_complete))
         } catch (e: Exception) {
             result.value = error(e.message.toString())
-
         }
         return result
     }
@@ -108,7 +107,7 @@ constructor(
                     accountService.savePassword(context, it.address.hex.toString(), passwordNew)
                     accountLiveData.value = it.address.hex.toString()
                 }, {
-
+                    setError(it)
                 })
         return accountLiveData
     }
@@ -122,7 +121,8 @@ constructor(
 
                     accountService.savePassword(context, it.address.hex.toString(), newPassword)
                     accountLiveData.value = it.address.hex.toString()
-                }, {})
+                }, {
+                    setError(it)})
         return accountLiveData
 
     }
@@ -135,7 +135,7 @@ constructor(
                 .subscribe({
                     liveData.value = context.getString(R.string.update_completed)
                 }, {
-                    liveData.value = it.message
+                    setError(it)
                 })
         return liveData
     }

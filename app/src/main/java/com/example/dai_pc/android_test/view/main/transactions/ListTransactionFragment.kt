@@ -73,6 +73,9 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
            (activity as MainActivity).loadBalance()
 
         }
+        listTransactionViewModel.errorLiveData.observe(this, Observer {
+            
+        })
     }
 
     fun checkHaveWallet() :Boolean{
