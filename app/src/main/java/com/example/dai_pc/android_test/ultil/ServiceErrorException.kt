@@ -2,7 +2,6 @@ package com.example.dai_pc.android_test.ultil
 
 class ServiceErrorException @JvmOverloads constructor(val code: Int, message: String? = null, throwable: Throwable? = null) : Exception(message, throwable) {
     companion object {
-
         val UNKNOWN_ERROR = -1
         val INVALID_DATA = 1
         val KEY_STORE_ERROR = 1001

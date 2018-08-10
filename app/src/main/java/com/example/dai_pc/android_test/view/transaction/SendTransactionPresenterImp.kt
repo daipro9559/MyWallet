@@ -3,8 +3,7 @@ package com.example.dai_pc.android_test.view.transaction
 import android.content.Context
 import com.example.dai_pc.android_test.entity.TransactionSendObject
 import com.example.dai_pc.android_test.repository.WalletRepository
-import com.example.dai_pc.android_test.service.AccountService
-import com.example.dai_pc.android_test.ultil.PreferenceHelper
+import com.example.dai_pc.android_test.service.AccountEthereumService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -13,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class SendTransactionPresenterImp
 @Inject constructor(private val context: Context,
-                    private val accountService: AccountService,
+                    private val accountEthereumService: AccountEthereumService,
                     private val walletRepository: WalletRepository) : SendTransactionPresenter<SendTransactionFragment> {
 
 
@@ -42,7 +41,7 @@ class SendTransactionPresenterImp
     }
 
     private fun validatePassword() {
-        accountService.getPassword(context, walletRepository.accountSelected.value!!)
+        accountEthereumService.getPassword(context, walletRepository.accountSelected.value!!)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

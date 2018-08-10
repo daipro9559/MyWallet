@@ -21,6 +21,17 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'org/glassfish/jersey/internal/build.properties'
+        exclude 'jersey/repackaged/org/objectweb/asm/xml/asm-xml.dtd'
+        exclude 'org/glassfish/jersey/server/internal/localization.properties'
+        exclude 'org/glassfish/jersey/media/sse/localization.properties'
+        exclude 'org/glassfish/jersey/jaxb/internal/localization.properties'
+        exclude 'META-INF/project.properties'
+        exclude 'org/glassfish/jersey/client/internal/localization.properties'
+        exclude 'org/mockito/internal/creation/bytebuddy/MockMethodDispatcher.raw'
+        exclude 'org/glassfish/jersey/internal/localization.properties'
+        exclude 'okhttp3/internal/publicsuffix/publicsuffixes.gz'
     }
     buildTypes {
         release {
@@ -38,11 +49,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //    implementation project (":stellar")
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
-
-
     //
     implementation deps.support.app_compat
     implementation deps.support.app_v4
@@ -59,16 +69,14 @@ dependencies {
     implementation deps.retrofit.runtime
     implementation deps.retrofit.gson
     implementation deps.retrofit.adapter
-    implementation deps.okhttp_logging_interceptor
-    implementation deps.okhttpVersion
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.0.0'
     implementation deps.glide.runtime
-
     implementation deps.dagger.runtime
     implementation deps.dagger.android
     implementation deps.dagger.android_support
     implementation deps.constraint_layout
     implementation deps.kotlin.stdlib
-
     implementation deps.timber
     implementation deps.web3j
     implementation deps.geth
@@ -82,13 +90,13 @@ dependencies {
     implementation deps.view_expand
     implementation deps.easing
     implementation deps.animationLib
-
-
+    implementation deps.stellar
 
     kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler
     kapt deps.room.compiler
     kapt deps.lifecycle.compiler
+
 
     // test
     androidTestImplementation deps.atsl.rules
@@ -100,13 +108,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-core-utils'
     })
     testImplementation deps.mockito.core
-
     androidTestImplementation deps.navigation.testing_ktx
     androidTestImplementation deps.support.app_compat
     androidTestImplementation deps.support.recyclerview
     androidTestImplementation deps.support.cardview
     androidTestImplementation deps.support.design
-
     androidTestImplementation(deps.espresso.core, {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
@@ -115,7 +121,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
-
     androidTestImplementation(deps.arch_core.testing, {
     })
     androidTestImplementation deps.dexmaker

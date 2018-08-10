@@ -9,7 +9,7 @@ import org.ethereum.geth.Accounts
 import org.web3j.crypto.WalletFile
 import java.math.BigInteger
 
-interface AccountService {
+interface AccountEthereumService {
     fun getAllAccount():Accounts
     fun generateAccount(password: String, privateKey:String?):Single<WalletFile>
     fun signTransaction(addressFrom:String,

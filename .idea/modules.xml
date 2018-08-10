@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MyWallet.iml" filepath="$PROJECT_DIR$/MyWallet.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stellar/stellar.iml" filepath="$PROJECT_DIR$/stellar/stellar.iml" />
     </modules>
   </component>
 </project>

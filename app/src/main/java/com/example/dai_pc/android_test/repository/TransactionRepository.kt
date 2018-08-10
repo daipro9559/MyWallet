@@ -7,7 +7,7 @@ import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseRepository
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.entity.*
-import com.example.dai_pc.android_test.service.AccountService
+import com.example.dai_pc.android_test.service.AccountEthereumService
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -22,10 +22,7 @@ import org.web3j.protocol.Web3jFactory
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.http.HttpService
 import org.web3j.utils.Numeric
-import java.io.IOException
 import java.math.BigInteger
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,7 +33,7 @@ constructor(
         context: Context,
         private val networkRepository: NetworkRepository,
         private val serviceProvider: ServiceProvider,
-        private val accountService: AccountService,
+        private val accountEthereumService: AccountEthereumService,
         private val walletRepository: WalletRepository
 ) : BaseRepository(context) {
 
@@ -64,7 +61,7 @@ constructor(
     fun sendTransaction(transactionSendObject: TransactionSendObject): LiveData<Resource<String>> {
         val liveData = MutableLiveData<Resource<String>>()
         liveData.value = loading()
-        accountService.getPassword(context, walletRepository.accountSelected.value!!)
+        accountEthereumService.getPassword(context, walletRepository.accountSelected.value!!)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -80,7 +77,7 @@ constructor(
                                 .send()
                                 .transactionCount
                     }.flatMap { t ->
-                        accountService.signTransaction(walletRepository.accountSelected.value!!,
+                        accountEthereumService.signTransaction(walletRepository.accountSelected.value!!,
                                 it,
                                 transactionSendObject.to!!,
                                 transactionSendObject.amount!!,

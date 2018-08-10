@@ -10,7 +10,7 @@ import com.example.dai_pc.android_test.entity.Resource
 import com.example.dai_pc.android_test.entity.error
 import com.example.dai_pc.android_test.entity.loading
 import com.example.dai_pc.android_test.entity.success
-import com.example.dai_pc.android_test.service.AccountService
+import com.example.dai_pc.android_test.service.AccountEthereumService
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -26,12 +26,12 @@ constructor(
         private val keyStore: KeyStore,
         context: Context,
         private val appExecutors: AppExecutors,
-        private val accountService: AccountService) : BaseRepository(context) {
+        private val accountEthereumService: AccountEthereumService) : BaseRepository(context) {
     val accountsLiveData = MutableLiveData<List<Account>>()
     val accountSelected = MutableLiveData<String>()
 
     fun getAllAccount() {
-        var accounts = accountService.getAllAccount()
+        var accounts = accountEthereumService.getAllAccount()
         var list = ArrayList<Account>()
         for (i in 0 until accounts!!.size()) {
             list.add(accounts[i])
@@ -47,7 +47,7 @@ constructor(
         val addressCreated = MutableLiveData<Account>()
         appExecutors.diskIO().execute {
             val account = keyStore.newAccount(pass)
-            accountService.savePassword(context, account.address.hex.toString(), pass)
+            accountEthereumService.savePassword(context, account.address.hex.toString(), pass)
             appExecutors.mainThread().execute {
                 addressCreated.value = account
             }
@@ -60,7 +60,7 @@ constructor(
         val result = MutableLiveData<Resource<String>>()
         result.value = loading()
         try {
-            accountService.deleteAccount(addresses, password)
+            accountEthereumService.deleteAccount(addresses, password)
             result.value = success(context.getString(R.string.delete_account_complete))
         } catch (e: Exception) {
             result.value = error(e.message.toString())
@@ -70,11 +70,11 @@ constructor(
 
     fun exportWallet(passwordExport: String): LiveData<String> {
         val exportData = MutableLiveData<String>()
-        accountService.getPassword(context, accountSelected.value.toString())
+        accountEthereumService.getPassword(context, accountSelected.value.toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.computation())
                 .subscribe({
-                    accountService.exportWallet(accountSelected.value!!, it, passwordExport)
+                    accountEthereumService.exportWallet(accountSelected.value!!, it, passwordExport)
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
@@ -100,11 +100,11 @@ constructor(
 
     fun importAccountByKeyStore(keystore: String, passwordOld: String, passwordNew: String): LiveData<String> {
         val accountLiveData = MutableLiveData<String>()
-        accountService.importByKeyStore(keystore, passwordOld, passwordNew)
+        accountEthereumService.importByKeyStore(keystore, passwordOld, passwordNew)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    accountService.savePassword(context, it.address.hex.toString(), passwordNew)
+                    accountEthereumService.savePassword(context, it.address.hex.toString(), passwordNew)
                     accountLiveData.value = it.address.hex.toString()
                 }, {
                     setError(it)
@@ -114,12 +114,12 @@ constructor(
 
     fun importAccountByPrivateKey(privateKey: String, newPassword: String): LiveData<String> {
         val accountLiveData = MutableLiveData<String>()
-        accountService.importByPrivatekey(privateKey, newPassword)
+        accountEthereumService.importByPrivatekey(privateKey, newPassword)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    accountService.savePassword(context, it.address.hex.toString(), newPassword)
+                    accountEthereumService.savePassword(context, it.address.hex.toString(), newPassword)
                     accountLiveData.value = it.address.hex.toString()
                 }, {
                     setError(it)})
@@ -129,7 +129,7 @@ constructor(
 
     fun updateAccount(addresses: String, oldPassword: String, newPassword: String): LiveData<String> {
         val liveData = MutableLiveData<String>()
-        accountService.updateAccount(addresses, oldPassword, newPassword)
+        accountEthereumService.updateAccount(addresses, oldPassword, newPassword)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

@@ -1,2 +1,1 @@
-include ':app', ':trustnative', ':lib', ':trust'
-project(':trust').projectDir = new File('tn')
+include ':app', ':stellar'

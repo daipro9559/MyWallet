@@ -37,14 +37,10 @@ class SplashActivity : AppCompatActivity() {
         // hide the navigation bar.
         val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         decorView.systemUiVisibility = uiOptions
-        var handler = Handler()
-//        handler.postDelayed({
             val intent = Intent(applicationContext,
-                    MainActivity::class.java)
+                    ActivityTest::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
             finish()
-//        },2000)
-
     }
 }

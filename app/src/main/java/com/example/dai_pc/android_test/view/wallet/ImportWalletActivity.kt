@@ -39,7 +39,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
             buildDialogSelectAccount(it!!)
         })
 
-        viewDataBinding.edtNewPassword.setOnEditorActionListener { textView, i, keyEvent ->
+        viewDataBinding.edtNewPassword.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_DONE) {
                 clickImport()
             }

@@ -7,7 +7,6 @@ import com.example.dai_pc.android_test.ultil.PasswordManager
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.FlowableTransformer
 import io.reactivex.Single
 import org.ethereum.geth.*
 import org.web3j.crypto.ECKeyPair
@@ -15,12 +14,11 @@ import org.web3j.crypto.Keys
 import org.web3j.crypto.Wallet
 import org.web3j.crypto.Wallet.create
 import org.web3j.crypto.WalletFile
-import java.lang.Comparable
 import java.math.BigInteger
 import java.nio.charset.Charset
 import javax.inject.Inject
 
-class AccountServiceImp @Inject constructor(private val keyStore: KeyStore) : AccountService {
+class AccountEthereumServiceImp @Inject constructor(private val keyStore: KeyStore) : AccountEthereumService {
 
     @Throws
     override fun deleteAccount(address: String,password: String) {

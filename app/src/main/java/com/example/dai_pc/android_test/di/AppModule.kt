@@ -5,10 +5,8 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.database.AppDatabase
-import com.example.dai_pc.android_test.repository.NetworkRepository
-import com.example.dai_pc.android_test.service.AccountService
-import com.example.dai_pc.android_test.service.AccountServiceImp
-import com.example.dai_pc.android_test.ultil.PreferenceHelper
+import com.example.dai_pc.android_test.service.AccountEthereumService
+import com.example.dai_pc.android_test.service.AccountEthereumServiceImp
 //import com.example.dai_pc.android_test.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -51,7 +49,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun serviceAccount(accountServiceImp: AccountServiceImp): AccountService {
+    fun serviceAccount(accountServiceImp: AccountEthereumServiceImp): AccountEthereumService {
         return accountServiceImp
     }
 
