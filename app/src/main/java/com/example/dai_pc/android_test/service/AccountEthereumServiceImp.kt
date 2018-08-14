@@ -18,7 +18,16 @@ import java.math.BigInteger
 import java.nio.charset.Charset
 import javax.inject.Inject
 
-class AccountEthereumServiceImp @Inject constructor(private val keyStore: KeyStore) : AccountEthereumService {
+class AccountEthereumServiceImp @Inject constructor(private val keyStore: KeyStore,
+                                                    private val context: Context) : AccountEthereumService {
+
+    override fun createAccountWithPassword(password: String): Single<Account> {
+        return Single.create{
+            val account = keyStore.newAccount(password)
+            savePassword(context, account.address.hex.toString(), password)
+            account
+        }
+    }
 
     @Throws
     override fun deleteAccount(address: String,password: String) {

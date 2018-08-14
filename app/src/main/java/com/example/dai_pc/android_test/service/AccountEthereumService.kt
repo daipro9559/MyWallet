@@ -12,6 +12,7 @@ import java.math.BigInteger
 interface AccountEthereumService {
     fun getAllAccount():Accounts
     fun generateAccount(password: String, privateKey:String?):Single<WalletFile>
+    fun createAccountWithPassword(password: String) : Single<Account>
     fun signTransaction(addressFrom:String,
                         password: String,
                         addressTo:String,

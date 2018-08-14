@@ -4,38 +4,51 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-allopen'
 android {
-    compileSdkVersion 27
+    compileSdkVersion 26
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
+    }
 }
 ext.kotlin_version = '1.2.60'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation deps.stellar
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-
+    implementation files('/home/dainv/kaopiz/MyWallet/app/libs/net.i2p.crypto-4.0.0.jar')
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.moandjiezana.toml:toml4j:0.5.1'
+    implementation 'org.mockito:mockito-core:2.13.0'
+    implementation 'com.google.guava:guava:18.0'
+    implementation 'com.google.code.gson:gson:2.4'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'org.glassfish.jersey.core:jersey-client:2.22.1'
+    implementation 'org.glassfish.jersey.media:jersey-media-sse:2.22.1'
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.9.1'
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
+    implementation 'org.glassfish.hk2.external:javax.inject:2.4.0-b34'
 }
 repositories {
     mavenCentral()

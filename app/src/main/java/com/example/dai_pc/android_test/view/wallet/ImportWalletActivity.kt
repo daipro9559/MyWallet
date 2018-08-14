@@ -53,7 +53,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
         }
     }
 
-    fun clickImport() {
+    private fun clickImport() {
         if (!isImportByPrivateKey) {
             if (viewDataBinding.edtKeystore.text.isEmpty()) {
                 viewDataBinding.edtKeystore.error = getString(R.string.not_empty)

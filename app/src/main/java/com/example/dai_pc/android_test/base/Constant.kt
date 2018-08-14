@@ -6,6 +6,9 @@ import com.example.dai_pc.android_test.entity.NetworkProvider
  * Created by dai_pc on 6/15/2018.
  */
 object Constant {
+    //platform
+    val STELLAR_PLATFORM = "stellar platform"
+    val ETHEREUM_PLATFORM = "ethereum platform"
 
     //Database define
     val APP_DATABASE_NAME = "Wallet_ethereum"
@@ -25,6 +28,9 @@ object Constant {
     val KEY_NETWORK_ID = "network_id_preference"
     val KEY_REQUIRE_PASSWORD ="require_password_send"
     val KEY_OPEN_APP_FIRST  = "open app first"
+    val PLATFORM_KEY = "platform_preference"
+    val ACCOUNT_STELLAR_KEY = "account_stellar"
+    val ACCOUNT_ETHEREUM_KEY = "account_ethereum"
 
     // Network init
     val NETWORKS = arrayOf(NetworkProvider(1, ETHEREUM_NETWORK_NAME, ETH_SYMBOL,
@@ -46,7 +52,6 @@ object Constant {
 
     interface ErrorCode {
         companion object {
-
             val UNKNOWN = 1
             val CANT_GET_STORE_PASSWORD = 2
         }

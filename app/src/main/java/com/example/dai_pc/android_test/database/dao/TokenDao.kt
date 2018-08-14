@@ -19,5 +19,4 @@ interface TokenDao {
 
     @Delete()
     fun deleteToken(token: Token):Int
-
 }

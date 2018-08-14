@@ -13,6 +13,7 @@ import android.view.MenuItem
 import android.content.res.Configuration
 import android.os.PersistableBundle
 import android.support.v7.app.ActionBarDrawerToggle
+import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import com.example.dai_pc.android_test.base.Constant
@@ -84,9 +85,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
             setHomeButtonEnabled(true)
             setDisplayShowTitleEnabled(false)
         }
-
         drawerToggle.isDrawerIndicatorEnabled = true
         viewDataBinding.drawerLayout.addDrawerListener(drawerToggle)
+        viewDataBinding.navView.setNavigationItemSelectedListener {
+          navigationClickMenu(it)
+        }
     }
 
     private fun setupTablayout() {
@@ -158,5 +161,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
     fun loadBalance(){
         mainViewModel.fetchBalance()
+    }
+    private fun navigationClickMenu(menuItem: MenuItem) : Boolean{
+        when(menuItem.itemId){
+            R.id.stellar -> {
+                viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,false)
+                viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,true)
+            }
+            R.id.ethereum -> {
+                viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,false)
+                viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,true)
+            }
+        }
+        menuItem.isCheckable = true
+        viewDataBinding.drawerLayout.closeDrawer(Gravity.START)
+        return true
     }
 }

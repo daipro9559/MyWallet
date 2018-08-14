@@ -16,8 +16,6 @@ abstract class MainActivityModule {
     @ContributesAndroidInjector
     abstract fun fragmentMyAddress(): MyAddressFragment
 
-
-
     @ContributesAndroidInjector
     abstract fun tokenFragment(): TokenFragment
 }

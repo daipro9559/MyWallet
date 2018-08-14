@@ -172,3 +172,7 @@ public static float round(float d, int decimalPlace) {
 }
 
 clean.dependsOn convertDimens
+
+repositories {
+    google()
+}

@@ -46,4 +46,8 @@ class PreferenceHelper {
             commit()
         }
     }
+
+    fun getPlatform() : String {
+        return sharedPreferences.getString(Constant.PLATFORM_KEY,Constant.STELLAR_PLATFORM)
+    }
 }

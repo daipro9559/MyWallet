@@ -12,7 +12,9 @@ import com.example.dai_pc.android_test.entity.loading
 import com.example.dai_pc.android_test.entity.success
 import com.example.dai_pc.android_test.service.AccountEthereumService
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
+import com.example.stellar.KeyPair
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.ethereum.geth.*
 import javax.inject.Inject
@@ -23,37 +25,31 @@ class WalletRepository
 @Inject
 constructor(
         private val preferenceHelper: PreferenceHelper,
-        private val keyStore: KeyStore,
         context: Context,
-        private val appExecutors: AppExecutors,
         private val accountEthereumService: AccountEthereumService) : BaseRepository(context) {
     val accountsLiveData = MutableLiveData<List<Account>>()
     val accountSelected = MutableLiveData<String>()
 
     fun getAllAccount() {
-        var accounts = accountEthereumService.getAllAccount()
-        var list = ArrayList<Account>()
+        val accounts = accountEthereumService.getAllAccount()
+        val list = ArrayList<Account>()
         for (i in 0 until accounts!!.size()) {
             list.add(accounts[i])
         }
         accountsLiveData.value = list
-    }
 
+    }
     init {
         initAccountSelect()
     }
 
     fun createAccountFromPassword(pass: String): LiveData<Account> {
         val addressCreated = MutableLiveData<Account>()
-        appExecutors.diskIO().execute {
-            val account = keyStore.newAccount(pass)
-            accountEthereumService.savePassword(context, account.address.hex.toString(), pass)
-            appExecutors.mainThread().execute {
-                addressCreated.value = account
-            }
-        }
+        accountEthereumService.createAccountWithPassword(pass)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(Consumer { addressCreated.value = it })
         return addressCreated
-
     }
 
     fun deleteAccount(addresses: String, password: String): LiveData<Resource<String>> {

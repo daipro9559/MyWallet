@@ -98,10 +98,13 @@
     <string name="current_balance">My balance</string>
     <string name="want_delete_token">Are you want delete this token?</string>
     <string name="socket_timeout">Connect timeout</string>
-    <string name="stella">Stella</string>
+    <string name="stellar">Stellar</string>
     <string name="ethereum">Ethereum</string>
     <string name="main_net">Main net</string>
     <string name="test_net">Test net</string>
     <string name="blockChainPlatform">Platform</string>
+    <string name="kovan_network">Kovan(Test)</string>
+    <string name="rinkeby_network">Rinkeby(Test)</string>
+    <string name="ropsten_network">Ropsten(Test)</string>
 </resources>
 

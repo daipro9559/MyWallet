@@ -143,9 +143,11 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         if (walletRepository.accountSelected.value == null) {
             btn_copy.visibility = View.GONE
             btn_export.visibility = View.GONE
+            btn_manage.visibility = View.GONE
         } else {
             btn_copy.visibility = View.VISIBLE
             btn_export.visibility = View.VISIBLE
+            btn_manage.visibility = View.VISIBLE
         }
         walletRepository.accountSelected.value?.let {
             async(CommonPool) {
