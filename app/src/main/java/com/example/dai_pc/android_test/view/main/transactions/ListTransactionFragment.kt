@@ -45,7 +45,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
         super.onActivityCreated(savedInstanceState)
         initView()
         listTransactionViewModel = ViewModelProviders.of(this,viewModelFactory).get(ListTransactionViewModel::class.java)
-        if (preferenceHelper.getString(getString(R.string.account_key)) ==null){
+        if (preferenceHelper.getString(getString(R.string.account_select_eth_key)) ==null){
             viewDataBinding.floatButton.visibility = View.GONE
         }
         refresh(true)
@@ -79,7 +79,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
     }
 
     fun checkHaveWallet() :Boolean{
-        return if (preferenceHelper.getString(getString(R.string.account_key)) ==null){
+        return if (preferenceHelper.getString(getString(R.string.account_select_eth_key)) ==null){
             viewDataBinding.floatButton.visibility = View.GONE
             false
         }else{
@@ -96,7 +96,7 @@ class ListTransactionFragment :BaseFragment<FragmentListTransactionBinding>(){
             intent.putExtra("bundle",bundle)
             startActivity(intent)
         }
-        preferenceHelper.getString(getString(R.string.account_key))?.let{
+        preferenceHelper.getString(getString(R.string.account_select_eth_key))?.let{
             adapter.myWallet = it
         }
         viewDataBinding.recycleView.addItemDecoration(DividerItemDecoration(activity!!.applicationContext,LinearLayoutManager.VERTICAL))

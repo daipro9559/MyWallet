@@ -1,11 +1,12 @@
 package com.example.dai_pc.android_test.service
 
-import rx.Observable
-import java.util.*
+import com.example.stellar.KeyPair
+import io.reactivex.Single
 
 interface AccountStellarService {
-    fun createAccount(): Observable<String>
-    fun singin(priveKey :String) : Observable<String>
-    fun importAccount()
+    fun createAccount(): Single<KeyPair>
+    fun singin(priveKey :String) : Single<String>
+    fun importAccountBySecretSeed(secretSeed:String) : Single<KeyPair>
     fun exportAccount()
+    fun getSecretSeed(accountId :String) : Single<String>
 }

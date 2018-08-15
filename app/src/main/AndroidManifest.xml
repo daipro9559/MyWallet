@@ -42,7 +42,7 @@
             android:theme="@style/ActivitySetting">
 
         </activity>
-        <activity android:name=".view.wallet.ImportWalletActivity"
+        <activity android:name=".view.account.ImportWalletActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".view.TransactionDetailActivity"

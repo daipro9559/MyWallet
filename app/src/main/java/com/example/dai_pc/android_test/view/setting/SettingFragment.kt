@@ -50,11 +50,11 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
         val listNetWork = networkRepository.listNetWorkProvier
         val entries = arrayOfNulls<CharSequence>(listNetWork.size)
         val entryvalues = arrayOfNulls<CharSequence>(listNetWork.size)
-        val networkPreferences = findPreference(context!!.getString(R.string.network_key)) as ListPreference
+        val networkPreferences = findPreference(context!!.getString(R.string.network_key_eth)) as ListPreference
         networkPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
             Timber.i(newValue.toString())
             networkRepository.changeNetworkSelect(newValue.toString().toInt())
-            preferenceHelper.putInt(context!!.getString(R.string.network_key), newValue.toString().toInt())
+            preferenceHelper.putInt(context!!.getString(R.string.network_key_eth), newValue.toString().toInt())
             initDataNetwork()
             true
         }
@@ -73,7 +73,7 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
     private fun initDataWallet() {
         walletRepository.getAllAccount()
-        val walletPreferences = findPreference(context!!.getString(R.string.account_key)) as ListPreference
+        val walletPreferences = findPreference(context!!.getString(R.string.account_select_eth_key)) as ListPreference
         val entries = arrayOfNulls<CharSequence>(walletRepository.accountsLiveData.value!!.size)
         for (i in 0 until walletRepository.accountsLiveData.value!!.size) {
             entries[i] = walletRepository.accountsLiveData.value!![i].address.hex.toString()
@@ -94,10 +94,10 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         when (p1) {
-            context!!.getString(R.string.network_key) -> {
+            context!!.getString(R.string.network_key_eth) -> {
                 // need reload wallet content
             }
-            context!!.getString(R.string.account_key) -> {
+            context!!.getString(R.string.account_select_eth_key) -> {
                 // need reload wallet content
             }
         }

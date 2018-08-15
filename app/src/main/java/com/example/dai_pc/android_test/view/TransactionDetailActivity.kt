@@ -26,7 +26,7 @@ class TransactionDetailActivity : BaseActivity<ActivityTransactionDetailBinding>
         val transaction = intent.getBundleExtra("bundle").getParcelable(TRANSACTION_KEY) as Transaction
 
         transaction?.let {
-            if (it.from.endsWith(preferenceHelper.getString(getString(R.string.account_key)),true))  {
+            if (it.from.endsWith(preferenceHelper.getString(getString(R.string.account_select_eth_key)),true))  {
                 viewDataBinding.txtDescription.text = resources.getString(R.string.send_ether,BigDecimal(it.value.toBigIntegerOrNull(),18).toFloat().toString())
             }else{
                 viewDataBinding.txtDescription.text = resources.getString(R.string.receive_ether,BigDecimal(it.value.toBigIntegerOrNull(),18).toFloat().toString())

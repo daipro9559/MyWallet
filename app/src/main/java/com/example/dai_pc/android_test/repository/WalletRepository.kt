@@ -3,7 +3,6 @@ package com.example.dai_pc.android_test.repository
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
-import com.example.dai_pc.android_test.AppExecutors
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseRepository
 import com.example.dai_pc.android_test.entity.Resource
@@ -12,7 +11,6 @@ import com.example.dai_pc.android_test.entity.loading
 import com.example.dai_pc.android_test.entity.success
 import com.example.dai_pc.android_test.service.AccountEthereumService
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
-import com.example.stellar.KeyPair
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
@@ -37,11 +35,12 @@ constructor(
             list.add(accounts[i])
         }
         accountsLiveData.value = list
-
     }
+
     init {
         initAccountSelect()
     }
+
 
     fun createAccountFromPassword(pass: String): LiveData<Account> {
         val addressCreated = MutableLiveData<Account>()
@@ -86,11 +85,11 @@ constructor(
     }
 
     fun initAccountSelect() {
-        accountSelected.value = preferenceHelper.getString(context.getString(R.string.account_key))
+        accountSelected.value = preferenceHelper.getString(context.getString(R.string.account_select_eth_key))
     }
 
     fun saveAccountSelect(addresses: String) {
-        preferenceHelper.putString(context.getString(R.string.account_key), addresses)
+        preferenceHelper.putString(context.getString(R.string.account_select_eth_key), addresses)
         initAccountSelect()
     }
 
@@ -118,7 +117,8 @@ constructor(
                     accountEthereumService.savePassword(context, it.address.hex.toString(), newPassword)
                     accountLiveData.value = it.address.hex.toString()
                 }, {
-                    setError(it)})
+                    setError(it)
+                })
         return accountLiveData
 
     }

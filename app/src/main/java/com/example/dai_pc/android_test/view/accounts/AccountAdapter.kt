@@ -9,7 +9,7 @@ import com.example.dai_pc.android_test.base.BaseRecycleViewAdapter
 import com.example.dai_pc.android_test.base.ItemViewHolder
 import com.example.dai_pc.android_test.databinding.ItemAccountBinding
 import com.example.dai_pc.android_test.databinding.ItemWalletBinding
-import org.ethereum.geth.Account
+import com.example.dai_pc.android_test.entity.Account
 import java.text.FieldPosition
 
 typealias MenuClick = (menuId: Int, address: String) -> Unit
@@ -17,7 +17,7 @@ typealias MenuClick = (menuId: Int, address: String) -> Unit
 class AccountAdapter(val menuClick: MenuClick) : BaseRecycleViewAdapter<Account, ItemWalletBinding>() {
     override fun getlayoutId() = R.layout.item_wallet
     override fun bindData(i: Account, holder: ItemViewHolder<ItemWalletBinding>) {
-        holder.v.txtWallet.text = i.address.hex.toString()
+        holder.v.txtWallet.text = i.address
         holder.v.iconDropDown.setOnClickListener {
             showPopupMenu(it, holder.adapterPosition)
         }
@@ -29,7 +29,7 @@ class AccountAdapter(val menuClick: MenuClick) : BaseRecycleViewAdapter<Account,
         popupMenu.gravity = Gravity.BOTTOM
         popupMenu.show()
         popupMenu.setOnMenuItemClickListener {
-            menuClick(it.itemId,items[position].address.hex.toString())
+            menuClick(it.itemId,items[position].address)
             true
         }
     }

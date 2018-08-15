@@ -23,12 +23,14 @@
 
 
     <!--key setting preference -->
-    <string name="account_key">account_key</string>
-    <string name="network_key">network_key</string>
+    <string name="account_select_eth_key">account_select_eth_key</string>
+    <string name="account_select_ste_key">account_select_ste_key</string>
+    <string name="network_key_eth">network_key_ethereum</string>
+    <string name="network_key_ste">network_key_stellar</string>
     <string name="create_account">Create new account</string>
     <string name="import_account">Import account</string>
-    <string name="add_wallet">Add wallet</string>
-    <string name="input_pass">password wallet</string>
+    <string name="add_wallet">Add account</string>
+    <string name="input_pass">password account</string>
     <string name="cancel">Cancel</string>
     <string name="no_input_password">Please input password</string>
     <string name="create">Create</string>

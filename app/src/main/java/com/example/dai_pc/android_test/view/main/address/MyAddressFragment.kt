@@ -15,9 +15,11 @@ import android.view.View
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.FragmentMyAddressBinding
 import com.example.dai_pc.android_test.repository.WalletRepository
 import com.example.dai_pc.android_test.ultil.Callback
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.dai_pc.android_test.view.accounts.ManageAccountActivity
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
 import com.google.zxing.BarcodeFormat
@@ -34,9 +36,11 @@ const val KEY_ADDRESS = "key_address"
 const val SHARE_REQUEST_CODE = 131
 
 class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
-    @Inject
-    lateinit var walletRepository: WalletRepository
+
     private lateinit var myAddressViewModel: MyAddressViewModel
+
+    @Inject
+    lateinit var preferenceHelper: PreferenceHelper
 
     lateinit var callback: Callback<String>
 
@@ -59,7 +63,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
 
         btn_copy.setOnClickListener {
             val clipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText(KEY_ADDRESS, walletRepository.accountSelected.value)
+            val clip = ClipData.newPlainText(KEY_ADDRESS, myAddressViewModel.liveDataAccountSelect.value)
             if (clipboard != null) {
                 clipboard.primaryClip = clip
             }
@@ -69,7 +73,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
             createDialogExport()
         }
         btn_manage.setOnClickListener {
-            startActivity(Intent(activity!!,ManageAccountActivity::class.java))
+            startActivity(Intent(activity!!, ManageAccountActivity::class.java))
         }
     }
 
@@ -98,10 +102,18 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         bottomSheetFragment.callback = {
             if (it.id == R.id.create_wallet) {
                 fragmentManager!!.beginTransaction().remove(fragmentManager!!.findFragmentByTag("bottom_sheet")).commit()
-                buildDialogCreateWallet()
+                if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
+                    myAddressViewModel.createAccountStellar()
+                    myAddressViewModel.liveDataAccountStellar.observe(this, Observer {
+                        Toast.makeText(context!!.applicationContext,"create account stellar completed",Toast.LENGTH_LONG).show()
+                    })
+                } else if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
+                    buildDialogCreateWallet()
+                }
+
             } else {
                 fragmentManager!!.beginTransaction().remove(fragmentManager!!.findFragmentByTag("bottom_sheet")).commit()
-                startActivity(Intent(activity!!,ImportWalletActivity::class.java))
+                startActivity(Intent(activity!!, ImportWalletActivity::class.java))
             }
         }
         fragmentManager!!.beginTransaction().add(bottomSheetFragment, "bottom_sheet").disallowAddToBackStack().commit()
@@ -127,7 +139,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
                                 val account = it
                                 Toast.makeText(context!!.applicationContext, context!!.getString(R.string.create_completed), Toast.LENGTH_LONG).show()
                                 // if no have account , set account was have
-                                walletRepository.saveAccountSelect(it!!.address.hex.toString())
+                                myAddressViewModel.selectWallet(it!!.address.hex.toString())
                                 callback?.let {
                                     callback(account!!.address.hex.toString())
                                 }
@@ -140,21 +152,21 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
     }
 
     fun refresh() {
-        if (walletRepository.accountSelected.value == null) {
+        if (myAddressViewModel.liveDataAccountSelect.value == null) {
             btn_copy.visibility = View.GONE
             btn_export.visibility = View.GONE
-            btn_manage.visibility = View.GONE
+//            btn_manage.visibility = View.GONE
         } else {
             btn_copy.visibility = View.VISIBLE
             btn_export.visibility = View.VISIBLE
-            btn_manage.visibility = View.VISIBLE
+//            btn_manage.visibility = View.VISIBLE
         }
-        walletRepository.accountSelected.value?.let {
+        myAddressViewModel.liveDataAccountSelect.value?.let {
             async(CommonPool) {
-                val bitmap = genAddressToBarCode(walletRepository.accountSelected.value!!)
+                val bitmap = genAddressToBarCode(myAddressViewModel.liveDataAccountSelect.value!!)
                 async(UI) {
                     viewDataBinding.imgBarcode.setImageBitmap(bitmap)
-                    viewDataBinding.txtAddress.text = walletRepository.accountSelected.value!!
+                    viewDataBinding.txtAddress.text = myAddressViewModel.liveDataAccountSelect.value!!
                 }
             }
         }
@@ -162,7 +174,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
     }
 
     private fun createDialogExport() {
-        val view = layoutInflater.inflate(R.layout.dialog_create_wallet,null)
+        val view = layoutInflater.inflate(R.layout.dialog_create_wallet, null)
         val textInputEditText = view.findViewById<TextInputEditText>(R.id.edt_pass)
         val builder = AlertDialog.Builder(activity!!)
                 .setTitle(R.string.export_account)

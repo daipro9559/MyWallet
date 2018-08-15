@@ -3,6 +3,7 @@
     <color name="color_app">#dcdcdc</color>
     <color name="colorPrimary">#4a585c</color>
     <color name="colorPrimaryDark">#4a585c</color>
+    <color name="colorPrimaryStellar">#94bbc6</color>
     <!--<color name="colorPrimaryDark">#788b91</color>-->
     <color name="colorAccent">#469467</color>
     <color name="colorAccentActivitySetting">#788b91</color>

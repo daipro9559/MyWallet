@@ -3,22 +3,37 @@ package com.example.dai_pc.android_test.repository
 import android.content.Context
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.Constant
-import com.example.dai_pc.android_test.di.AppScope
 import com.example.dai_pc.android_test.entity.NetworkProvider
+import com.example.dai_pc.android_test.entity.NetworkStellarProvider
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class NetworkRepository {
-
-    var listNetWorkProvier: List<NetworkProvider> = ArrayList()
-    lateinit var networkProviderSelected :NetworkProvider
-
     @Inject constructor(preferenceHelper: PreferenceHelper,context:Context){
-        listNetWorkProvier = Constant.NETWORKS.toList()
-        changeNetworkSelect(preferenceHelper.getInt(context.getString(R.string.network_key),1))
+        changeNetworkSelect(preferenceHelper.getInt(context.getString(R.string.network_key_eth),1))
     }
+
+    val listNetWorkProvier: List<NetworkProvider> = listOf(NetworkProvider(1, Constant.ETHEREUM_NETWORK_NAME, Constant.ETH_SYMBOL,
+            "https://mainnet.infura.io/llyrtzQ3YhkdESt2Fzrk",
+            "https://api.trustwalletapp.com/",
+            "https://etherscan.io/", 1, true,"https://api.etherscan.io/"),
+            NetworkProvider(2, Constant.KOVAN_NETWORK_NAME, Constant.ETH_SYMBOL,
+                    "https://kovan.infura.io/llyrtzQ3YhkdESt2Fzrk",
+                    "https://kovan.trustwalletapp.com/",
+                    "https://kovan.etherscan.io", 42, false,"https://api-kovan.etherscan.io/"),
+            NetworkProvider(3, Constant.RINKEBY_NETWORK_NAME, Constant.ETH_SYMBOL,
+                    "https://rinkeby.infura.io/llyrtzQ3YhkdESt2Fzrk",
+                    "https://rinkeby.trustwalletapp.com/",
+                    "https://rinkeby.etherscan.io", 4, false,"https://api-kovan.etherscan.io/"),
+            NetworkProvider(4, Constant.ROPSTEN_NETWORK_NAME, Constant.ETH_SYMBOL,
+                    "https://ropsten.infura.io/llyrtzQ3YhkdESt2Fzrk",
+                    "https://ropsten.trustwalletapp.com/",
+                    "https://ropsten.etherscan.io", 3, false,"https://api-ropsten.etherscan.io/"))
+    lateinit var networkProviderSelected : NetworkProvider
+    lateinit var networkStellarProvider: NetworkStellarProvider
+
 
     fun changeNetworkSelect(id:Int){
         networkProviderSelected =  listNetWorkProvier!!.firstOrNull{

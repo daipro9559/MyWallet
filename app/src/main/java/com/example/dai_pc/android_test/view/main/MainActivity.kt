@@ -11,7 +11,6 @@ import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityMainBinding
 import android.view.MenuItem
 import android.content.res.Configuration
-import android.os.PersistableBundle
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.Menu
@@ -122,13 +121,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         when (p1) {
-            getString(R.string.network_key) -> {
+            getString(R.string.network_key_eth) -> {
                 isNeedReload = true
-                changeNetwork(p0!!.getInt(getString(R.string.network_key),1))
+                changeNetwork(p0!!.getInt(getString(R.string.network_key_eth),1))
             }
-            getString(R.string.account_key) -> {
+            getString(R.string.account_select_eth_key) -> {
                 isNeedReload = true
-                changeWallet(p0!!.getString(getString(R.string.account_key),""))
+                changeWallet(p0!!.getString(getString(R.string.account_select_eth_key),""))
             }
         }
     }
@@ -165,10 +164,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     private fun navigationClickMenu(menuItem: MenuItem) : Boolean{
         when(menuItem.itemId){
             R.id.stellar -> {
+                mainViewModel.changePlatform(Constant.STELLAR_PLATFORM)
                 viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,false)
                 viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,true)
             }
             R.id.ethereum -> {
+                mainViewModel.changePlatform(Constant.ETHEREUM_PLATFORM)
                 viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,false)
                 viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,true)
             }

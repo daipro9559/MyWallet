@@ -18,4 +18,6 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector
     abstract fun tokenFragment(): TokenFragment
+
+
 }

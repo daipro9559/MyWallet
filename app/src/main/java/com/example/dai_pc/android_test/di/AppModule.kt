@@ -7,6 +7,8 @@ import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.database.AppDatabase
 import com.example.dai_pc.android_test.service.AccountEthereumService
 import com.example.dai_pc.android_test.service.AccountEthereumServiceImp
+import com.example.dai_pc.android_test.service.AccountStellarService
+import com.example.dai_pc.android_test.service.AccountStellarServiceImp
 //import com.example.dai_pc.android_test.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -49,15 +51,16 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun serviceAccount(accountServiceImp: AccountEthereumServiceImp): AccountEthereumService {
+    fun serviceAccountEthereum(accountServiceImp: AccountEthereumServiceImp): AccountEthereumService {
         return accountServiceImp
     }
 
-//    @Singleton
-//    @Provides
-//    fun networkRepository(preferenceHelper: PreferenceHelper,context: Context): NetworkRepository{
-//        return NetworkRepository(preferenceHelper,context)
-//    }
+    @Singleton
+    @Provides
+    fun serviceAccountStellar(accountServiceImp: AccountStellarServiceImp): AccountStellarService{
+        return accountServiceImp
+    }
+
 
     @Singleton
     @Provides

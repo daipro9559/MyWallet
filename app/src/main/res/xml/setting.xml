@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.preference.ListPreference
-        android:key="@string/account_key"
+        android:key="@string/account_select_eth_key"
         android:icon="@drawable/ic_wallet"
         android:title="@string/select_account"
         />
     <android.support.v7.preference.ListPreference
         android:title="@string/network"
         android:icon="@drawable/ic_server"
-        android:key="@string/network_key"
+        android:key="@string/network_key_eth"
         />
     <android.support.v7.preference.SwitchPreferenceCompat
         android:icon="@drawable/ic_lock"
