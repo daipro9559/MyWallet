@@ -1,5 +1,6 @@
 package com.example.dai_pc.android_test.view.main.transactions
 
+import android.annotation.SuppressLint
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseRecycleViewAdapter
 import com.example.dai_pc.android_test.base.ItemViewHolder
@@ -16,17 +17,17 @@ class TransactionAdapter(val Click:(Transaction)->Unit) :BaseRecycleViewAdapter<
 
     override fun bindData(i: Transaction, holder: ItemViewHolder<ItemTransactionBinding>) {
         holder.v.transaction = i
-        holder.v.value.text =BigDecimal(i.value.toBigIntegerOrNull(),18).toFloat().toString()
+        holder.v.value.text =BigDecimal(i.value.toBigIntegerOrNull(),18).toFloat().toString() + " ETH"
         holder.v.time.text =Ultil.getTimeFromTimeStamp(i.timeStamp!!.toLong())
         if (i.from.endsWith(myWallet,true))  {
             holder.v.txtAddress.text = i.to
             holder.v.txtFromTo.text = "To: "
-            holder.v.icon.setImageDrawable(holder.v.root.context.getDrawable(R.drawable.ic_next))
+            holder.v.value.setBackgroundResource(R.color.colorRedSent)
         }else
         {
             holder.v.txtFromTo.text = "From: "
             holder.v.txtAddress.text = i.from
-            holder.v.icon.setImageDrawable(holder.v.root.context.getDrawable(R.drawable.ic_back_2))
+            holder.v.value.setBackgroundResource(R.color.colorGreenReceived)
 
         }
         holder.v.viewRoot.setOnClickListener {

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_app">#dcdcdc</color>
-    <color name="colorPrimary">#4a585c</color>
-    <color name="colorPrimaryDark">#4a585c</color>
+    <color name="colorPrimary">#111423</color>
+    <color name="colorPrimaryDark">#111423</color>
+    <color name="colorWindowsBackground">#373a4b</color>
+    <color name="colorLoadingBackground">#cb111423</color>
     <color name="colorPrimaryStellar">#94bbc6</color>
     <!--<color name="colorPrimaryDark">#788b91</color>-->
     <color name="colorAccent">#469467</color>
     <color name="colorAccentActivitySetting">#788b91</color>
-    <color name="text_color_app">#585858</color>
+    <color name="text_color_app">#ffffff</color>
     <color name="bg_txt_out">#ff5e5e</color>
     <color name="bg_txt_in">#488f42</color>
     <color name="white">#ffffff</color>
@@ -18,4 +20,6 @@
     <color name="txt_color_content">#7c7c7c</color>
     <color name="txt_color_title">#4e4e4e</color>
     <color name="color_control_high_light">#a4a4a4</color>
+    <color name="colorRedSent">#d11e00</color>
+    <color name="colorGreenReceived">#187d21</color>
 </resources>

@@ -16,12 +16,14 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.main.token.TokenFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.rate.RateActivity
 import com.example.dai_pc.android_test.view.setting.SettingActivity
 import java.math.BigDecimal
+import javax.inject.Inject
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -33,6 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
     private lateinit var mainViewModel: MainViewModel
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    @Inject lateinit var preferenceHelper: PreferenceHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this)
@@ -72,7 +75,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
         viewPagerAdapter.addFragment(TokenFragment.newInstance())
         viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
-        viewDataBinding.contentMain.tabLayout.setupWithViewPager(viewDataBinding.contentMain.viewPager)
         viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
         setupTablayout()
         (viewPagerAdapter.getItem(1) as MyAddressFragment).callback = {
@@ -89,12 +91,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewDataBinding.navView.setNavigationItemSelectedListener {
           navigationClickMenu(it)
         }
+        if (preferenceHelper.getPlatform()== Constant.STELLAR_PLATFORM){
+            viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,false)
+            viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,true)
+        }else{
+            viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,false)
+            viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,true)
+        }
     }
 
     private fun setupTablayout() {
-        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
-        viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ACCOUNT
-        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.MY_TOKEN
+//        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
+//        viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ACCOUNT
+//        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.MY_TOKEN
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -128,6 +137,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
             getString(R.string.account_select_eth_key) -> {
                 isNeedReload = true
                 changeWallet(p0!!.getString(getString(R.string.account_select_eth_key),""))
+            }
+            Constant.PLATFORM_KEY ->{
+                reloadContent()
             }
         }
     }
@@ -177,5 +189,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         menuItem.isCheckable = true
         viewDataBinding.drawerLayout.closeDrawer(Gravity.START)
         return true
+    }
+
+    private fun changePlatform(){
+
     }
 }

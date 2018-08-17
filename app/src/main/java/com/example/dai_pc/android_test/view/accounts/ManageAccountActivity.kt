@@ -29,8 +29,7 @@ class ManageAccountActivity : BaseActivity<ActivityManageAccountBinding>() {
         initView()
         manageAccountViewModel = ViewModelProviders.of(this, viewModelFactory)[ManageAccountViewModel::class.java]
         myAddressViewModel = ViewModelProviders.of(this, viewModelFactory)[MyAddressViewModel::class.java]
-        manageAccountViewModel.getAllAccount()
-        manageAccountViewModel.listAccountLiveData.observe(this, Observer {
+        manageAccountViewModel.listAccountStellar.observe(this, Observer {
             Timber.e("" + it!!.size)
             adapter.swapListItem(it)
         })

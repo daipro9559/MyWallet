@@ -17,21 +17,29 @@ class ManageAccountViewModel
 @Inject constructor(private val walletRepository: WalletRepository,
                     private val walletStellarRepository: WalletStellarRepository,
                     preferenceHelper: PreferenceHelper) :BaseViewModel() {
-    val fetchAccountLiveData = MutableLiveData<String>()
-    val listAccountLiveData = Transformations.switchMap(fetchAccountLiveData){
-        if (Constant.STELLAR_PLATFORM == it){
-          return@switchMap  walletStellarRepository.getAllAccount()
-        }else {
-             null
-        }
+    val fetchAccountEther = MutableLiveData<String>()
+    val fetchAccountStellar = MutableLiveData<String>()
+    val listAccountEther = walletRepository.accountsLiveData
+    val listAccountStellar = Transformations.switchMap(fetchAccountStellar){
+        walletStellarRepository.getAllAccount()
     }
     private val platform = preferenceHelper.getPlatform()
+
+    init {
+        getAllAccount()
+    }
+
+
     val deletedAccountNotify = MutableLiveData<Resource<String>>()
     init {
         errorLiveData = walletRepository.error
     }
     fun getAllAccount(){
-        fetchAccountLiveData.postValue(platform)
+        if (platform == Constant.STELLAR_PLATFORM) {
+            fetchAccountStellar.value = platform
+        }else if (platform == Constant.ETHEREUM_PLATFORM) {
+            walletRepository.getAllAccount()
+        }
     }
     fun selectAccount(address:String){
         walletRepository.saveAccountSelect(address)

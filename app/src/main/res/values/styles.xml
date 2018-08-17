@@ -5,10 +5,15 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="preferenceTheme">@style/App.Preference</item>
+        <item name="android:windowBackground">@color/colorWindowsBackground</item>
     </style>
+    <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
 
     <style name="MainActivityTheme" parent="AppTheme">
         <item name="android:windowContentOverlay">@null</item>
@@ -127,6 +132,11 @@
         <item name="android:layout_marginLeft">@dimen/_10dp</item>
         <item name="android:textSize">@dimen/_17sp</item>
         <item name="android:textColor">@color/txt_color_content</item>
+    </style>
+
+    <style name="MyTextTitle" parent="TextAppStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/_20sp</item>
     </style>
 
 </resources>

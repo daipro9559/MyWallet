@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class MainActivityModule {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [ListTransactionModule::class])
     abstract fun fragmentHome(): ListTransactionFragment
 
     @ContributesAndroidInjector

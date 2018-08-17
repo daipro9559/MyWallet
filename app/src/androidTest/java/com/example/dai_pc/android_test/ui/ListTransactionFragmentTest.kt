@@ -35,7 +35,7 @@
 //    @Before
 //    fun init() {
 //        viewModel = mock(ListTransactionViewModel::class.java)
-////        `when`(viewModel.listTransactionLiveData).thenReturn(listTransactionLiveData)
+////        `when`(viewModel.listTransactionEther).thenReturn(listTransactionEther)
 //        fragment.viewModelFactory = ViewModelUtil.createFor(viewModel)
 ////        fragment.preferenceHelper = PreferenceHelper(InstrumentationRegistry.getContext())
 //        activityRule.activity.addFragment(fragment)

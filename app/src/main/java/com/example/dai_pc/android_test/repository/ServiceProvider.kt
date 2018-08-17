@@ -19,10 +19,10 @@ constructor(private val okHttpClient: OkHttpClient,
             private val networkRepository: NetworkRepository)
 {
     init {
-        buidApiService(networkRepository.networkProviderSelected.baseUrl)
+        buildApiService(networkRepository.networkProviderSelected.baseUrl)
     }
     lateinit var etherScanApi: EtherScanApi
-    fun buidApiService(urlBase: String) {
+    private fun buildApiService(urlBase: String) {
         etherScanApi = Retrofit.Builder()
                 .baseUrl(urlBase)
                 .client(okHttpClient)
@@ -31,8 +31,9 @@ constructor(private val okHttpClient: OkHttpClient,
                 .build()
                 .create(EtherScanApi::class.java)
     }
+
     fun changeNetwork(id: Int) {
         networkRepository.changeNetworkSelect(id)
-        buidApiService(networkRepository.networkProviderSelected.baseUrl)
+        buildApiService(networkRepository.networkProviderSelected.baseUrl)
     }
 }

@@ -9,6 +9,7 @@ object Constant {
     //platform
     val STELLAR_PLATFORM = "stellar platform"
     val ETHEREUM_PLATFORM = "ethereum platform"
+    val STELLAR_MAIN_NET = "https://www.stellar.org/developers/horizon/reference/"
 
     //Database define
     val APP_DATABASE_NAME = "Wallet_ethereum"

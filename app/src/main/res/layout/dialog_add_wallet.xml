@@ -4,10 +4,12 @@
     <data>
     </data>
     <android.support.constraint.ConstraintLayout
+        android:background="@color/colorPrimary"
         android:clickable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.v7.widget.AppCompatTextView
+            style="@style/TextAppStyle"
             android:padding="@dimen/_10dp"
             android:id="@+id/title"
             android:text="@string/add_wallet"
