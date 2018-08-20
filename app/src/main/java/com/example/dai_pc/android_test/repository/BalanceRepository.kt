@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.Timed
 import org.ethereum.geth.Addresses
 import timber.log.Timber
+import java.math.BigDecimal
 import java.math.BigInteger
 import javax.inject.Inject
 
@@ -20,10 +21,9 @@ class BalanceRepository
 constructor(private val walletRepository: WalletRepository,
             private val serviceProvider: ServiceProvider,
             context: Context) : BaseRepository(context){
-
-    fun fetchBalance() :MutableLiveData<Resource<BigInteger>> {
-        val balance = MutableLiveData<Resource<BigInteger>>()
-        balance.value = loading()
+    val balanceLiveData = MutableLiveData<Resource<String>>()
+    fun fetchBalance() {
+        balanceLiveData.value = loading()
         walletRepository.accountSelected.value?.let {
             serviceProvider.etherScanApi.fetchBalance("account",
                     "balance",
@@ -32,16 +32,14 @@ constructor(private val walletRepository: WalletRepository,
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        balance.value = success(it.result)
+                        balanceLiveData.value = success(it.result)
                     }, {
                        setError(it)
                     })
         }
         if (walletRepository.accountSelected.value == null){
-            balance.value = error("")
+            balanceLiveData.value = error("")
         }
-
-       return balance
     }
 
     fun fetchPrice() : LiveData<Resource<EtherPriceResponse>>{

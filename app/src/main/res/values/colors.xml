@@ -22,4 +22,6 @@
     <color name="color_control_high_light">#a4a4a4</color>
     <color name="colorRedSent">#d11e00</color>
     <color name="colorGreenReceived">#187d21</color>
+    <color name="colorPressFloatButton">#373a4b</color>
+    <color name="colorRippleFloatButton">#af747474</color>
 </resources>

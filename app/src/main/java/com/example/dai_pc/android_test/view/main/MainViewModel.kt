@@ -21,9 +21,7 @@ constructor(private val balanceRepository: BalanceRepository,
     val balanceLiveData  =  MutableLiveData<Resource<BigInteger>>()
 
     fun fetchBalance(){
-        balanceRepository.fetchBalance().observeForever {
-            balanceLiveData.value = it
-        }
+
     }
     fun changeAddress(){
         walletRepository.initAccountSelect()

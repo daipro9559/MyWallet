@@ -154,6 +154,9 @@ deps.view_expand = "net.cachapa.expandablelayout:expandablelayout:2.9.2"
 deps.easing =  "com.daimajia.easing:library:2.0@aar"
 deps.animationLib = "com.daimajia.androidanimations:library:2.3@aar"
 deps.stellar = "com.github.stellar:java-stellar-sdk:0.3.0"
+deps.circleIcon =  'de.hdodenhof:circleimageview:2.2.0'
+deps.fabButton =  "com.github.clans:fab:1.6.4"
+
 
 
 ext.deps = deps

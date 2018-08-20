@@ -36,7 +36,7 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.setting)
-        initDataWallet()
+//        initDataWallet()
         initDataNetwork()
         val requirePass = findPreference(Constant.KEY_REQUIRE_PASSWORD) as SwitchPreferenceCompat
         requirePass.setOnPreferenceChangeListener { _, newValue ->

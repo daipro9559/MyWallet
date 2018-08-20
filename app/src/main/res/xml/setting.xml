@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.preference.ListPreference
-        android:key="@string/account_select_eth_key"
-        android:icon="@drawable/ic_wallet"
-        android:title="@string/select_account"
+        android:key="platform_preference"
+        android:icon="@drawable/ic_blockchain"
+        android:title="@string/select_platform"
         />
     <android.support.v7.preference.ListPreference
         android:title="@string/network"

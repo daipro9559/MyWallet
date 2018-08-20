@@ -14,6 +14,7 @@
 
     <!--setting title-->
     <string name="select_account">Select account</string>
+    <string name="select_platform">Select platform</string>
     <string name="network">Change Network</string>
     <string name="require_password">Require password</string>
     <string name="require_pass_des">Require password when send transaction</string>
@@ -110,5 +111,10 @@
     <string name="ropsten_network">Ropsten(Test)</string>
     <string name="transactions">Transactions</string>
     <string name="balance">Balance</string>
+    <string name="transactions_history">Transaction history</string>
+    <string name="account">Account</string>
+    <string name="receive">Receive</string>
+    <string name="my_account">My account</string>
+    <string name="price">Price</string>
 </resources>
 

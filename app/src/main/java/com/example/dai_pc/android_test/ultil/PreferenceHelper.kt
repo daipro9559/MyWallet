@@ -48,7 +48,7 @@ class PreferenceHelper {
     }
 
     fun getPlatform(): String {
-        return sharedPreferences.getString(Constant.PLATFORM_KEY, Constant.STELLAR_PLATFORM)
+        return sharedPreferences.getString(Constant.PLATFORM_KEY, Constant.ETHEREUM_PLATFORM)
     }
 
 

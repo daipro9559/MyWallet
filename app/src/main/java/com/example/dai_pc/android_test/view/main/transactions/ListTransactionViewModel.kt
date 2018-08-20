@@ -2,9 +2,12 @@ package com.example.dai_pc.android_test.view.main.transactions
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
+import android.content.Context
 import com.android.example.github.testing.OpenForTesting
+import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseViewModel
 import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.repository.BalanceRepository
 import com.example.dai_pc.android_test.repository.TransactionRepository
 import com.example.dai_pc.android_test.repository.TransactionStellarRepo
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
@@ -13,13 +16,19 @@ import javax.inject.Inject
 @OpenForTesting
 open class ListTransactionViewModel @Inject constructor(private val transactionRepository: TransactionRepository,
                                                         private val transactionStellarRepo: TransactionStellarRepo,
-                                                        private val preferenceHelper: PreferenceHelper) : BaseViewModel() {
+                                                        private val preferenceHelper: PreferenceHelper,
+                                                        private val balanceRepository: BalanceRepository,
+                                                        private val context : Context) : BaseViewModel() {
     private var platform = preferenceHelper.getPlatform()
     private val fetchParamEth = MutableLiveData<FetchTransactionParam>()
     private val fetchParamStellar = MutableLiveData<FetchTransactionParam>()
+    val balanceEther = balanceRepository.balanceLiveData
+    val accountLiveData = MutableLiveData<String>()
     init {
         errorLiveData = transactionRepository.error
         getAllTransaction()
+        getBalance()
+        getAccount()
     }
     val listTransactionEther = Transformations.switchMap(fetchParamEth) {
         transactionRepository.fetchTransaction(it.startBlock, it.endBlock, it.isShowLoading)
@@ -41,6 +50,13 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
         constructor() :this(0,0,false)
     }
 
+    fun getBalance(){
+        balanceRepository.fetchBalance()
+    }
 
-
+    fun getAccount(){
+        if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM){
+            accountLiveData.value = preferenceHelper.getString(context.getString(R.string.account_select_eth_key))
+        }
+    }
 }

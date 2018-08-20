@@ -17,18 +17,18 @@ class TransactionAdapter(val Click:(Transaction)->Unit) :BaseRecycleViewAdapter<
 
     override fun bindData(i: Transaction, holder: ItemViewHolder<ItemTransactionBinding>) {
         holder.v.transaction = i
-        holder.v.value.text =BigDecimal(i.value.toBigIntegerOrNull(),18).toFloat().toString() + " ETH"
+
         holder.v.time.text =Ultil.getTimeFromTimeStamp(i.timeStamp!!.toLong())
         if (i.from.endsWith(myWallet,true))  {
+            holder.v.value.text ="-" + BigDecimal(i.value.toBigIntegerOrNull(),18).toFloat().toString() + " ETH"
             holder.v.txtAddress.text = i.to
             holder.v.txtFromTo.text = "To: "
             holder.v.value.setBackgroundResource(R.color.colorRedSent)
-        }else
-        {
+        }else {
+            holder.v.value.text ="+" + BigDecimal(i.value.toBigIntegerOrNull(),18).toFloat().toString() + " ETH"
             holder.v.txtFromTo.text = "From: "
             holder.v.txtAddress.text = i.from
             holder.v.value.setBackgroundResource(R.color.colorGreenReceived)
-
         }
         holder.v.viewRoot.setOnClickListener {
             Click(i)

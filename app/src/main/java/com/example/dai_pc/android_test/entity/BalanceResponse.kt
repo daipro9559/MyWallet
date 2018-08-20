@@ -1,6 +1,7 @@
 package com.example.dai_pc.android_test.entity
 
 import com.google.gson.annotations.Expose
+import java.math.BigDecimal
 import java.math.BigInteger
 
 data class BalanceResponse(
@@ -9,6 +10,6 @@ data class BalanceResponse(
         @Expose
         val message: String,
         @Expose
-        val result : BigInteger
+        val result : String
 
 )

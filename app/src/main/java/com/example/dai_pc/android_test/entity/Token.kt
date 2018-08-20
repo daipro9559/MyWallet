@@ -22,7 +22,7 @@ data class Token(
         val addedTime: Long,
         @ColumnInfo(name = "network")
         var network: String,
-        @ColumnInfo(name = "balance")
+        @ColumnInfo(name = "balanceEther")
         var balance: String,
         @ColumnInfo(name = "contractAddress")
         val contractAddress: String)

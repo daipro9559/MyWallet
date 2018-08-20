@@ -17,7 +17,9 @@
         <android.support.design.widget.NavigationView
             app:headerLayout="@layout/header_navigation"
             android:id="@+id/nav_view"
-            app:menu="@menu/menu_stella_plaform"
+            app:menu="@menu/main_menu"
+            app:itemTextColor="@drawable/drawer_item_menu"
+            app:itemIconTint="@drawable/drawer_item_menu"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"

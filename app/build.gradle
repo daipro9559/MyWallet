@@ -94,7 +94,8 @@ dependencies {
     implementation deps.view_expand
     implementation deps.easing
     implementation deps.animationLib
-    implementation 'com.github.lelloman:android-identicons:v7'
+    implementation deps.circleIcon
+    implementation deps.fabButton
 
     kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler

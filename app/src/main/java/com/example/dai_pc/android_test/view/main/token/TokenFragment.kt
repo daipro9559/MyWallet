@@ -76,7 +76,7 @@ class TokenFragment : BaseFragment<FragmentTokenBinding>() {
         }
     }
     /**
-     *don't pass balance because balance value is asynchronously
+     *don't pass balanceEther because balanceEther value is asynchronously
      */
     private fun startSendTokenActivity(token: Token) {
         val intent = Intent(activity, CreateTransactionActivity::class.java)

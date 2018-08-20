@@ -41,22 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this)
         initView()
         mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
-        loadBalance()
-        mainViewModel.balanceLiveData.observe(this, Observer {
-            it!!.t?.let {
-                viewDataBinding.contentMain.etherTitle.visibility  = View.VISIBLE
-                val data = BigDecimal(it, 18)
-                viewDataBinding.contentMain.ether.text = data.toFloat().toString()
-            }
-            it.messError?.let {
-                viewDataBinding.contentMain.ether.text = "----"
-                viewDataBinding.contentMain.etherTitle.visibility  = View.VISIBLE
 
-            }
-        })
-        viewDataBinding.contentMain.viewBalance.setOnClickListener {
-            startActivity(Intent(this,RateActivity::class.java))
-        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -107,11 +92,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
-            R.id.setting -> {
-                startActivity(Intent(this, SettingActivity::class.java))
-            }
-        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -124,7 +104,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
@@ -145,7 +124,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
 
     private fun reloadContent() {
-       loadBalance()
         val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
         fragmentTransaction?.let {
             it.refresh(true)
@@ -170,9 +148,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
             it.changeAddress(address)
         }
     }
-    fun loadBalance(){
-        mainViewModel.fetchBalance()
-    }
+
     private fun navigationClickMenu(menuItem: MenuItem) : Boolean{
         when(menuItem.itemId){
             R.id.stellar -> {
@@ -184,6 +160,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
                 mainViewModel.changePlatform(Constant.ETHEREUM_PLATFORM)
                 viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,false)
                 viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,true)
+            }
+            R.id.setting ->{
+                startActivity(Intent(this,SettingActivity::class.java))
             }
         }
         menuItem.isCheckable = true

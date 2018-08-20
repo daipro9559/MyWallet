@@ -1,1 +1,1 @@
-include ':app', ':stellar'
+include ':app', ':stellar', ':identicon'
