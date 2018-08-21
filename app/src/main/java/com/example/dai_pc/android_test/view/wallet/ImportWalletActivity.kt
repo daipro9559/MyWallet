@@ -88,7 +88,7 @@ class ImportWalletActivity : BaseActivity<ActivityImportWalletBinding>() {
 
 
     private fun buildDialogSelectAccount(address: String) {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this,R.style.MyAlertDialogStyle)
         builder.setTitle(R.string.import_completed)
                 .setMessage(R.string.select_account_just_imported)
                 .setPositiveButton(R.string.yes) { _, _ ->

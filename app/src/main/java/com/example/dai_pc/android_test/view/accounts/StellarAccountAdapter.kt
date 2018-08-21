@@ -14,7 +14,7 @@ import java.text.FieldPosition
 
 typealias MenuClick = (menuId: Int, address: String) -> Unit
 
-class AccountAdapter(val menuClick: MenuClick) : BaseRecycleViewAdapter<Account, ItemWalletBinding>() {
+class StellarAccountAdapter(val menuClick: MenuClick) : BaseRecycleViewAdapter<Account, ItemWalletBinding>() {
     override fun getlayoutId() = R.layout.item_wallet
     override fun bindData(i: Account, holder: ItemViewHolder<ItemWalletBinding>) {
         holder.v.txtWallet.text = i.address

@@ -3,7 +3,7 @@ package com.example.dai_pc.android_test.di
 import com.example.dai_pc.android_test.view.AddTokenActivity
 import com.example.dai_pc.android_test.view.SplashActivity
 import com.example.dai_pc.android_test.view.TransactionDetailActivity
-import com.example.dai_pc.android_test.view.accounts.ManageAccountActivity
+import com.example.dai_pc.android_test.view.accounts.ManageAccountFragment
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
 import com.example.dai_pc.android_test.view.main.MainActivity
 import com.example.dai_pc.android_test.view.rate.RateActivity
@@ -38,9 +38,6 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun addTokenActivity(): AddTokenActivity
-
-    @ContributesAndroidInjector
-    abstract fun manageAccountActivity(): ManageAccountActivity
 
     @ContributesAndroidInjector
     abstract fun rateActivity(): RateActivity

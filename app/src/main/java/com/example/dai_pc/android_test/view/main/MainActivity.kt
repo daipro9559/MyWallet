@@ -1,6 +1,5 @@
 package com.example.dai_pc.android_test.view.main
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
@@ -11,25 +10,22 @@ import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.databinding.ActivityMainBinding
 import android.view.MenuItem
 import android.content.res.Configuration
+import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.Menu
-import android.view.View
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
-import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
-import com.example.dai_pc.android_test.view.main.token.TokenFragment
+import com.example.dai_pc.android_test.view.accounts.ManageAccountFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
-import com.example.dai_pc.android_test.view.rate.RateActivity
 import com.example.dai_pc.android_test.view.setting.SettingActivity
-import java.math.BigDecimal
+import kotlinx.android.synthetic.main.toolbar_layout.*
 import javax.inject.Inject
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
     // check whe  change network or address
     private var isNeedReload :Boolean = false
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
@@ -41,7 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this)
         initView()
         mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
-
+        replaceFragment(ListTransactionFragment.newInstance())
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -54,17 +50,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         drawerToggle.onConfigurationChanged(newConfig)
     }
     private fun initView() {
-        viewDataBinding.contentMain.viewPager.offscreenPageLimit = 3
-        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(ListTransactionFragment.newInstance())
-        viewPagerAdapter.addFragment(MyAddressFragment.newInstance())
-        viewPagerAdapter.addFragment(TokenFragment.newInstance())
-        viewDataBinding.contentMain.viewPager.setCurrentItem(0, true)
-        viewDataBinding.contentMain.viewPager.adapter = viewPagerAdapter
-        setupTablayout()
-        (viewPagerAdapter.getItem(1) as MyAddressFragment).callback = {
-            reloadContent()
-        }
         drawerToggle = ActionBarDrawerToggle(this,viewDataBinding.drawerLayout,getToolbar(),R.string.drawer_open,R.string.drawer_close)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -76,25 +61,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         viewDataBinding.navView.setNavigationItemSelectedListener {
           navigationClickMenu(it)
         }
-        if (preferenceHelper.getPlatform()== Constant.STELLAR_PLATFORM){
-            viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,false)
-            viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,true)
-        }else{
-            viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,false)
-            viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,true)
-        }
-    }
+        toolBar.setTitle(R.string.my_account)
 
-    private fun setupTablayout() {
-//        viewDataBinding.contentMain.tabLayout.getTabAt(0)!!.text = Constant.TRANSACTIONS
-//        viewDataBinding.contentMain.tabLayout.getTabAt(1)!!.text = Constant.MY_ACCOUNT
-//        viewDataBinding.contentMain.tabLayout.getTabAt(2)!!.text = Constant.MY_TOKEN
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return super.onOptionsItemSelected(item)
     }
-
     override fun onResume() {
         super.onResume()
         if (isNeedReload){
@@ -102,7 +75,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
             isNeedReload = false
         }
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return true
     }
@@ -124,45 +96,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
     }
 
     private fun reloadContent() {
-        val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
-        fragmentTransaction?.let {
-            it.refresh(true)
-        }
-        val fragmentMyAddress= viewPagerAdapter.getItem(1) as MyAddressFragment
-        fragmentMyAddress?.let {
-            it.refresh()
-        }
-        val tokenFragment = viewPagerAdapter.getItem(2) as TokenFragment
-        tokenFragment?.let {
-            it.refresh()
-        }
     }
+
     private fun changeNetwork(id: Int){
         mainViewModel.changeNetwork(id)
     }
 
     private fun changeWallet(address:String){
         mainViewModel.changeAddress()
-        val fragmentTransaction = viewPagerAdapter.getItem(0) as ListTransactionFragment
-        fragmentTransaction?.let {
-            it.changeAddress(address)
-        }
     }
 
     private fun navigationClickMenu(menuItem: MenuItem) : Boolean{
         when(menuItem.itemId){
-            R.id.stellar -> {
-                mainViewModel.changePlatform(Constant.STELLAR_PLATFORM)
-                viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,false)
-                viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,true)
-            }
-            R.id.ethereum -> {
-                mainViewModel.changePlatform(Constant.ETHEREUM_PLATFORM)
-                viewDataBinding.navView.menu.setGroupVisible(R.id.group_stellar,false)
-                viewDataBinding.navView.menu.setGroupVisible(R.id.group_ethereum,true)
-            }
             R.id.setting ->{
                 startActivity(Intent(this,SettingActivity::class.java))
+            }
+            R.id.my_account ->{
+                toolBar.setTitle(R.string.my_account)
+                replaceFragment(ListTransactionFragment.newInstance())
+            }
+            R.id.manage_account ->{
+                toolBar.setTitle(R.string.manage_account)
+                replaceFragment(ManageAccountFragment.newInstance())
             }
         }
         menuItem.isCheckable = true
@@ -170,7 +125,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
         return true
     }
 
-    private fun changePlatform(){
-
+     fun replaceFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out)
+                .replace(R.id.viewContainer,fragment)
+                .disallowAddToBackStack()
+                .commit()
     }
+
 }

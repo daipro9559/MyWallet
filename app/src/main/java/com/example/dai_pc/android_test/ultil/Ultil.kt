@@ -34,7 +34,7 @@ object Ultil {
     }
 
     fun showDialogNotify(activity: FragmentActivity, title: String, message: String, Callback: () -> Unit) {
-        AlertDialog.Builder(activity)
+        AlertDialog.Builder(activity,R.style.MyAlertDialogStyle)
                 .setTitle(title)
                 .setMessage(message)
                 .setNegativeButton(activity.getString(R.string.ok)) { dialogInterface, _ ->
@@ -47,7 +47,7 @@ object Ultil {
 
     fun showDialogInputPassword(activity: FragmentActivity, title: String, textButtonOk: String, Callback: (String) -> Unit) {
         var dialog: AlertDialog? = null
-        dialog = AlertDialog.Builder(activity)
+        dialog = AlertDialog.Builder(activity,R.style.MyAlertDialogStyle)
                 .setTitle(title)
                 .setView(R.layout.dialog_create_wallet)
                 .setPositiveButton(textButtonOk) { dialogInterface, _ ->

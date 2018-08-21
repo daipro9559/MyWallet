@@ -21,9 +21,10 @@
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/imgBarcode"
+                    android:layout_margin="@dimen/_20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_10dp" />
+                    android:padding="@dimen/_5dp" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/txtAddress"
@@ -53,54 +54,13 @@
                         android:layout_margin="@dimen/_2dp"
                         android:layout_marginTop="@dimen/_10dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:backgroundTintMode="multiply"
                         android:padding="@dimen/_5dp"
                         android:text="@string/copy_to_clipboard" />
 
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btn_export"
-                        style="@style/ButtonApp"
-                        android:layout_width="0dp"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:backgroundTintMode="multiply"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_2dp"
-                        android:layout_marginBottom="@dimen/_10dp"
-                        android:layout_marginTop="@dimen/_10dp"
-                        android:layout_weight="1"
-                        android:padding="@dimen/_5dp"
-                        android:text="@string/export_account" />
 
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btn_manage"
-                        style="@style/ButtonApp"
-                        android:layout_width="0dp"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:backgroundTintMode="multiply"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_2dp"
-                        android:layout_marginBottom="@dimen/_10dp"
-                        android:layout_marginTop="@dimen/_10dp"
-                        android:layout_weight="1"
-                        android:padding="@dimen/_5dp"
-                        android:text="Manage" />
                 </android.support.v7.widget.LinearLayoutCompat>
             </android.support.constraint.ConstraintLayout>
         </android.support.v4.widget.NestedScrollView>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatButton_add"
-            style="@style/FloatButton.Style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="@dimen/_10dp"
-            android:src="@drawable/ic_add"
-            app:backgroundTint="@color/colorPrimary"
-            app:backgroundTintMode="src_over"
-            app:borderWidth="@dimen/_1dp"
-            app:elevation="@dimen/_10dp"
-            app:layout_anchor="@+id/view_root"
-            app:layout_anchorGravity="bottom|right" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>

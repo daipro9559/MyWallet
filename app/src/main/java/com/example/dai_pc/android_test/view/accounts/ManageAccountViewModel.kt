@@ -29,7 +29,6 @@ class ManageAccountViewModel
         getAllAccount()
     }
 
-
     val deletedAccountNotify = MutableLiveData<Resource<String>>()
     init {
         errorLiveData = walletRepository.error

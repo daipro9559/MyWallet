@@ -1,9 +1,11 @@
 package com.example.dai_pc.android_test.di
 
+import com.example.dai_pc.android_test.view.accounts.ManageAccountFragment
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.rate.RateActivity
 import com.example.dai_pc.android_test.view.main.token.TokenFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
+import com.example.dai_pc.android_test.view.setting.SettingFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -19,5 +21,9 @@ abstract class MainActivityModule {
     @ContributesAndroidInjector
     abstract fun tokenFragment(): TokenFragment
 
+    @ContributesAndroidInjector
+    abstract fun manageAccountFragment(): ManageAccountFragment
 
+    @ContributesAndroidInjector
+    abstract fun settingFragment(): SettingFragment
 }

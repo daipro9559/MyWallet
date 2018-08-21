@@ -1,89 +1,116 @@
-package com.example.dai_pc.android_test.view.main.address
+package com.example.dai_pc.android_test.view.accounts
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.base.Constant
-import com.example.dai_pc.android_test.databinding.FragmentMyAddressBinding
+import com.example.dai_pc.android_test.databinding.ActivityManageAccountBinding
+import com.example.dai_pc.android_test.entity.Resource
 import com.example.dai_pc.android_test.ultil.Callback
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
-import com.example.dai_pc.android_test.view.accounts.ManageAccountFragment
+import com.example.dai_pc.android_test.ultil.Ultil
+import com.example.dai_pc.android_test.view.main.address.BottomSheetFragment
+import com.example.dai_pc.android_test.view.main.address.MyAddressViewModel
+import com.example.dai_pc.android_test.view.main.address.SHARE_REQUEST_CODE
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
-import com.journeyapps.barcodescanner.BarcodeEncoder
 import kotlinx.android.synthetic.main.fragment_my_address.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import timber.log.Timber
 import javax.inject.Inject
 
-const val QR_IMAGE_WIDTH_RATIO = 0.9
-const val KEY_ADDRESS = "key_address"
-const val SHARE_REQUEST_CODE = 131
+class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
 
-class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
-
+    override fun getlayoutId() = R.layout.activity_manage_account
+    private lateinit var manageAccountViewModel: ManageAccountViewModel
     private lateinit var myAddressViewModel: MyAddressViewModel
+    private lateinit var stellarAccountAdapter: StellarAccountAdapter
+    private lateinit var etherAccountAdapter: EtherAccountAdapter
+
     @Inject
     lateinit var preferenceHelper: PreferenceHelper
     lateinit var callback: Callback<String>
+
     companion object {
-        fun newInstance(): MyAddressFragment {
+        fun newInstance(): ManageAccountFragment {
             var bundle = Bundle()
-            var homeFragment = MyAddressFragment()
-            homeFragment.arguments = bundle
-            return homeFragment
+            var manageAccountFragment = ManageAccountFragment()
+            manageAccountFragment.arguments = bundle
+            return manageAccountFragment
         }
     }
-
-    override fun getlayoutId() = R.layout.fragment_my_address
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initView()
+        manageAccountViewModel = ViewModelProviders.of(this, viewModelFactory)[ManageAccountViewModel::class.java]
         myAddressViewModel = ViewModelProviders.of(this, viewModelFactory)[MyAddressViewModel::class.java]
-        refresh()
-        btn_copy.setOnClickListener {
-            val clipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText(KEY_ADDRESS, myAddressViewModel.liveDataAccountSelect.value)
-            if (clipboard != null) {
-                clipboard.primaryClip = clip
+        manageAccountViewModel.listAccountStellar.observe(this, Observer {
+            viewDataBinding.recycleView.adapter = stellarAccountAdapter
+            Timber.e("" + it!!.size)
+            stellarAccountAdapter.swapListItem(it)
+        })
+        manageAccountViewModel.listAccountEther.observe(this, Observer {
+            viewDataBinding.recycleView.adapter = etherAccountAdapter
+            etherAccountAdapter.swapListItem(it!!)
+
+        })
+        manageAccountViewModel.errorLiveData.observe(this, Observer {
+            Toast.makeText(activity!!.applicationContext, it, Toast.LENGTH_LONG).show()
+            Timber.e(it)
+        })
+        manageAccountViewModel.deletedAccountNotify.observe(this, Observer {
+            if (it!!.status == Resource.Status.SUCCESS) {
+                Toast.makeText(activity!!.applicationContext, it.t, Toast.LENGTH_LONG).show()
+                manageAccountViewModel.getAllAccount()
+            } else if (it!!.status == Resource.Status.ERROR) {
+                Toast.makeText(activity!!.applicationContext, it.messError, Toast.LENGTH_LONG).show()
+
             }
-            Toast.makeText(context!!, "Copied to clipboard", Toast.LENGTH_SHORT).show()
-        }
+        })
 
     }
 
-    fun genAddressToBarCode(address: String): Bitmap? {
-        val size = Point()
-        activity!!.windowManager.defaultDisplay.getSize(size)
-        val imageSize = (size.x * QR_IMAGE_WIDTH_RATIO).toInt()
-        try {
-            val bitMatrix = MultiFormatWriter().encode(
-                    address,
-                    BarcodeFormat.QR_CODE,
-                    imageSize,
-                    imageSize, null)
-            val barcodeEncoder = BarcodeEncoder()
-            return barcodeEncoder.createBitmap(bitMatrix)
-        } catch (e: Exception) {
-            Toast.makeText(activity!!.applicationContext, "gen  code fail", Toast.LENGTH_SHORT)
-                    .show()
+    private fun initView() {
+        stellarAccountAdapter = StellarAccountAdapter { menuId, address ->
+            handleMenuClick(menuId, address)
         }
+        etherAccountAdapter = EtherAccountAdapter() { menuId, address ->
 
-        return null
+        }
+        viewDataBinding.btnAddAccount.setOnClickListener {
+            clickAddAddress()
+        }
+    }
+
+    private fun handleMenuClick(menuId: Int, address: String) {
+        when (menuId) {
+            R.id.edit -> {
+            }
+            R.id.export -> {
+                createDialogExport()
+            }
+            R.id.select -> {
+                manageAccountViewModel.selectAccount(address)
+                Toast.makeText(activity!!.applicationContext, getString(R.string.select_account_completed), Toast.LENGTH_LONG).show()
+            }
+            R.id.delete -> {
+                Ultil.showDialogInputPassword(activity!!, getString(R.string.delete_account), getString(R.string.delete)) {
+                    manageAccountViewModel.deleteAccount(address, it)
+                }
+            }
+        }
     }
 
     private fun clickAddAddress() {
@@ -94,7 +121,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
                 if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
                     myAddressViewModel.createAccountStellar()
                     myAddressViewModel.liveDataAccountStellar.observe(this, Observer {
-                        Toast.makeText(context!!.applicationContext,"create account stellar completed",Toast.LENGTH_LONG).show()
+                        Toast.makeText(context!!.applicationContext, "create account stellar completed", Toast.LENGTH_LONG).show()
                     })
                 } else if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
                     buildDialogCreateWallet()
@@ -110,7 +137,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
 
     private fun buildDialogCreateWallet() {
         var alertDialog: AlertDialog? = null
-        val builder = AlertDialog.Builder(activity!!)
+        val builder = AlertDialog.Builder(activity!!,R.style.MyAlertDialogStyle)
                 .setTitle(R.string.create_account)
                 .setView(R.layout.dialog_create_wallet)
                 .setNegativeButton(R.string.cancel) { dialogInterface, _ ->
@@ -132,6 +159,7 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
                                 callback?.let {
                                     callback(account!!.address.hex.toString())
                                 }
+                                manageAccountViewModel.getAllAccount()
                             }
                         })
                     }
@@ -140,25 +168,6 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         alertDialog.show()
     }
 
-    fun refresh() {
-        if (myAddressViewModel.liveDataAccountSelect.value == null) {
-            btn_copy.visibility = View.GONE
-//            btn_manage.visibility = View.GONE
-        } else {
-            btn_copy.visibility = View.VISIBLE
-//            btn_manage.visibility = View.VISIBLE
-        }
-        myAddressViewModel.liveDataAccountSelect.value?.let {
-            async(CommonPool) {
-                val bitmap = genAddressToBarCode(myAddressViewModel.liveDataAccountSelect.value!!)
-                async(UI) {
-                    viewDataBinding.imgBarcode.setImageBitmap(bitmap)
-                    viewDataBinding.txtAddress.text = myAddressViewModel.liveDataAccountSelect.value!!
-                }
-            }
-        }
-
-    }
 
     private fun createDialogExport() {
         val view = layoutInflater.inflate(R.layout.dialog_create_wallet, null)
@@ -188,4 +197,5 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
                 Intent.createChooser(sharingIntent, "Share via"),
                 SHARE_REQUEST_CODE)
     }
+
 }

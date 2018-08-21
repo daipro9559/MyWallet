@@ -18,6 +18,8 @@ import com.example.dai_pc.android_test.entity.Resource
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.dai_pc.android_test.view.TRANSACTION_KEY
 import com.example.dai_pc.android_test.view.TransactionDetailActivity
+import com.example.dai_pc.android_test.view.main.MainActivity
+import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
 import java.math.BigDecimal
 
@@ -68,12 +70,6 @@ class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
                 return@Observer
             }
         })
-        viewDataBinding.buttonSend.setOnClickListener {
-            startActivity(CreateTransactionActivity::class.java)
-        }
-        listTransactionViewModel.errorLiveData.observe(this, Observer {
-
-        })
         listTransactionViewModel.listTransactionStellar.observe(this, Observer {
             viewDataBinding.recycleView.adapter = stellarTransactionAdapter
             viewDataBinding.resource = it
@@ -117,6 +113,12 @@ class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
     }
 
     private fun initView() {
+        viewDataBinding.buttonSend.setOnClickListener {
+            startActivity(CreateTransactionActivity::class.java)
+        }
+        viewDataBinding.buttonReceive.setOnClickListener {
+            (activity!! as MainActivity).replaceFragment(MyAddressFragment.newInstance())
+        }
         stellarTransactionAdapter = StellarTransactionAdapter()
         etherTransactionAdapter = TransactionAdapter {
             val intent = Intent(activity!!, TransactionDetailActivity::class.java)

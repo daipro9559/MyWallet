@@ -11,9 +11,15 @@
         <item name="android:windowBackground">@color/colorWindowsBackground</item>
         <item name="android:alertDialogStyle">@style/MyAlertDialogStyle</item>
     </style>
-    <style name="MyAlertDialogStyle" parent="AlertDialog.AppCompat">
+    <style name="MyAlertDialogStyle" parent="@style/Theme.AppCompat.Dialog.Alert">
         <item name="android:textColor">@color/white</item>
+        <item name="android:colorAccent">@color/white</item>
         <item name="android:windowBackground">@color/colorWindowsBackground</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:headerDividersEnabled">true</item>
+        <item name="android:headerBackground">@color/colorPrimary</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
@@ -112,9 +118,9 @@
     <style name="FloatButtonStyle">
         <item name="android:layout_marginBottom">@dimen/_5dp</item>
         <item name="android:layout_marginRight">@dimen/_5dp</item>
-        <item name="fab_size">mini</item>
-        <item name="fab_colorNormal">@color/colorPrimary</item>
-        <item name="fab_colorPressed">@color/colorPressFloatButton</item>
+        <item name="fab_size">normal</item>
+        <item name="fab_colorNormal">@android:color/holo_blue_dark</item>
+        <item name="fab_colorPressed">@android:color/holo_blue_light</item>
         <item name="fab_colorRipple">@color/colorRippleFloatButton</item>
 
     </style>

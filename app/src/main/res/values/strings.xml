@@ -10,7 +10,7 @@
     <string name="no_camera_permission">need allow access camera</string>
     <string name="scan_instructions">Center a QR code inside the frame.</string>
     <string name="Send">Send</string>
-    <string name="copy_to_clipboard">Copy address</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
 
     <!--setting title-->
     <string name="select_account">Select account</string>
@@ -116,5 +116,6 @@
     <string name="receive">Receive</string>
     <string name="my_account">My account</string>
     <string name="price">Price</string>
+    <string name="accounts">List accounts</string>
 </resources>
 
