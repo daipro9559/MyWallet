@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseRepository
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.entity.Resource
 import com.example.dai_pc.android_test.entity.error
 import com.example.dai_pc.android_test.entity.loading
@@ -85,11 +86,11 @@ constructor(
     }
 
     fun initAccountSelect() {
-        accountSelected.value = preferenceHelper.getString(context.getString(R.string.account_select_eth_key))
+        accountSelected.value = preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)
     }
 
     fun saveAccountSelect(addresses: String) {
-        preferenceHelper.putString(context.getString(R.string.account_select_eth_key), addresses)
+        preferenceHelper.putString(Constant.ACCOUNT_ETHEREUM_KEY, addresses)
         initAccountSelect()
     }
 

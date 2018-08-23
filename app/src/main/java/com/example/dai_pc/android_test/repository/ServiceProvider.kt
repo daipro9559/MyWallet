@@ -32,8 +32,8 @@ constructor(private val okHttpClient: OkHttpClient,
                 .create(EtherScanApi::class.java)
     }
 
-    fun changeNetwork(id: Int) {
-        networkRepository.changeNetworkSelect(id)
+    fun changeNetwork() {
+        networkRepository.changeNetworkSelect()
         buildApiService(networkRepository.networkProviderSelected.baseUrl)
     }
 }

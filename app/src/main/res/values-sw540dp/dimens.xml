@@ -128,4 +128,7 @@
   <dimen name="_35dp">
     52.5dp
   </dimen>
+  <dimen name="_80dp">
+    120.0dp
+  </dimen>
 </resources>

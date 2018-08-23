@@ -1,9 +1,6 @@
 package com.example.dai_pc.android_test.view.accounts
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.Transformations
+import android.arch.lifecycle.*
 import com.example.dai_pc.android_test.base.BaseViewModel
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.entity.Resource
@@ -16,7 +13,7 @@ import javax.inject.Inject
 class ManageAccountViewModel
 @Inject constructor(private val walletRepository: WalletRepository,
                     private val walletStellarRepository: WalletStellarRepository,
-                    preferenceHelper: PreferenceHelper) :BaseViewModel() {
+                    val preferenceHelper: PreferenceHelper) :BaseViewModel() {
     val fetchAccountEther = MutableLiveData<String>()
     val fetchAccountStellar = MutableLiveData<String>()
     val listAccountEther = walletRepository.accountsLiveData
@@ -24,6 +21,10 @@ class ManageAccountViewModel
         walletStellarRepository.getAllAccount()
     }
     private val platform = preferenceHelper.getPlatform()
+    lateinit var liveDataAccount: LiveData<Account>
+    lateinit var liveDataAccountStellar: LiveData<com.example.dai_pc.android_test.entity.Account>
+    lateinit var liveDataExport: LiveData<String>
+    var liveDataAccountSelect: LiveData<String> = walletRepository.accountSelected
 
     init {
         getAllAccount()
@@ -34,9 +35,9 @@ class ManageAccountViewModel
         errorLiveData = walletRepository.error
     }
     fun getAllAccount(){
-        if (platform == Constant.STELLAR_PLATFORM) {
+        if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
             fetchAccountStellar.value = platform
-        }else if (platform == Constant.ETHEREUM_PLATFORM) {
+        }else if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
             walletRepository.getAllAccount()
         }
     }
@@ -48,5 +49,21 @@ class ManageAccountViewModel
             deletedAccountNotify.value = it
         }
     }
+    fun createAccount(password: String) {
+        liveDataAccount = walletRepository.createAccountFromPassword(password)
+    }
+
+    fun export(passwordExport: String) {
+        liveDataExport = walletRepository.exportWallet(passwordExport)
+    }
+
+    fun selectWallet(walletAddress: String) {
+        walletRepository.saveAccountSelect(walletAddress)
+    }
+
+    fun createAccountStellar() {
+        liveDataAccountStellar =  walletStellarRepository.createAccount()
+    }
+
 
 }

@@ -4,10 +4,12 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.example.dai_pc.android_test.base.BaseRepository
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.entity.Resource
 import com.example.dai_pc.android_test.entity.loading
 import com.example.dai_pc.android_test.entity.success
 import com.example.dai_pc.android_test.service.AccountStellarService
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.stellar.*
 import com.example.stellar.responses.TransactionResponse
 import com.example.stellar.xdr.AssetType
@@ -20,12 +22,16 @@ import javax.inject.Inject
 
 class TransactionStellarRepo
 @Inject constructor(context: Context,
+                    private val preferenceHelper: PreferenceHelper,
                     private val walletStellarRepository: WalletStellarRepository,
                     private val accountStellarService: AccountStellarService) : BaseRepository(context) {
+    private var server: Server
+
+    init {
+        server = Server(preferenceHelper.getString(Constant.KEY_NETWORK_STELLAR, Constant.STELLAR_MAIN_NET_URl))
+    }
 
     fun sendTransaction(accountIdSource: String, accountIdDestination: String, amount: Float, memo: String) {
-
-        val server = Server("https://horizon-testnet.stellar.org")
         accountStellarService.getSecretSeed(accountIdSource)
                 .map {
                     Network.useTestNetwork()
@@ -34,31 +40,42 @@ class TransactionStellarRepo
                     server.accounts().account(keyPairDestination)
                     val sourceAccount = server.accounts().account(keyPairSource)
                     Transaction.Builder(sourceAccount)
-                            .addOperation(PaymentOperation.Builder(keyPairDestination,AssetTypeNative(),amount.toString()).build())
+                            .addOperation(PaymentOperation.Builder(keyPairDestination, AssetTypeNative(), amount.toString()).build())
                             .addMemo(Memo.text(memo))
                             .build()
 
                 }.map {
                     server.submitTransaction(it)
-                }.subscribe ({
+                }.subscribe({
 
-                },{
+                }, {
                     // fail send transaction
                 })
 
     }
-    fun fetchAllTransaction() : LiveData<Resource<List<TransactionResponse>>> {
-        val liveData  = MutableLiveData<Resource<List<TransactionResponse>>>()
-        liveData.value = loading()
-        launch(UI) {
-            val server = Server("https://horizon-testnet.stellar.org")
-            val job= async (CommonPool) {
-                server.transactions().forAccount(KeyPair.fromAccountId("GBS43BF24ENNS3KPACUZVKK2VYPOZVBQO2CISGZ777RYGOPYC2FT6S3K"))
-                        .execute()
+
+    fun fetchAllTransaction(): LiveData<Resource<List<TransactionResponse>>> {
+        val liveData = MutableLiveData<Resource<List<TransactionResponse>>>()
+        walletStellarRepository.accountSelected.value?.let {
+            liveData.value = loading()
+            launch(UI) {
+                val job = async(CommonPool) {
+                    server.transactions().forAccount(KeyPair.fromAccountId("GBS43BF24ENNS3KPACUZVKK2VYPOZVBQO2CISGZ777RYGOPYC2FT6S3K"))
+                            .execute()
+                }
+                val result = job.await()
+                liveData.postValue(success(result.records))
             }
-            val result = job.await()
-            liveData.postValue(success(result.records))
         }
+
         return liveData
+    }
+
+    fun changeNetwork() {
+        server = Server(preferenceHelper.getString(Constant.KEY_NETWORK_STELLAR))
+    }
+
+    fun changeAccount() {
+        walletStellarRepository.initAccountSelected()
     }
 }

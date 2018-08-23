@@ -16,14 +16,11 @@ class RateActivity :BaseActivity<ActivityRateBinding>(){
     override fun getLayoutId() = R.layout.activity_rate
 
     private lateinit var rateViewModel: RateViewModel
-    private lateinit var mainViewModel: MainViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = getString(R.string.my_balance_account)
         enableHomeHomeAsUp()
         rateViewModel = ViewModelProviders.of(this,viewModelFactory)[RateViewModel::class.java]
-        mainViewModel = ViewModelProviders.of(this,viewModelFactory)[MainViewModel::class.java]
         rateViewModel.priceData.observe(this, Observer {
             if (it!!.status == Resource.Status.LOADING){
                 viewDataBinding.txtPriceUSD.text="..."
@@ -46,25 +43,24 @@ class RateActivity :BaseActivity<ActivityRateBinding>(){
         viewDataBinding.swipeRefresh.setOnRefreshListener {
             refresh()
         }
-        mainViewModel.balanceLiveData.observe(this, Observer {
-            if (it!!.status == Resource.Status.LOADING){
-                viewDataBinding.txtBalance.text="..."
-                viewDataBinding.txtPriceBTC.startAnimation(AnimationUtils.loadAnimation(applicationContext,R.anim.title_fade))
-            }else{
-                viewDataBinding.txtBalance.clearAnimation()
-                if (viewDataBinding.swipeRefresh.isRefreshing){
-                    viewDataBinding.swipeRefresh.isRefreshing = false
-                }
-            }
-            it?.t?.let {
-                val data = BigDecimal(it, 18)
-                viewDataBinding.txtBalance.text = data.toFloat().toString() + " ETH"
-            }
-        })
+//        mainViewModel.balanceLiveData.observe(this, Observer {
+//            if (it!!.status == Resource.Status.LOADING){
+//                viewDataBinding.txtBalance.text="..."
+//                viewDataBinding.txtPriceBTC.startAnimation(AnimationUtils.loadAnimation(applicationContext,R.anim.title_fade))
+//            }else{
+//                viewDataBinding.txtBalance.clearAnimation()
+//                if (viewDataBinding.swipeRefresh.isRefreshing){
+//                    viewDataBinding.swipeRefresh.isRefreshing = false
+//                }
+//            }
+//            it?.t?.let {
+//                val data = BigDecimal(it, 18)
+//                viewDataBinding.txtBalance.text = data.toFloat().toString() + " ETH"
+//            }
+//        })
     }
 
     fun refresh(){
-        rateViewModel.fetchPrice()
-        mainViewModel.fetchBalance()
+
     }
 }

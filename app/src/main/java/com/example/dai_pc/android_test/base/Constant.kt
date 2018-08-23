@@ -9,8 +9,8 @@ object Constant {
     //platform
     val STELLAR_PLATFORM = "stellar platform"
     val ETHEREUM_PLATFORM = "ethereum platform"
-    val STELLAR_MAIN_NET = "https://www.stellar.org/developers/horizon/reference/"
-    val STELLAR_TEST_NET = "https://horizon-testnet.stellar.org"
+    val STELLAR_MAIN_NET_URl = "https://horizon.stellar.org/"
+    val STELLAR_TEST_NET_URL = "https://horizon-testnet.stellar.org"
 
     //Database define
     val APP_DATABASE_NAME = "Wallet_ethereum"
@@ -22,12 +22,15 @@ object Constant {
     val ETHEREUM_NETWORK_NAME = "Ethereum"
     val KOVAN_NETWORK_NAME = "Kovan (Test)"
     val ROPSTEN_NETWORK_NAME = "Ropsten (Test)"
+    val STELLAR_MAIN_NAME = "Main net"
+    val STELLAR_TEST_NAME= "Test net"
     val RINKEBY_NETWORK_NAME = "Rinkeby (Test)"
     val ETH_SYMBOL = "ETH"
 
 
     //key preference
-    val KEY_NETWORK_ID = "network_id_preference"
+    val KEY_NETWORK_ETHER = "ether_network_preference"
+    val KEY_NETWORK_STELLAR= "stellar_network_preference"
     val KEY_REQUIRE_PASSWORD ="require_password_send"
     val KEY_OPEN_APP_FIRST  = "open app first"
     val PLATFORM_KEY = "platform_preference"

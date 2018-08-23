@@ -6,6 +6,7 @@ import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.database.AppDatabase
 import com.example.dai_pc.android_test.entity.Account
 import com.example.dai_pc.android_test.service.AccountStellarService
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,15 +19,16 @@ import javax.inject.Inject
 
 class WalletStellarRepository
 @Inject constructor(private val accountStellarService: AccountStellarService,
+                    private val preferenceHelper: PreferenceHelper,
                     private val appDatabase: AppDatabase) {
     val accountSelected = MutableLiveData<String>()
 
     init {
-
+        initAccountSelected()
     }
 
-    private fun initAccountSelected() {
-
+     fun initAccountSelected() {
+        accountSelected.value = preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY)
     }
 
     fun createAccount(): LiveData<Account> {
@@ -46,6 +48,7 @@ class WalletStellarRepository
 
     fun importAccountFromSecretSeed(secretSeed: String, name: String, note: String): LiveData<Account> {
         val liveData = MutableLiveData<Account>()
+
         accountStellarService.importAccountBySecretSeed(secretSeed)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -65,4 +68,5 @@ class WalletStellarRepository
     fun getAllAccount(): LiveData<List<Account>> {
         return appDatabase.walletDao().getAllWallet(Constant.STELLAR_PLATFORM)
     }
+
 }

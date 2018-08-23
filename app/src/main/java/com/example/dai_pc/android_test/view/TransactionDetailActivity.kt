@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
+import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.ActivityTransactionDetailBinding
 import com.example.dai_pc.android_test.entity.Transaction
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
@@ -26,7 +27,7 @@ class TransactionDetailActivity : BaseActivity<ActivityTransactionDetailBinding>
         val transaction = intent.getBundleExtra("bundle").getParcelable(TRANSACTION_KEY) as Transaction
 
         transaction?.let {
-            if (it.from.endsWith(preferenceHelper.getString(getString(R.string.account_select_eth_key)),true))  {
+            if (it.from.endsWith(preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY),true))  {
                 viewDataBinding.txtDescription.text = resources.getString(R.string.send_ether,BigDecimal(it.value.toBigIntegerOrNull(),18).toFloat().toString())
             }else{
                 viewDataBinding.txtDescription.text = resources.getString(R.string.receive_ether,BigDecimal(it.value.toBigIntegerOrNull(),18).toFloat().toString())

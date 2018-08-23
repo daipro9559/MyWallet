@@ -12,7 +12,6 @@ import javax.inject.Singleton
 @Singleton
 class PreferenceHelper {
     var sharedPreferences: SharedPreferences
-
     @Inject
     constructor(context: Context) {
         sharedPreferences = context?.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
@@ -37,6 +36,7 @@ class PreferenceHelper {
     }
 
     fun getString(key: String) = sharedPreferences.getString(key, null)
+    fun getString(key: String,defatult :String) = sharedPreferences.getString(key, defatult)
 
     fun getBoolean(key: String) = sharedPreferences.getBoolean(key, false)
 

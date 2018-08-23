@@ -20,14 +20,11 @@ constructor(private val balanceRepository: BalanceRepository,
             ) : BaseViewModel() {
     val balanceLiveData  =  MutableLiveData<Resource<BigInteger>>()
 
-    fun fetchBalance(){
-
-    }
     fun changeAddress(){
         walletRepository.initAccountSelect()
     }
     fun changeNetwork(id :Int){
-        balanceRepository.changeNetwork(id)
+        balanceRepository.changeNetwork()
     }
 
     fun changePlatform(platform: String){

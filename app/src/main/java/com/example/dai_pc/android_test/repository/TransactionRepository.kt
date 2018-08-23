@@ -118,6 +118,13 @@ constructor(
         val encodedFuntion = FunctionEncoder.encode(funtion)
         return Numeric.hexStringToByteArray(encodedFuntion)
     }
+
+    fun changeAccount(){
+        walletRepository.initAccountSelect()
+    }
+    fun changeNetwork(){
+        serviceProvider.changeNetwork()
+    }
 }
 
 

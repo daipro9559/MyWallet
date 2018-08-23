@@ -22,13 +22,12 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
     private var platform = preferenceHelper.getPlatform()
     private val fetchParamEth = MutableLiveData<FetchTransactionParam>()
     private val fetchParamStellar = MutableLiveData<FetchTransactionParam>()
-    val balanceEther = balanceRepository.balanceLiveData
+    val balanceEther = balanceRepository.balanceEther
+    val balanceStellar = balanceRepository.balanceEther
     val accountLiveData = MutableLiveData<String>()
     init {
         errorLiveData = transactionRepository.error
-        getAllTransaction()
-        getBalance()
-        getAccount()
+       refreshAll()
     }
     val listTransactionEther = Transformations.switchMap(fetchParamEth) {
         transactionRepository.fetchTransaction(it.startBlock, it.endBlock, it.isShowLoading)
@@ -37,13 +36,27 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
         transactionStellarRepo.fetchAllTransaction()
     }!!
 
-
+    fun refreshAll(){
+        if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM){
+            if (preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY) == null){
+                return
+            }
+        }else if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
+            if (preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY) == null){
+                return
+            }
+        }
+        getAllTransaction()
+        getBalance()
+        getAccount()
+    }
     fun getAllTransaction() {
         if (platform == Constant.ETHEREUM_PLATFORM) {
             fetchParamEth.postValue(FetchTransactionParam(0, 99999999, true))
         }else if (platform == Constant.STELLAR_PLATFORM){
             fetchParamStellar.value = FetchTransactionParam()
         }
+
     }
 
     data class FetchTransactionParam(val startBlock: Int, val endBlock: Int, val isShowLoading: Boolean){
@@ -56,7 +69,25 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
 
     fun getAccount(){
         if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM){
-            accountLiveData.value = preferenceHelper.getString(context.getString(R.string.account_select_eth_key))
+            accountLiveData.value = preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)
+        }else if (platform == Constant.STELLAR_PLATFORM){
+            accountLiveData.value = preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY)
+        }
+    }
+
+    fun changeAccount(){
+        if (platform == Constant.ETHEREUM_PLATFORM) {
+            transactionRepository.changeAccount()
+        }else if (platform == Constant.STELLAR_PLATFORM){
+            transactionStellarRepo.changeAccount()
+        }
+    }
+
+    fun changeNetwork(){
+        if (platform == Constant.ETHEREUM_PLATFORM) {
+            transactionRepository.changeNetwork()
+        }else if (platform == Constant.STELLAR_PLATFORM){
+            transactionStellarRepo.changeNetwork()
         }
     }
 }

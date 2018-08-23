@@ -19,14 +19,17 @@ import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.dai_pc.android_test.view.TRANSACTION_KEY
 import com.example.dai_pc.android_test.view.TransactionDetailActivity
 import com.example.dai_pc.android_test.view.main.MainActivity
+import com.example.dai_pc.android_test.view.main.MainFragment
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
 import com.example.dai_pc.android_test.view.transaction.CreateTransactionActivity
+import timber.log.Timber
 import java.math.BigDecimal
 
 import javax.inject.Inject
 
 @OpenForTesting
-class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
+class ListTransactionFragment : MainFragment<FragmentListTransactionBinding>() {
+
 
     companion object {
         fun newInstance(): ListTransactionFragment {
@@ -43,7 +46,6 @@ class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
 
     @Inject
     lateinit var preferenceHelper: PreferenceHelper
-
     private lateinit var platform: String
     private lateinit var etherTransactionAdapter: TransactionAdapter
     private lateinit var stellarTransactionAdapter: StellarTransactionAdapter
@@ -57,9 +59,6 @@ class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
         super.onActivityCreated(savedInstanceState)
         initView()
         listTransactionViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListTransactionViewModel::class.java)
-        if (preferenceHelper.getString(getString(R.string.account_select_eth_key)) == null) {
-            viewDataBinding.fabMenu.visibility = View.GONE
-        }
         listTransactionViewModel.listTransactionEther.observe(this, Observer {
             viewDataBinding.recycleView.adapter = etherTransactionAdapter
             viewDataBinding.resource = it
@@ -80,30 +79,32 @@ class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
             }
         })
         listTransactionViewModel.balanceEther.observe(this, Observer {
-            if (it!!.status == Resource.Status.LOADING){
-                viewDataBinding.txtBalance.text="..."
-                viewDataBinding.txtBalance.startAnimation(AnimationUtils.loadAnimation(activity!!.applicationContext,R.anim.title_fade))
-            }else{
+            if (it!!.status == Resource.Status.LOADING) {
+                viewDataBinding.txtBalance.text = "..."
+                viewDataBinding.txtBalance.startAnimation(AnimationUtils.loadAnimation(activity!!.applicationContext, R.anim.title_fade))
+            } else {
                 viewDataBinding.txtBalance.clearAnimation()
 
             }
             it?.t?.let {
-                val data = BigDecimal(it.toBigIntegerOrNull(),18).toFloat().toString()
+                val data = BigDecimal(it.toBigIntegerOrNull(), 18).toFloat().toString()
                 viewDataBinding.txtBalance.text = data.toFloat().toString() + " ETH"
             }
         })
         listTransactionViewModel.accountLiveData.observe(this, Observer {
-            if (it == null){
+            if (it == null) {
                 return@Observer
             }
             viewDataBinding.txtAccount.text = it
             listTransactionViewModel.getAllTransaction()
             listTransactionViewModel.getBalance()
         })
+
+
     }
 
     fun checkHaveWallet(): Boolean {
-        return if (preferenceHelper.getString(getString(R.string.account_select_eth_key)) == null) {
+        return if (preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY) == null) {
             viewDataBinding.fabMenu.visibility = View.GONE
             false
         } else {
@@ -127,7 +128,7 @@ class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
             intent.putExtra("bundle", bundle)
             startActivity(intent)
         }
-        preferenceHelper.getString(getString(R.string.account_select_eth_key))?.let {
+        preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)?.let {
             etherTransactionAdapter.myWallet = it
 //            val byteArray = Base64.decode(imageString)
 //            val  bitmap = BitmapFactory.decodeByteArray(byteArray,0,imageString.length)
@@ -137,24 +138,44 @@ class ListTransactionFragment : BaseFragment<FragmentListTransactionBinding>() {
         viewDataBinding.iconAccount.setImageBitmap(Identicon.create("1"))
     }
 
-        fun refresh(isShowLoading: Boolean) {
-            checkHaveWallet()
-            listTransactionViewModel.getAllTransaction()
-            listTransactionViewModel.getBalance()
-            listTransactionViewModel.getAccount()
-        }
+    fun refresh(isShowLoading: Boolean) {
 
-        fun changeAddress(address: String) {
-            if (platform == Constant.ETHEREUM_PLATFORM) {
-                etherTransactionAdapter?.let {
-                    etherTransactionAdapter.myWallet = address
-                }
-            } else if (platform == Constant.STELLAR_PLATFORM) {
-                stellarTransactionAdapter?.let {
-                    stellarTransactionAdapter.myAccount = address
-                }
+    }
+
+    fun changeAddress(address: String) {
+        if (platform == Constant.ETHEREUM_PLATFORM) {
+            etherTransactionAdapter?.let {
+                etherTransactionAdapter.myWallet = address
+            }
+        } else if (platform == Constant.STELLAR_PLATFORM) {
+            stellarTransactionAdapter?.let {
+                stellarTransactionAdapter.myAccount = address
             }
         }
-
-        fun navigation() = findNavController()
     }
+
+    override fun refresh() {
+        checkHaveWallet()
+        listTransactionViewModel.refreshAll()
+    }
+
+    override fun changeNetwork() {
+        listTransactionViewModel.changeNetwork()
+    }
+
+    override fun changeAccount() {
+        if (platform == Constant.ETHEREUM_PLATFORM) {
+            etherTransactionAdapter?.let {
+                //                etherTransactionAdapter.myWallet = preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)
+            }
+        } else if (platform == Constant.STELLAR_PLATFORM) {
+            stellarTransactionAdapter?.let {
+                //                etherTransactionAdapter.myWallet = preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY)
+            }
+        }
+        listTransactionViewModel.changeAccount()
+    }
+
+    override fun changePlatform() {
+    }
+}

@@ -19,10 +19,12 @@ import com.example.dai_pc.android_test.entity.Resource
 import com.example.dai_pc.android_test.ultil.Callback
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.dai_pc.android_test.ultil.Ultil
+import com.example.dai_pc.android_test.view.main.MainFragment
 import com.example.dai_pc.android_test.view.main.address.BottomSheetFragment
 import com.example.dai_pc.android_test.view.main.address.MyAddressViewModel
 import com.example.dai_pc.android_test.view.main.address.SHARE_REQUEST_CODE
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
+import com.example.stellar.KeyPair
 import kotlinx.android.synthetic.main.fragment_my_address.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -30,11 +32,11 @@ import kotlinx.coroutines.experimental.async
 import timber.log.Timber
 import javax.inject.Inject
 
-class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
+class ManageAccountFragment : MainFragment<ActivityManageAccountBinding>() {
+
 
     override fun getlayoutId() = R.layout.activity_manage_account
     private lateinit var manageAccountViewModel: ManageAccountViewModel
-    private lateinit var myAddressViewModel: MyAddressViewModel
     private lateinit var stellarAccountAdapter: StellarAccountAdapter
     private lateinit var etherAccountAdapter: EtherAccountAdapter
 
@@ -55,7 +57,6 @@ class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
         super.onActivityCreated(savedInstanceState)
         initView()
         manageAccountViewModel = ViewModelProviders.of(this, viewModelFactory)[ManageAccountViewModel::class.java]
-        myAddressViewModel = ViewModelProviders.of(this, viewModelFactory)[MyAddressViewModel::class.java]
         manageAccountViewModel.listAccountStellar.observe(this, Observer {
             viewDataBinding.recycleView.adapter = stellarAccountAdapter
             Timber.e("" + it!!.size)
@@ -79,7 +80,6 @@ class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
 
             }
         })
-
     }
 
     private fun initView() {
@@ -115,21 +115,27 @@ class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
 
     private fun clickAddAddress() {
         val bottomSheetFragment = BottomSheetFragment()
+        val platform = preferenceHelper.getPlatform()
         bottomSheetFragment.callback = {
             if (it.id == R.id.create_wallet) {
                 fragmentManager!!.beginTransaction().remove(fragmentManager!!.findFragmentByTag("bottom_sheet")).commit()
-                if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
-                    myAddressViewModel.createAccountStellar()
-                    myAddressViewModel.liveDataAccountStellar.observe(this, Observer {
+                if (platform == Constant.STELLAR_PLATFORM) {
+                    manageAccountViewModel.createAccountStellar()
+                    manageAccountViewModel.liveDataAccountStellar.observe(this, Observer {
                         Toast.makeText(context!!.applicationContext, "create account stellar completed", Toast.LENGTH_LONG).show()
+                        refresh()
                     })
-                } else if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
+                } else if (platform == Constant.ETHEREUM_PLATFORM) {
                     buildDialogCreateWallet()
                 }
 
             } else {
                 fragmentManager!!.beginTransaction().remove(fragmentManager!!.findFragmentByTag("bottom_sheet")).commit()
-                startActivity(Intent(activity!!, ImportWalletActivity::class.java))
+                if (platform == Constant.STELLAR_PLATFORM){
+
+                }else {
+                    startActivity(Intent(activity!!, ImportWalletActivity::class.java))
+                }
             }
         }
         fragmentManager!!.beginTransaction().add(bottomSheetFragment, "bottom_sheet").disallowAddToBackStack().commit()
@@ -149,13 +155,13 @@ class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
                     if (editInput.text.isEmpty()) {
                         editInput.error = context!!.getString(R.string.no_input_password)
                     } else {
-                        myAddressViewModel.createAccount(editInput.text.toString())
-                        myAddressViewModel.liveDataAccount.observe(this, Observer {
+                        manageAccountViewModel.createAccount(editInput.text.toString())
+                        manageAccountViewModel.liveDataAccount.observe(this, Observer {
                             it?.let {
                                 val account = it
                                 Toast.makeText(context!!.applicationContext, context!!.getString(R.string.create_completed), Toast.LENGTH_LONG).show()
                                 // if no have account , set account was have
-                                myAddressViewModel.selectWallet(it!!.address.hex.toString())
+                                manageAccountViewModel.selectWallet(it!!.address.hex.toString())
                                 callback?.let {
                                     callback(account!!.address.hex.toString())
                                 }
@@ -180,8 +186,8 @@ class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
                     dialogInterface.dismiss()
                 }
                 .setPositiveButton(R.string.export) { _, i ->
-                    myAddressViewModel.export(textInputEditText.text.toString().trim())
-                    myAddressViewModel.liveDataExport.observe(this, Observer {
+                    manageAccountViewModel.export(textInputEditText.text.toString().trim())
+                    manageAccountViewModel.liveDataExport.observe(this, Observer {
                         openShareDialog(it!!)
                     })
                 }
@@ -198,4 +204,17 @@ class ManageAccountFragment : BaseFragment<ActivityManageAccountBinding>() {
                 SHARE_REQUEST_CODE)
     }
 
+    override fun refresh() {
+        manageAccountViewModel.getAllAccount()
+    }
+
+    override fun changeNetwork() {
+    }
+
+    override fun changeAccount() {
+    }
+
+    override fun changePlatform() {
+
+    }
 }

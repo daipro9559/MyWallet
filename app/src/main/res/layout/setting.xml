@@ -12,7 +12,11 @@
         android:icon="@drawable/ic_server"
         android:key="ether_network_preference"
         />
-
+    <android.support.v7.preference.ListPreference
+        android:title="@string/network"
+        android:icon="@drawable/ic_server"
+        android:key="stellar_network_preference"
+        />
     <android.support.v7.preference.SwitchPreferenceCompat
         android:icon="@drawable/ic_lock"
         android:key="require_password_send"

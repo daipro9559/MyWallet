@@ -48,7 +48,6 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
     }
 
     lateinit var createTransactionViewModel: SendTransactionViewModel
-    lateinit var mainViewModel: MainViewModel
     @Inject
     lateinit var presenter: SendTransactionPresenter<SendTransactionFragment>
     @Inject
@@ -94,7 +93,6 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
             }
         })
 
-        mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
 
         inintView()
     }
@@ -203,13 +201,12 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
 
         } else {
             viewDataBinding.layoutAmount.hint = getString(R.string.amount, "ETH")
-            mainViewModel.fetchBalance()
-            mainViewModel.balanceLiveData.observe(this, Observer {
-                it!!.t?.let {
-                    val data = BigDecimal(it, 18)
-                    viewDataBinding.balance.text = data.toFloat().toString() + "ETH"
-                }
-            })
+//            mainViewModel.balanceLiveData.observe(this, Observer {
+//                it!!.t?.let {
+//                    val data = BigDecimal(it, 18)
+//                    viewDataBinding.balance.text = data.toFloat().toString() + "ETH"
+//                }
+//            })
         }
 
     }

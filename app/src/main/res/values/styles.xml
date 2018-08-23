@@ -34,6 +34,19 @@
     </style>
 
     <style name="ActivitySetting" parent="AppTheme">
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorPrimary</item>
+        <item name="android:dialogTheme">@style/MyAlertDialogStyle</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:dialogPreferenceStyle">@style/DialogPreference</item>
+
+    </style>
+    <style name="DialogPreference" parent="@style/Preference.DialogPreference">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:colorAccent">@color/white</item>
+        <item name="android:windowBackground">@color/colorWindowsBackground</item>
     </style>
 
     <style name="App.Preference" parent="@style/PreferenceThemeOverlay.v14.Material"></style>

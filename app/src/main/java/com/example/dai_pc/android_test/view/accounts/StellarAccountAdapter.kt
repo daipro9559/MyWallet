@@ -4,9 +4,11 @@ import android.support.v7.widget.PopupMenu
 import android.view.Gravity
 import android.view.MenuInflater
 import android.view.View
+import com.bumptech.glide.Glide
 import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseRecycleViewAdapter
 import com.example.dai_pc.android_test.base.ItemViewHolder
+import com.example.dai_pc.android_test.customview.Identicon
 import com.example.dai_pc.android_test.databinding.ItemAccountBinding
 import com.example.dai_pc.android_test.databinding.ItemWalletBinding
 import com.example.dai_pc.android_test.entity.Account
@@ -21,6 +23,9 @@ class StellarAccountAdapter(val menuClick: MenuClick) : BaseRecycleViewAdapter<A
         holder.v.iconDropDown.setOnClickListener {
             showPopupMenu(it, holder.adapterPosition)
         }
+        Glide.with(holder.v.root)
+                .load(Identicon.create(holder.adapterPosition.toString()))
+                .into(holder.v.iconAccount)
     }
 
     private fun showPopupMenu(view: View, position: Int) {

@@ -23,20 +23,18 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
     // check whe  change network or address
     private var isNeedReload :Boolean = false
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
-    private lateinit var mainViewModel: MainViewModel
     private lateinit var drawerToggle: ActionBarDrawerToggle
     @Inject lateinit var preferenceHelper: PreferenceHelper
+    private lateinit var menuItem : MenuItem
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(this)
         initView()
-        mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
         replaceFragment(ListTransactionFragment.newInstance())
     }
 
@@ -62,56 +60,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
           navigationClickMenu(it)
         }
         toolBar.setTitle(R.string.my_account)
+        menuItem = viewDataBinding.navView.menu.findItem(R.id.my_account)
 
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return super.onOptionsItemSelected(item)
     }
-    override fun onResume() {
-        super.onResume()
-        if (isNeedReload){
-            reloadContent()
-            isNeedReload = false
-        }
-    }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return true
-    }
-
-    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
-        when (p1) {
-            getString(R.string.network_key_eth) -> {
-                isNeedReload = true
-                changeNetwork(p0!!.getInt(getString(R.string.network_key_eth),1))
-            }
-            getString(R.string.account_select_eth_key) -> {
-                isNeedReload = true
-                changeWallet(p0!!.getString(getString(R.string.account_select_eth_key),""))
-            }
-            Constant.PLATFORM_KEY ->{
-                reloadContent()
-            }
-        }
-    }
-
-    private fun reloadContent() {
-    }
-
-    private fun changeNetwork(id: Int){
-        mainViewModel.changeNetwork(id)
-    }
-
-    private fun changeWallet(address:String){
-        mainViewModel.changeAddress()
-    }
-
     private fun navigationClickMenu(menuItem: MenuItem) : Boolean{
         when(menuItem.itemId){
             R.id.setting ->{
                 startActivity(Intent(this,SettingActivity::class.java))
             }
             R.id.my_account ->{
+
                 toolBar.setTitle(R.string.my_account)
                 replaceFragment(ListTransactionFragment.newInstance())
             }
@@ -120,9 +82,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSh
                 replaceFragment(ManageAccountFragment.newInstance())
             }
         }
-        menuItem.isCheckable = true
+
+        if (menuItem.itemId != R.id.setting){
+            this.menuItem = menuItem
+        }
+        viewDataBinding.navView.setCheckedItem(this.menuItem.itemId)
         viewDataBinding.drawerLayout.closeDrawer(Gravity.START)
-        return true
+        return false
     }
 
      fun replaceFragment(fragment: Fragment){
