@@ -14,14 +14,16 @@ class ManageAccountViewModel
 @Inject constructor(private val walletRepository: WalletRepository,
                     private val walletStellarRepository: WalletStellarRepository,
                     val preferenceHelper: PreferenceHelper) :BaseViewModel() {
-    val fetchAccountEther = MutableLiveData<String>()
-    val fetchAccountStellar = MutableLiveData<String>()
+    private val creatFromPassword = MutableLiveData<String>()
+    private val fetchAccountStellar = MutableLiveData<String>()
     val listAccountEther = walletRepository.accountsLiveData
     val listAccountStellar = Transformations.switchMap(fetchAccountStellar){
         walletStellarRepository.getAllAccount()
-    }
+    }!!
     private val platform = preferenceHelper.getPlatform()
-    lateinit var liveDataAccount: LiveData<Account>
+    val liveDataAccount = Transformations.switchMap(creatFromPassword){
+        walletRepository.createAccountFromPassword(it)
+    }!!
     lateinit var liveDataAccountStellar: LiveData<com.example.dai_pc.android_test.entity.Account>
     lateinit var liveDataExport: LiveData<String>
     var liveDataAccountSelect: LiveData<String> = walletRepository.accountSelected
@@ -42,7 +44,11 @@ class ManageAccountViewModel
         }
     }
     fun selectAccount(address:String){
-        walletRepository.saveAccountSelect(address)
+        if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
+            walletRepository.saveAccountSelect(address)
+        }else  if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
+            walletStellarRepository.saveAccount(address)
+        }
     }
     fun deleteAccount(address: String,password:String){
         walletRepository.deleteAccount(address,password).observeForever {
@@ -50,7 +56,7 @@ class ManageAccountViewModel
         }
     }
     fun createAccount(password: String) {
-        liveDataAccount = walletRepository.createAccountFromPassword(password)
+        creatFromPassword.value = password
     }
 
     fun export(passwordExport: String) {
@@ -64,6 +70,5 @@ class ManageAccountViewModel
     fun createAccountStellar() {
         liveDataAccountStellar =  walletStellarRepository.createAccount()
     }
-
 
 }

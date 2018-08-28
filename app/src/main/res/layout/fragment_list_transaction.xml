@@ -60,12 +60,26 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/txtAccount"
                         style="@style/TextAppStyle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="marquee"
                         android:padding="@dimen/_5dp"
-                        android:singleLine="true"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        />
+                    <!--<android.support.v7.widget.AppCompatButton-->
+                        <!--style="@style/Widget.AppCompat.Button.Borderless"-->
+                        <!--android:backgroundTintMode="src_over"-->
+                        <!--android:background="@android:color/holo_blue_light"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:id="@+id/btnClickHere"-->
+                        <!--android:text="click here"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:minWidth="0dp"-->
+                        <!--android:minHeight="0dp"-->
+                        <!--android:textSize="@dimen/_10sp"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
                 </android.support.v7.widget.LinearLayoutCompat>
 
                 <android.support.v7.widget.AppCompatTextView
@@ -85,22 +99,22 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
                     android:padding="@dimen/_5dp"
-                    android:text="... ETH"
+                    tools:text="... ETH"
                     android:textAlignment="center"
                     android:textSize="@dimen/_20sp"
                     app:layout_constraintTop_toBottomOf="@+id/txtBalanceTitle" />
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/txtBalanceUSD"
-                    style="@style/MyTextTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:padding="@dimen/_5dp"
-                    android:text="... USD"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_18sp"
-                    app:layout_constraintTop_toBottomOf="@+id/txtBalance" />
+                <!--<android.support.v7.widget.AppCompatTextView-->
+                    <!--android:id="@+id/txtBalanceUSD"-->
+                    <!--style="@style/MyTextTitle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/colorPrimary"-->
+                    <!--android:padding="@dimen/_5dp"-->
+                    <!--android:text="... USD"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:textSize="@dimen/_18sp"-->
+                    <!--app:layout_constraintTop_toBottomOf="@+id/txtBalance" />-->
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/txtTransactions"
@@ -110,7 +124,7 @@
                     android:padding="@dimen/_5dp"
                     android:text="@string/transactions_history"
                     android:textAlignment="center"
-                    app:layout_constraintTop_toBottomOf="@+id/txtBalanceUSD" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtBalance" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycleView"
@@ -183,7 +197,10 @@
             tools:visibility="gone" />
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:padding="@dimen/_5dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="@{resource.status == Status.ERROR ? View.VISIBLE : View.GONE }"
@@ -198,6 +215,7 @@
                 app:layout_constraintRight_toRightOf="parent" />
 
             <android.support.v7.widget.AppCompatTextView
+                style="@style/TextAppStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5dp"

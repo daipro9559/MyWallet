@@ -48,7 +48,9 @@ constructor(
         accountEthereumService.createAccountWithPassword(pass)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(Consumer { addressCreated.value = it })
+                .subscribe({
+                    addressCreated.value = it
+                },{})
         return addressCreated
     }
 

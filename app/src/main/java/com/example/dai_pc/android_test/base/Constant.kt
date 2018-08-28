@@ -10,7 +10,7 @@ object Constant {
     val STELLAR_PLATFORM = "stellar platform"
     val ETHEREUM_PLATFORM = "ethereum platform"
     val STELLAR_MAIN_NET_URl = "https://horizon.stellar.org/"
-    val STELLAR_TEST_NET_URL = "https://horizon-testnet.stellar.org"
+    val STELLAR_TEST_NET_URL = "https://horizon-testnet.stellar.org/"
 
     //Database define
     val APP_DATABASE_NAME = "Wallet_ethereum"

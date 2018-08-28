@@ -91,11 +91,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return false
     }
 
-     fun replaceFragment(fragment: Fragment){
+     private fun replaceFragment(fragment: Fragment){
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out)
                 .replace(R.id.viewContainer,fragment)
                 .disallowAddToBackStack()
+                .commit()
+    }
+    fun replaceFragmentWithBackStack(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out)
+                .replace(R.id.viewContainer,fragment)
+                .addToBackStack("")
                 .commit()
     }
 

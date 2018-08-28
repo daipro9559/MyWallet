@@ -11,8 +11,12 @@ import com.example.dai_pc.android_test.entity.*
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.stellar.KeyPair
 import com.example.stellar.Server
+import com.example.stellar.responses.AccountResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,14 +29,14 @@ constructor(private val walletRepository: WalletRepository,
             context: Context) : BaseRepository(context) {
     private lateinit var server: Server
     val balanceEther = MutableLiveData<Resource<String>>()
-    val balanceStellar = MutableLiveData<Resource<String>>()
+    val balanceStellar = MutableLiveData<Resource<ArrayList<AccountResponse.Balance>>>()
 
     init {
         init()
     }
 
     private fun init() {
-        server = Server(preferenceHelper.getString(Constant.KEY_NETWORK_STELLAR, Constant.STELLAR_MAIN_NET_URl))
+        server = Server(preferenceHelper.getString(Constant.KEY_NETWORK_STELLAR, Constant.STELLAR_TEST_NET_URL))
 
     }
 
@@ -57,16 +61,16 @@ constructor(private val walletRepository: WalletRepository,
             }
         } else if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
             walletStellarRepository.accountSelected.value?.let {
-                val account = server.accounts().account(KeyPair.fromAccountId(preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY)))
-                for ( balance in account.balances){
-                    Timber.e(String.format(
-                            "Type: %s, Code: %s, Balance: %s",
-                            balance.assetType,
-                            balance.assetCode,
-                            balance.balance))
+                async(UI) {
+                    val await = async(CommonPool) {
+                        server.accounts().account(KeyPair.fromAccountId( walletStellarRepository.accountSelected.value))
+                    }
+                    val account = await.await()
+                    val arrayList = ArrayList<AccountResponse.Balance>()
+                    arrayList.addAll(account.balances)
+                    balanceStellar.value = success(arrayList)
                 }
             }
-
         }
     }
 
@@ -88,7 +92,7 @@ constructor(private val walletRepository: WalletRepository,
     fun changeNetwork() {
         if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
             serviceProvider.changeNetwork()
-        } else  if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM){
+        } else if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
             init()
         }
     }

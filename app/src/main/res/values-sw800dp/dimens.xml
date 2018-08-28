@@ -131,4 +131,7 @@
   <dimen name="_80dp">
     177.78dp
   </dimen>
+  <dimen name="_10sp">
+    22.22sp
+  </dimen>
 </resources>

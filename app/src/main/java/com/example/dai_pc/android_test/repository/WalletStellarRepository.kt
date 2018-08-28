@@ -14,6 +14,10 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import timber.log.Timber
+import java.net.URL
+import java.nio.charset.Charset
+import java.util.*
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -39,7 +43,16 @@ class WalletStellarRepository
                 .subscribe({
                     val wallet = Account("", it.accountId, "", Constant.STELLAR_PLATFORM)
                         async(CommonPool) {
+                            val friendbotUrl = String.format(
+                                    "https://friendbot.stellar.org/?addr=%s",
+                                    it.accountId)
+                            val response = URL(friendbotUrl).openStream()
+                            val body = Scanner(response, "UTF-8").useDelimiter("\\A").next()
+                            Timber.e("SUCCESS! You have a new account :)\n$body")
                             appDatabase.walletDao().addWallet(wallet)
+                            if (appDatabase.walletDao().getAllWallet(Constant.STELLAR_PLATFORM).value!!.size == 1){
+                                preferenceHelper.putString(Constant.ACCOUNT_STELLAR_KEY,it.accountId)
+                            }
                     }
                     liveData.value = wallet
                 }, {})
@@ -67,6 +80,11 @@ class WalletStellarRepository
 
     fun getAllAccount(): LiveData<List<Account>> {
         return appDatabase.walletDao().getAllWallet(Constant.STELLAR_PLATFORM)
+    }
+
+    fun saveAccount(idAccount:String){
+        preferenceHelper.putString(Constant.ACCOUNT_STELLAR_KEY,idAccount)
+        initAccountSelected()
     }
 
 }

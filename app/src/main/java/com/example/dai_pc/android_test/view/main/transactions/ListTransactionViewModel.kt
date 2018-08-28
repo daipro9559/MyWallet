@@ -23,11 +23,11 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
     private val fetchParamEth = MutableLiveData<FetchTransactionParam>()
     private val fetchParamStellar = MutableLiveData<FetchTransactionParam>()
     val balanceEther = balanceRepository.balanceEther
-    val balanceStellar = balanceRepository.balanceEther
+    val balanceStellar = balanceRepository.balanceStellar
     val accountLiveData = MutableLiveData<String>()
     init {
+        getAccount()
         errorLiveData = transactionRepository.error
-       refreshAll()
     }
     val listTransactionEther = Transformations.switchMap(fetchParamEth) {
         transactionRepository.fetchTransaction(it.startBlock, it.endBlock, it.isShowLoading)
@@ -37,6 +37,7 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
     }!!
 
     fun refreshAll(){
+        getAccount()
         if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM){
             if (preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY) == null){
                 return
@@ -48,7 +49,6 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
         }
         getAllTransaction()
         getBalance()
-        getAccount()
     }
     fun getAllTransaction() {
         if (platform == Constant.ETHEREUM_PLATFORM) {

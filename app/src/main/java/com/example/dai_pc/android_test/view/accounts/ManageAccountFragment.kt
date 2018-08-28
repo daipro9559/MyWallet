@@ -94,6 +94,7 @@ class ManageAccountFragment : MainFragment<ActivityManageAccountBinding>() {
         }
     }
 
+    // handle menu click for ethereum
     private fun handleMenuClick(menuId: Int, address: String) {
         when (menuId) {
             R.id.edit -> {
@@ -162,10 +163,7 @@ class ManageAccountFragment : MainFragment<ActivityManageAccountBinding>() {
                                 Toast.makeText(context!!.applicationContext, context!!.getString(R.string.create_completed), Toast.LENGTH_LONG).show()
                                 // if no have account , set account was have
                                 manageAccountViewModel.selectWallet(it!!.address.hex.toString())
-                                callback?.let {
-                                    callback(account!!.address.hex.toString())
-                                }
-                                manageAccountViewModel.getAllAccount()
+                                refresh()
                             }
                         })
                     }

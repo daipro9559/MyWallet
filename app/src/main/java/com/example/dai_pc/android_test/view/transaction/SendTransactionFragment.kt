@@ -92,8 +92,6 @@ class SendTransactionFragment : BaseFragment<FragmentAddAddressReceiveBinding>()
                 }
             }
         })
-
-
         inintView()
     }
 

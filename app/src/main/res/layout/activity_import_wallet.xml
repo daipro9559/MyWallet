@@ -32,6 +32,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/keystore"
+                    android:textColorHint="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
@@ -40,6 +41,7 @@
                     <android.support.design.widget.TextInputEditText
                         android:singleLine="false"
                         android:id="@+id/edtKeystore"
+                        android:textColor="@color/white"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/keystore"
@@ -52,9 +54,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
+                    android:textColorHint="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/keystore">
 
                     <android.support.design.widget.TextInputEditText
+                        android:textColor="@color/white"
                         android:id="@+id/edtExportPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -68,9 +72,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
+                    android:textColorHint="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/exportPassword">
 
                     <android.support.design.widget.TextInputEditText
+                        android:textColor="@color/white"
                         android:id="@+id/edtNewPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -97,10 +103,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
+                    android:textColorHint="@color/white"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <android.support.design.widget.TextInputEditText
                         android:inputType="text|textMultiLine"
+                        android:textColor="@color/white"
                         android:singleLine="false"
                         android:id="@+id/edtPrivateKey"
                         android:layout_width="match_parent"
@@ -114,9 +122,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20dp"
+                    android:textColorHint="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/privateKey">
 
                     <android.support.design.widget.TextInputEditText
+                        android:textColor="@color/white"
                         android:id="@+id/edtNewPasswordPrivateKey"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

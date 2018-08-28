@@ -22,7 +22,7 @@ class AccountEthereumServiceImp @Inject constructor(private val keyStore: KeySto
                                                     private val context: Context) : AccountEthereumService {
 
     override fun createAccountWithPassword(password: String): Single<Account> {
-        return Single.create{
+        return Single.fromCallable{
             val account = keyStore.newAccount(password)
             savePassword(context, account.address.hex.toString(), password)
             account

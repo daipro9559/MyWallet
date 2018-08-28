@@ -114,5 +114,7 @@
     <string name="price">Price</string>
     <string name="accounts">Accounts</string>
     <string name="stellar_main">Main netwok</string>
+    <string name="amount_xml">Amount XLM</string>
+    <string name="memo">Memo</string>
 </resources>
 

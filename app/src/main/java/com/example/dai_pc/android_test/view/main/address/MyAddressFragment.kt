@@ -54,10 +54,18 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         myAddressViewModel = ViewModelProviders.of(this, viewModelFactory)[MyAddressViewModel::class.java]
-        refresh()
+
+        var account  = ""
+        if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
+            account = preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)
+        }else if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM){
+            account = preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY)
+
+        }
+        refresh(account)
         btn_copy.setOnClickListener {
             val clipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText(KEY_ADDRESS, myAddressViewModel.liveDataAccountSelect.value)
+            val clip = ClipData.newPlainText(KEY_ADDRESS,account)
             if (clipboard != null) {
                 clipboard.primaryClip = clip
             }
@@ -140,17 +148,18 @@ class MyAddressFragment : BaseFragment<FragmentMyAddressBinding>() {
         alertDialog.show()
     }
 
-    fun refresh() {
-        if (myAddressViewModel.liveDataAccountSelect.value == null) {
+    private fun refresh(account :String) {
+        if (account == null) {
             btn_copy.visibility = View.GONE
 //            btn_manage.visibility = View.GONE
         } else {
             btn_copy.visibility = View.VISIBLE
 //            btn_manage.visibility = View.VISIBLE
         }
-        myAddressViewModel.liveDataAccountSelect.value?.let {
+       account?.let {
             async(CommonPool) {
-                val bitmap = genAddressToBarCode(myAddressViewModel.liveDataAccountSelect.value!!)
+                val bitmap = genAddressToBarCode(account
+                )
                 async(UI) {
                     viewDataBinding.imgBarcode.setImageBitmap(bitmap)
                     viewDataBinding.txtAddress.text = myAddressViewModel.liveDataAccountSelect.value!!

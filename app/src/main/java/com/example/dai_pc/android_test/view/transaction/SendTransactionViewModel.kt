@@ -7,15 +7,21 @@ import com.example.dai_pc.android_test.entity.TransactionSendObject
 import com.example.dai_pc.android_test.repository.BalanceRepository
 import com.example.dai_pc.android_test.repository.TokenRepository
 import com.example.dai_pc.android_test.repository.TransactionRepository
+import com.example.dai_pc.android_test.repository.TransactionStellarRepo
 import java.math.BigInteger
 import javax.inject.Inject
 
 class SendTransactionViewModel
 @Inject
 constructor(private val transactionRepository: TransactionRepository,
+            private val stellarTransactionRepository: TransactionStellarRepo,
             private val tokenRepository: TokenRepository)
     : BaseViewModel(){
 
+    private val transactionStellarOb = MutableLiveData<SendTransactionStellarOb>()
+    val stellarSendTransactionData = Transformations.switchMap(transactionStellarOb){
+        stellarTransactionRepository.sendTransaction(it.accountIdDes,it.amount,it.memo)
+    }
     private val transactionObjectLiveData = MutableLiveData<TransactionSendObject>()
     val sendResult = Transformations.switchMap(transactionObjectLiveData){
         transactionRepository.sendTransaction(it)
@@ -42,6 +48,11 @@ constructor(private val transactionRepository: TransactionRepository,
     fun getBalanceToken(contractAddress: String){
         contractAddresLiveData.value = contractAddress
     }
+    fun sendTransactionStellar(accountDestination:String,amount:Float,memmo:String){
+        transactionStellarOb.value = SendTransactionStellarOb(accountDestination,amount,memmo)
+    }
+
+    data class SendTransactionStellarOb(val accountIdDes :String,val amount :Float,val memo :String)
 
 
 }

@@ -47,4 +47,5 @@
     <dimen name="_180dp">180dp</dimen>
     <dimen name="_35dp">35dp</dimen>
     <dimen name="_80dp">80dp</dimen>
+    <dimen name="_10sp">10sp</dimen>
 </resources>

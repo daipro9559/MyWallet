@@ -3,6 +3,7 @@ package com.example.dai_pc.android_test.view.main.transactions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -93,11 +94,24 @@ class ListTransactionFragment : MainFragment<FragmentListTransactionBinding>() {
         })
         listTransactionViewModel.accountLiveData.observe(this, Observer {
             if (it == null) {
+                viewDataBinding.txtAccount.text = getString(R.string.no_account)
+                viewDataBinding.iconAccount.visibility = View.GONE
+                viewDataBinding.fabMenu.visibility = View.GONE
                 return@Observer
             }
             viewDataBinding.txtAccount.text = it
             listTransactionViewModel.getAllTransaction()
             listTransactionViewModel.getBalance()
+        })
+
+        listTransactionViewModel.balanceStellar.observe(this, Observer {
+            it!!.t?.let {
+                var  balanceData = String()
+                for (balance in it){
+                    balanceData = "Balance: "+ balance.balance + "XML; Type: " + balance.assetType +"; Code: "+ balance.assetCode +"\n"
+                }
+                viewDataBinding.txtBalance.text = balanceData
+            }
         })
 
 
@@ -118,7 +132,7 @@ class ListTransactionFragment : MainFragment<FragmentListTransactionBinding>() {
             startActivity(CreateTransactionActivity::class.java)
         }
         viewDataBinding.buttonReceive.setOnClickListener {
-            (activity!! as MainActivity).replaceFragment(MyAddressFragment.newInstance())
+            (activity!! as MainActivity).replaceFragmentWithBackStack(MyAddressFragment.newInstance())
         }
         stellarTransactionAdapter = StellarTransactionAdapter()
         etherTransactionAdapter = TransactionAdapter {
@@ -156,26 +170,66 @@ class ListTransactionFragment : MainFragment<FragmentListTransactionBinding>() {
 
     override fun refresh() {
         checkHaveWallet()
-        listTransactionViewModel.refreshAll()
     }
 
     override fun changeNetwork() {
+        resetView()
         listTransactionViewModel.changeNetwork()
+        listTransactionViewModel.refreshAll()
     }
 
     override fun changeAccount() {
+        resetView()
+        listTransactionViewModel.changeAccount()
         if (platform == Constant.ETHEREUM_PLATFORM) {
-            etherTransactionAdapter?.let {
-                //                etherTransactionAdapter.myWallet = preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)
+            preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)?.let {
+                etherTransactionAdapter.myWallet = preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)
+            }
+            if (preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY ) == null){
+                viewDataBinding.txtAccount.text = getString(R.string.no_account)
+                viewDataBinding.iconAccount.visibility = View.GONE
+
+            }else{
+                viewDataBinding.txtAccount.text = preferenceHelper.getString(Constant.ACCOUNT_ETHEREUM_KEY)
+                viewDataBinding.iconAccount.visibility = View.VISIBLE
+                viewDataBinding.fabMenu.visibility = View.VISIBLE
             }
         } else if (platform == Constant.STELLAR_PLATFORM) {
             stellarTransactionAdapter?.let {
                 //                etherTransactionAdapter.myWallet = preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY)
             }
+
+            if (preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY) == null){
+                viewDataBinding.txtAccount.text = getString(R.string.no_account)
+                viewDataBinding.iconAccount.visibility = View.GONE
+
+            }else{
+                viewDataBinding.txtAccount.text = preferenceHelper.getString(Constant.ACCOUNT_STELLAR_KEY)
+                viewDataBinding.iconAccount.visibility = View.VISIBLE
+                viewDataBinding.fabMenu.visibility = View.VISIBLE
+            }
         }
-        listTransactionViewModel.changeAccount()
+        listTransactionViewModel.refreshAll()
     }
 
     override fun changePlatform() {
+        platform = preferenceHelper.getPlatform()
+        resetView()
+        changeAccount()
+        changeNetwork()
+        listTransactionViewModel.refreshAll()
+
+    }
+
+    // reset view after change account, network
+    private fun resetView(){
+        viewDataBinding.txtBalance.text = "...."
+        if (platform == Constant.ETHEREUM_PLATFORM){
+            viewDataBinding.recycleView.adapter = etherTransactionAdapter
+            etherTransactionAdapter.swapListItem(listOf())
+        }else{
+            viewDataBinding.recycleView.adapter = stellarTransactionAdapter
+            stellarTransactionAdapter.swapListItem(listOf())
+        }
     }
 }

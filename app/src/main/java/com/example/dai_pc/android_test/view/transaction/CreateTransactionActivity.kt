@@ -7,13 +7,16 @@ import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseActivity
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.ActivityCreateTransactionBinding
+import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import kotlinx.android.synthetic.main.activity_main.view.*
+import javax.inject.Inject
 
 
 class CreateTransactionActivity : BaseActivity<ActivityCreateTransactionBinding>() {
 
     override fun getLayoutId() = R.layout.activity_create_transaction
     private lateinit var createTransactionViewModel: SendTransactionViewModel
+    @Inject lateinit var preferenceHelper: PreferenceHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +32,11 @@ class CreateTransactionActivity : BaseActivity<ActivityCreateTransactionBinding>
                     , SendTransactionFragment.TAG
             )
         } else {
-            addFragment(SendTransactionFragment.newInstance(), SendTransactionFragment.TAG)
+             if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
+                 addFragment(SendTransactionFragment.newInstance(), SendTransactionFragment.TAG)
+             }else{
+                 addFragment(StellarSendTransactionFragment.newInstance(), StellarSendTransactionFragment.TAG)
+             }
         }
     }
 
