@@ -3,7 +3,7 @@ package com.example.dai_pc.android_test.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.example.dai_pc.android_test.base.MyViewModelFactory
-import com.example.dai_pc.android_test.view.accounts.ManageAccountViewModel
+import com.example.dai_pc.android_test.view.main.accounts.ManageAccountViewModel
 import com.example.dai_pc.android_test.view.wallet.ImportWalletViewModel
 import com.example.dai_pc.android_test.view.main.MainViewModel
 import com.example.dai_pc.android_test.view.main.address.MyAddressViewModel

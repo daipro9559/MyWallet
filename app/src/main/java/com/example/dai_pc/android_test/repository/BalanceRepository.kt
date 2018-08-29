@@ -60,15 +60,20 @@ constructor(private val walletRepository: WalletRepository,
                 balanceEther.value = error("")
             }
         } else if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
+            balanceStellar.value = loading()
             walletStellarRepository.accountSelected.value?.let {
                 async(UI) {
-                    val await = async(CommonPool) {
-                        server.accounts().account(KeyPair.fromAccountId( walletStellarRepository.accountSelected.value))
+                    try {
+                        val await = async(CommonPool) {
+                            server.accounts().account(KeyPair.fromAccountId(walletStellarRepository.accountSelected.value))
+                        }
+                        val account = await.await()
+                        val arrayList = ArrayList<AccountResponse.Balance>()
+                        arrayList.addAll(account.balances)
+                        balanceStellar.value = success(arrayList)
+                    }catch (e:Exception){
+                        balanceStellar.postValue(com.example.dai_pc.android_test.entity.error(e.message))
                     }
-                    val account = await.await()
-                    val arrayList = ArrayList<AccountResponse.Balance>()
-                    arrayList.addAll(account.balances)
-                    balanceStellar.value = success(arrayList)
                 }
             }
         }

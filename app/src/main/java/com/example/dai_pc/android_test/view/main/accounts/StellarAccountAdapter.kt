@@ -1,4 +1,4 @@
-package com.example.dai_pc.android_test.view.accounts
+package com.example.dai_pc.android_test.view.main.accounts
 
 import android.support.v7.widget.PopupMenu
 import android.view.Gravity
@@ -9,10 +9,8 @@ import com.example.dai_pc.android_test.R
 import com.example.dai_pc.android_test.base.BaseRecycleViewAdapter
 import com.example.dai_pc.android_test.base.ItemViewHolder
 import com.example.dai_pc.android_test.customview.Identicon
-import com.example.dai_pc.android_test.databinding.ItemAccountBinding
 import com.example.dai_pc.android_test.databinding.ItemWalletBinding
 import com.example.dai_pc.android_test.entity.Account
-import java.text.FieldPosition
 
 typealias MenuClick = (menuId: Int, address: String) -> Unit
 

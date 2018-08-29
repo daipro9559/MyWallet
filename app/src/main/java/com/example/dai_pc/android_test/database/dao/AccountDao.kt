@@ -12,6 +12,9 @@ interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addWallet(account: Account): Long
 
+    @Query("SELECT * FROM accounts WHERE address = :accountID")
+    fun getAccountByAccountId(accountID: String) : LiveData<Account>
+
     @Delete
     fun deleteWallet(account: Account)
 }

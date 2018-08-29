@@ -1,6 +1,7 @@
 package com.example.dai_pc.android_test.repository
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.database.AppDatabase
@@ -85,6 +86,19 @@ class WalletStellarRepository
     fun saveAccount(idAccount:String){
         preferenceHelper.putString(Constant.ACCOUNT_STELLAR_KEY,idAccount)
         initAccountSelected()
+    }
+
+    fun deleteAccount(idAccount: String) : LiveData<Account>{
+        val mediatorData = MediatorLiveData<Account>()
+        mediatorData.addSource(appDatabase.walletDao().getAccountByAccountId(idAccount)){
+            async(CommonPool) {
+                appDatabase.walletDao().deleteWallet(it!!)
+                async (UI){
+                    mediatorData.value = it
+                }
+            }
+        }
+        return mediatorData
     }
 
 }

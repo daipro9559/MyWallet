@@ -1,6 +1,5 @@
 package com.example.dai_pc.android_test.view.main
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,30 +11,52 @@ import android.view.MenuItem
 import android.content.res.Configuration
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.AppCompatImageView
+import android.support.v7.widget.AppCompatTextView
 import android.view.Gravity
-import android.view.Menu
 import com.example.dai_pc.android_test.base.Constant
+import com.example.dai_pc.android_test.repository.NetworkRepository
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
-import com.example.dai_pc.android_test.view.accounts.ManageAccountFragment
+import com.example.dai_pc.android_test.view.main.accounts.ManageAccountFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.setting.SettingActivity
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-    // check whe  change network or address
-    private var isNeedReload :Boolean = false
+class MainActivity : BaseActivity<ActivityMainBinding>(), SharedPreferences.OnSharedPreferenceChangeListener {
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        when (p1) {
+            Constant.KEY_NETWORK_STELLAR -> {
+                txtNetwork.text = if (preferenceHelper.getString(Constant.KEY_NETWORK_STELLAR) == Constant.STELLAR_MAIN_NET_URl) getString(R.string.main_net) else getString(R.string.test_net)
+
+            }
+            Constant.KEY_NETWORK_ETHER-> {
+                val networkProvider = NetworkRepository.listNetWorkProvier.firstOrNull{
+                    it.id == p0!!.getInt(Constant.KEY_NETWORK_ETHER,1)
+                }
+                txtNetwork.text = networkProvider!!.name
+            }
+            Constant.PLATFORM_KEY -> initHeaderNav()
+        }
+    }
+
+    private lateinit var sharedPreferences: SharedPreferences
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
     private lateinit var drawerToggle: ActionBarDrawerToggle
     @Inject lateinit var preferenceHelper: PreferenceHelper
     private lateinit var menuItem : MenuItem
+    private lateinit var imgIcon :AppCompatImageView
+    private lateinit var txtPlatform: AppCompatTextView
+    private lateinit var txtNetwork : AppCompatTextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
         replaceFragment(ListTransactionFragment.newInstance())
+       sharedPreferences = getSharedPreferences(getString(R.string.app_name),Context.MODE_PRIVATE)
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -61,7 +82,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
         toolBar.setTitle(R.string.my_account)
         menuItem = viewDataBinding.navView.menu.findItem(R.id.my_account)
+        initHeaderNav()
+    }
 
+    private fun initHeaderNav(){
+        imgIcon = viewDataBinding.navView.getHeaderView(0).findViewById(R.id.imgIcon)
+        txtPlatform = viewDataBinding.navView.getHeaderView(0).findViewById(R.id.txtPlatform)
+        txtNetwork = viewDataBinding.navView.getHeaderView(0).findViewById(R.id.txtNetwork)
+        if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
+            imgIcon.setImageResource(R.drawable.ic_eth)
+            txtPlatform.text = getString(R.string.ethereum)
+            val networkProvider = NetworkRepository.listNetWorkProvier.firstOrNull{
+                it.id == preferenceHelper.getInt(Constant.KEY_NETWORK_ETHER,1)
+            }
+            txtNetwork.text = networkProvider!!.name
+        }else if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM){
+            imgIcon.setImageResource(R.drawable.ic_stellar)
+            txtPlatform.text = getString(R.string.stellar)
+            txtNetwork.text = if (preferenceHelper.getString(Constant.KEY_NETWORK_STELLAR) == Constant.STELLAR_MAIN_NET_URl) getString(R.string.main_net) else getString(R.string.test_net)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        sharedPreferences
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

@@ -97,6 +97,7 @@ dependencies {
     implementation deps.animationLib
     implementation deps.circleIcon
     implementation deps.fabButton
+    implementation deps.loading
 
     kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler

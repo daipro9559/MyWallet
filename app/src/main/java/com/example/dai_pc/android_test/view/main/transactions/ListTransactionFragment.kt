@@ -62,8 +62,7 @@ class ListTransactionFragment : MainFragment<FragmentListTransactionBinding>() {
         listTransactionViewModel = ViewModelProviders.of(this, viewModelFactory).get(ListTransactionViewModel::class.java)
         listTransactionViewModel.listTransactionEther.observe(this, Observer {
             viewDataBinding.recycleView.adapter = etherTransactionAdapter
-            viewDataBinding.resource = it
-            viewDataBinding.layoutLoading.txtDescription.text = "Loading list transaction"
+            viewDataBinding.resourceTransaction = it
             val list = it!!.t
             list?.let {
                 etherTransactionAdapter.swapListItem(list)
@@ -72,19 +71,16 @@ class ListTransactionFragment : MainFragment<FragmentListTransactionBinding>() {
         })
         listTransactionViewModel.listTransactionStellar.observe(this, Observer {
             viewDataBinding.recycleView.adapter = stellarTransactionAdapter
-            viewDataBinding.resource = it
-            viewDataBinding.layoutLoading.txtDescription.text = "Loading list transaction"
+            viewDataBinding.resourceTransaction = it
             it!!.t?.let {
                 val id = it[0].sourceAccount.accountId
                 stellarTransactionAdapter.swapListItem(it!!)
             }
         })
         listTransactionViewModel.balanceEther.observe(this, Observer {
+            viewDataBinding.resourceBalance = it
             if (it!!.status == Resource.Status.LOADING) {
-                viewDataBinding.txtBalance.text = "..."
-                viewDataBinding.txtBalance.startAnimation(AnimationUtils.loadAnimation(activity!!.applicationContext, R.anim.title_fade))
-            } else {
-                viewDataBinding.txtBalance.clearAnimation()
+                viewDataBinding.txtBalance.text = ""
 
             }
             it?.t?.let {
@@ -105,10 +101,16 @@ class ListTransactionFragment : MainFragment<FragmentListTransactionBinding>() {
         })
 
         listTransactionViewModel.balanceStellar.observe(this, Observer {
+            viewDataBinding.resourceBalance = it
+            if (it!!.status == Resource.Status.LOADING) {
+                viewDataBinding.txtBalance.text = ""
+
+            }
             it!!.t?.let {
                 var  balanceData = String()
                 for (balance in it){
-                    balanceData = "Balance: "+ balance.balance + "XML; Type: " + balance.assetType +"; Code: "+ balance.assetCode +"\n"
+                    balanceData = balance.balance + " XLM"
+//                    + balance.assetType +"; Code: "+ balance.assetCode +"\n"
                 }
                 viewDataBinding.txtBalance.text = balanceData
             }

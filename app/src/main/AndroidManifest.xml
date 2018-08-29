@@ -49,7 +49,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".view.AddTokenActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.accounts.ManageAccountFragment"
+        <activity android:name="com.example.dai_pc.android_test.view.main.accounts.ManageAccountFragment"
             android:screenOrientation="portrait"/>
         <activity android:name=".view.rate.RateActivity"
             android:screenOrientation="portrait"/>

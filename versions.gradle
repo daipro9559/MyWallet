@@ -156,6 +156,7 @@ deps.animationLib = "com.daimajia.androidanimations:library:2.3@aar"
 deps.stellar = "com.github.stellar:java-stellar-sdk:0.3.0"
 deps.circleIcon =  'de.hdodenhof:circleimageview:2.2.0'
 deps.fabButton =  "com.github.clans:fab:1.6.4"
+deps.loading = 'com.github.ybq:Android-SpinKit:1.1.0'
 
 
 

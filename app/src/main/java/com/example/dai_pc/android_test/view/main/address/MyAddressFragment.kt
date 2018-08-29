@@ -19,7 +19,6 @@ import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.FragmentMyAddressBinding
 import com.example.dai_pc.android_test.ultil.Callback
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
-import com.example.dai_pc.android_test.view.accounts.ManageAccountFragment
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter

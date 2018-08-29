@@ -51,9 +51,9 @@ open class ListTransactionViewModel @Inject constructor(private val transactionR
         getBalance()
     }
     fun getAllTransaction() {
-        if (platform == Constant.ETHEREUM_PLATFORM) {
+        if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
             fetchParamEth.postValue(FetchTransactionParam(0, 99999999, true))
-        }else if (platform == Constant.STELLAR_PLATFORM){
+        }else if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM){
             fetchParamStellar.value = FetchTransactionParam()
         }
 

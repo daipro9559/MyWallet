@@ -1,123 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
 
+        <variable
+            name="resource"
+            type="com.example.dai_pc.android_test.entity.Resource" />
+    </data>
 
-    <android.support.v7.widget.CardView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_20dp"
-        android:minHeight="@dimen/_300dp"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="@dimen/_5dp"
-        app:cardUseCompatPadding="true">
+        android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/root_view"
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/_300dp"
 
-            <android.support.v7.widget.LinearLayoutCompat
-                android:id="@+id/linear"
+            >
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/root_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10dp"
-                android:layout_marginTop="@dimen/_5dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:id="@+id/linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10dp"
+                    android:layout_marginTop="@dimen/_5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/address_receive"
+                        android:textColorHint="@color/white">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/txt_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text|textMultiLine"
+                            android:singleLine="false"
+                            android:textColor="@color/white" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="@dimen/_.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/_5dp"
+                        android:layout_marginLeft="@dimen/_.5dp"
+                        android:layout_marginRight="@dimen/_.5dp"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:background="@android:color/holo_blue_light" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/btnQRCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/_5dp"
+                        android:layout_marginRight="@dimen/_5dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        app:srcCompat="@drawable/ic_qr_code" />
+                </android.support.v7.widget.LinearLayoutCompat>
 
                 <android.support.design.widget.TextInputLayout
-                    android:textColorHint="@color/white"
-                    android:layout_width="0dp"
+                    android:id="@+id/layoutAmount"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/address_receive">
+                    android:layout_marginLeft="@dimen/_10dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:hint="@string/amount_xml"
+                    android:maxWidth="@dimen/_100dp"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/balanceTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/linear">
+
                     <android.support.design.widget.TextInputEditText
-                        android:textColor="@color/white"
-                        android:id="@+id/txt_address"
+                        android:id="@+id/amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text|textMultiLine"
-                        android:singleLine="false" />
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 
-                <View
-                    android:layout_width="@dimen/_.5dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/_5dp"
-                    android:layout_marginLeft="@dimen/_.5dp"
-                    android:layout_marginRight="@dimen/_.5dp"
-                    android:layout_marginTop="@dimen/_5dp"
-                    android:background="@android:color/holo_blue_light" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/memmoTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10dp"
+                    android:layout_marginTop="@dimen/_10dp"
+                    android:hint="@string/memo"
+                    android:maxWidth="@dimen/_100dp"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/balanceTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutAmount">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/btnQRCode"
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/memo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/buttonSend"
+                    style="@style/ButtonApp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/_5dp"
-                    android:layout_marginRight="@dimen/_5dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    app:srcCompat="@drawable/ic_qr_code" />
-            </android.support.v7.widget.LinearLayoutCompat>
+                    android:layout_marginTop="@dimen/_30dp"
+                    android:text="@string/Send"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/memmoTitle" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutAmount"
-                android:layout_width="match_parent"
-                android:maxWidth="@dimen/_100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10dp"
-                android:layout_marginTop="@dimen/_10dp"
-                android:hint="@string/amount_xml"
-                android:textColorHint="@color/white"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/balanceTitle"
-                app:layout_constraintTop_toBottomOf="@+id/linear">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/amount"
+                <include
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/white" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/memmoTitle"
-                android:layout_width="match_parent"
-                android:maxWidth="@dimen/_100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10dp"
-                android:layout_marginTop="@dimen/_10dp"
-                android:hint="@string/memo"
-                android:textColorHint="@color/white"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/balanceTitle"
-                app:layout_constraintTop_toBottomOf="@+id/layoutAmount">
+                    android:layout_height="match_parent"
+                    android:id="@+id/loadingLayout"
+                    layout="@layout/loading_layout"
+                    app:resource="@{resource}"
+                    tools:visibility="gone" />
+            </android.support.constraint.ConstraintLayout>
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/memo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/white" />
-            </android.support.design.widget.TextInputLayout>
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/buttonSend"
-                app:layout_constraintTop_toBottomOf="@+id/memmoTitle"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/ButtonApp"
-                android:background="@android:color/holo_blue_light"
-                android:textColor="@color/white"
-                android:text="@string/Send"
-                android:layout_marginTop="@dimen/_20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
+    </android.support.v4.widget.NestedScrollView>
 
 </layout>

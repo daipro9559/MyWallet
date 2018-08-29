@@ -11,7 +11,7 @@ import java.util.*
 class StellarTransactionAdapter : BaseRecycleViewAdapter<TransactionResponse, ItemTransactionBinding>() {
     lateinit var myAccount: String
     override fun bindData(i: TransactionResponse, holder: ItemViewHolder<ItemTransactionBinding>) {
-        holder.v.value.text = i.operationCount.toString()
+        holder.v.value.text = i.feePaid.toString()
         holder.v.time.text = handleTime(i.createdAt)
         holder.v.txtAddress.text = i.sourceAccount.accountId
     }

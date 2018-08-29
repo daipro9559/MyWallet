@@ -1,4 +1,4 @@
-package com.example.dai_pc.android_test.view.accounts
+package com.example.dai_pc.android_test.view.main.accounts
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -6,13 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
 import com.example.dai_pc.android_test.R
-import com.example.dai_pc.android_test.base.BaseFragment
 import com.example.dai_pc.android_test.base.Constant
 import com.example.dai_pc.android_test.databinding.ActivityManageAccountBinding
 import com.example.dai_pc.android_test.entity.Resource
@@ -21,14 +16,8 @@ import com.example.dai_pc.android_test.ultil.PreferenceHelper
 import com.example.dai_pc.android_test.ultil.Ultil
 import com.example.dai_pc.android_test.view.main.MainFragment
 import com.example.dai_pc.android_test.view.main.address.BottomSheetFragment
-import com.example.dai_pc.android_test.view.main.address.MyAddressViewModel
 import com.example.dai_pc.android_test.view.main.address.SHARE_REQUEST_CODE
 import com.example.dai_pc.android_test.view.wallet.ImportWalletActivity
-import com.example.stellar.KeyPair
-import kotlinx.android.synthetic.main.fragment_my_address.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -80,6 +69,9 @@ class ManageAccountFragment : MainFragment<ActivityManageAccountBinding>() {
 
             }
         })
+        manageAccountViewModel.accountStellarDelete.observe(this, Observer {
+            refresh()
+        })
     }
 
     private fun initView() {
@@ -87,7 +79,7 @@ class ManageAccountFragment : MainFragment<ActivityManageAccountBinding>() {
             handleMenuClick(menuId, address)
         }
         etherAccountAdapter = EtherAccountAdapter() { menuId, address ->
-
+            handleMenuClick(menuId, address)
         }
         viewDataBinding.btnAddAccount.setOnClickListener {
             clickAddAddress()

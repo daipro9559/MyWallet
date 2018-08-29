@@ -1,4 +1,4 @@
-package com.example.dai_pc.android_test.view.accounts
+package com.example.dai_pc.android_test.view.main.accounts
 
 import android.arch.lifecycle.*
 import com.example.dai_pc.android_test.base.BaseViewModel
@@ -7,7 +7,6 @@ import com.example.dai_pc.android_test.entity.Resource
 import com.example.dai_pc.android_test.repository.WalletRepository
 import com.example.dai_pc.android_test.repository.WalletStellarRepository
 import com.example.dai_pc.android_test.ultil.PreferenceHelper
-import org.ethereum.geth.Account
 import javax.inject.Inject
 
 class ManageAccountViewModel
@@ -27,6 +26,10 @@ class ManageAccountViewModel
     lateinit var liveDataAccountStellar: LiveData<com.example.dai_pc.android_test.entity.Account>
     lateinit var liveDataExport: LiveData<String>
     var liveDataAccountSelect: LiveData<String> = walletRepository.accountSelected
+    private val accountIdStellarDelete = MutableLiveData<String>()
+    val accountStellarDelete = Transformations.switchMap(accountIdStellarDelete){
+        walletStellarRepository.deleteAccount(it)
+    }
 
     init {
         getAllAccount()
@@ -51,8 +54,12 @@ class ManageAccountViewModel
         }
     }
     fun deleteAccount(address: String,password:String){
-        walletRepository.deleteAccount(address,password).observeForever {
-            deletedAccountNotify.value = it
+        if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM) {
+            walletRepository.deleteAccount(address,password).observeForever {
+                deletedAccountNotify.value = it
+            }
+        }else  if (preferenceHelper.getPlatform() == Constant.STELLAR_PLATFORM) {
+            accountIdStellarDelete.value = address
         }
     }
     fun createAccount(password: String) {

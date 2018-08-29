@@ -1,4 +1,4 @@
-package com.example.dai_pc.android_test.view.accounts
+package com.example.dai_pc.android_test.view.main.accounts
 
 import android.support.v7.widget.PopupMenu
 import android.view.Gravity

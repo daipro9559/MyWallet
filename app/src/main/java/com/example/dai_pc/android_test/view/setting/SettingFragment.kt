@@ -56,7 +56,7 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
     private fun initDataNetwork() {
         val networkPreferences = findPreference(Constant.KEY_NETWORK_ETHER) as ListPreference
         if (preferenceHelper.getPlatform() == Constant.ETHEREUM_PLATFORM){
-            val listNetWork = networkRepository.listNetWorkProvier
+            val listNetWork = NetworkRepository.listNetWorkProvier
             val entries = arrayOfNulls<CharSequence>(listNetWork.size)
             val entryvalues = arrayOfNulls<CharSequence>(listNetWork.size)
             networkPreferences.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
@@ -66,7 +66,6 @@ class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPr
                 initDataNetwork()
                 true
             }
-
 
             for (i in 0 until listNetWork.size) {
                 entries[i] = listNetWork[i].name

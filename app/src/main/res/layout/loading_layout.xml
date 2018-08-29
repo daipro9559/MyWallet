@@ -8,7 +8,8 @@
             type="com.example.dai_pc.android_test.entity.Resource"/>
     </data>
 <android.support.constraint.ConstraintLayout
-    android:elevation="@dimen/_10dp"
+    android:elevation="@dimen/_20dp"
+    android:clickable="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorLoadingBackground"
     app:visisable="@{resource.status == Status.LOADING}"

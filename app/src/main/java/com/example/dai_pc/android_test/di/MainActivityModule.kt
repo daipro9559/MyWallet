@@ -1,8 +1,7 @@
 package com.example.dai_pc.android_test.di
 
-import com.example.dai_pc.android_test.view.accounts.ManageAccountFragment
+import com.example.dai_pc.android_test.view.main.accounts.ManageAccountFragment
 import com.example.dai_pc.android_test.view.main.address.MyAddressFragment
-import com.example.dai_pc.android_test.view.rate.RateActivity
 import com.example.dai_pc.android_test.view.main.token.TokenFragment
 import com.example.dai_pc.android_test.view.main.transactions.ListTransactionFragment
 import com.example.dai_pc.android_test.view.setting.SettingFragment

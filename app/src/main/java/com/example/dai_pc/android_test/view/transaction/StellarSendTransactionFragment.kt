@@ -41,13 +41,8 @@ class StellarSendTransactionFragment : BaseFragment<FragmentStellarSendTransacti
             sendTransacViewModel.sendTransactionStellar(txt_address.text.toString().trim(),amount.text.toString().toFloat(),"")
         }
         sendTransacViewModel.stellarSendTransactionData.observe(this, Observer {
-            if (it!!.status == Resource.Status.LOADING) {
-                progressAlertDialog = ProgressDialog(activity!!)
-                progressAlertDialog.show()
-            }else{
-                progressAlertDialog.dismiss()
-            }
-
+            viewDataBinding.resource = it
+            viewDataBinding.loadingLayout.txtDescription.text = getString(R.string.sending_transaction)
         })
     }
 
@@ -58,8 +53,6 @@ class StellarSendTransactionFragment : BaseFragment<FragmentStellarSendTransacti
                 val scanResult = it.getStringExtra(SCAN_RESULT)
                 txt_address.setText(scanResult)
             }
-
-
         }
     }
 }
